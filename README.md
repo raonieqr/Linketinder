@@ -12,7 +12,7 @@ Make sure you have Groovy installed on your local machine. If not, you can downl
 
 ### Running the Program
 ````
-groovy Main.groovy
+groovy src/Main.groovy
 ````
 ## Features
 - List Companies: The program allows you to list information about registered companies.
