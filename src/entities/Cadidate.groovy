@@ -1,5 +1,7 @@
 package entities
 
+import entities.Person
+
 
 class Candidate extends Person {
     ArrayList<String> skills
