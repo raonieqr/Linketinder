@@ -11,7 +11,7 @@ class Person implements PersonService{
     }
 
     String getName() {
-        name
+       return name
     }
 
     void setName(String name) {
@@ -19,7 +19,7 @@ class Person implements PersonService{
     }
 
     String getEmail() {
-       email
+       return email
     }
 
     void setEmail(String email) {

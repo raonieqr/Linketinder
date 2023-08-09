@@ -1,8 +1,5 @@
 package entities
 
-import entities.Person
-
-
 class Candidate extends Person {
     ArrayList<String> skills
     String email
@@ -12,7 +9,9 @@ class Candidate extends Person {
     String cpf
     int cep
 
-    Candidate(String name, String email, ArrayList<String> skills = ["Python", "Java", "Spring Framework", "Angular", "C"], int age, String state, String description, String cpf, int cep) {
+    Candidate(String name, String email, ArrayList<String> skills =
+            ["Python", "Java", "Spring Framework", "Angular", "C"],
+              int age, String state, String description, String cpf, int cep) {
         super(name, email)
         this.skills = skills
         this.age = age
