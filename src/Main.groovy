@@ -22,13 +22,14 @@ class Main {
         int option;
         BufferedReader reader = new BufferedReader(new InputStreamReader
                 (System.in))
-        while (option != 4) {
+        while (option != 5) {
 
             println("Escolha um dos comandos abaixo:")
             println("1 - Listar empresas")
             println("2 - Listar candidatos")
             println("3 - Adicionar novo candidato")
-            println("4 - Sair")
+            println("4 - Adicionar nova empresa")
+            println("5 - Sair")
             option = Integer.parseInt(reader.readLine())
 
             if (option == 1) {
@@ -55,6 +56,21 @@ class Main {
                 candidates.add(new Candidate(name, email, skillsList, age, state, description, cpf, cep))
                 println("Cadastrado com sucesso")
             }
+            else if (option == 4) {
+                def name = getUserInput("Nome: ")
+                def email = getUserInput("E-mail: ")
+                def cnpj = getUserInput("Cnpj: ")
+                def country = getUserInput("País: ")
+                def description = getUserInput("Descrição: ")
+                def state = getUserInput("Estado: ")
+                def skills = getUserInput("Habilidades (separadas por vírgula): ")
+                def cep = getUserInputInt("CEP: ")
+
+                ArrayList<String> skillsList = skills.split(',').collect { it.trim() }
+                companies.add(new Company(name, email, cnpj, country,
+                        description, state, skillsList, cep))
+                println("Cadastrado com sucesso")
+            }
         }
 
     }
@@ -77,7 +93,7 @@ class Main {
         print(prompt)
         def input = reader.readLine()
         while (!input.isInteger()) {
-            println("Error: Entrada inválida. Deve ser um número inteiro. " +
+            println("Error: Entrada inválida. " +
                     "Tente novamente.")
             print(prompt)
             input = reader.readLine()

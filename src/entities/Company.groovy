@@ -5,13 +5,17 @@ class Company extends Person {
     String pais
     String description
     String state
+    String country
     ArrayList<String> skills
     int cep
 
-    Company(String name, String email, String cnpj, String pais, String description, String state, ArrayList<String> skills = ["Python", "Java", "Spring Framework", "Angular", "C"], int cep) {
+    Company(String name, String email, String cnpj, String country,
+            String description, String state, ArrayList<String> skills =
+                    ["Python", "Java", "Spring Framework", "Angular", "C"],
+            int cep) {
         super(name, email)
         this.cnpj = cnpj
-        this.pais = pais
+        this.country = country
         this.description = description
         this.state = state
         this.skills = skills
@@ -27,11 +31,11 @@ class Company extends Person {
     }
 
     String getPais() {
-        return pais
+        return country
     }
 
-    void setPais(String pais) {
-        this.pais = pais
+    void setPais(String country) {
+        this.country = country
     }
 
     String getDescription() {
@@ -52,7 +56,7 @@ class Company extends Person {
 
     @Override
     void showInfo() {
-        println("name: $name, email: $email, cnpj: $cnpj, pais: $pais, " +
+        println("name: $name, email: $email, cnpj: $cnpj, pais: $country, " +
                 "estado: $state, cep: $cep, descrição: $description, " +
                 "competências: $skills")
     }
