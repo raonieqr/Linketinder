@@ -2,7 +2,6 @@ package entities
 
 class Company extends Person {
     String cnpj
-    String pais
     String description
     String state
     String country
