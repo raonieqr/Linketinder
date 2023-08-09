@@ -2,7 +2,6 @@ package entities
 
 class Candidate extends Person {
     ArrayList<String> skills
-    String email
     int age
     String state
     String description

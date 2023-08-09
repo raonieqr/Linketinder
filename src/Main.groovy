@@ -1,5 +1,4 @@
-import entities.Candidate
-import entities.Company
+import entities.*
 
 class Main {
     static void main(String[] args) {
