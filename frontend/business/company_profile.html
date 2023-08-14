@@ -1,31 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
     <title>Linketinder - Profile</title>
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <nav>
-            <h1>LK</h1>
-            <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Perfil</a></li>
-            </ul>
-        </nav>
+      <nav>
+        <h1>LK</h1>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Perfil</a></li>
+        </ul>
+      </nav>
     </header>
     <div class="container">
-        <section>
-           
-        </section>
+      <section id="company-profile">
+        <div id="candidates">
+          <h2>Candidatos cadastrados</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Formação</th>
+                <th>Skills</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>x</td>
+                <td>Engenheiro de Software</td>
+                <td>python, c</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div id="graph">
+          <h2>Candidato x stacks</h2>
+          <div id="chart">
+
+          </div>
+        </div>
+      </section>
     </div>
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+    <script>
+      var options = {
+        chart: {
+          type: "bar",
+        },
+        series: [
+          {
+            name: "candidatos",
+            data: [30, 40, 10],
+          },
+        ],
+        xaxis: {
+          categories: ["python", "c", "c++"],
+        },
+        colors: ['#FF5733'],
+      };
+
+      var chart = new ApexCharts(document.querySelector("#chart"), options);
+
+      chart.render();
+    </script>
+  </body>
 </html>
