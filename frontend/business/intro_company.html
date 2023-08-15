@@ -16,6 +16,7 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
       rel="stylesheet"
     />
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <title>Linketinder - Company</title>
   </head>
   <body>
@@ -25,7 +26,7 @@
       </nav>
     </header>
     <div class="container">
-      <section>
+      <section id="behind-modal">
         <h1>Bem vindo a página para empresa no Linketinder</h1>
         <p>Escolha uma das opções abaixo:</p>
         <div class="buttons">
@@ -33,12 +34,16 @@
           <button id="show-prof-comp">Ver perfil</button>
         </div>
       </section>
-      <!-- <section id="modal">
-            <div id="modal-content">
-
-            </div>
-        </section> -->
+      <section id="modal" style="display: none">
+        <div id="modal-content">
+          <i id="exitModal" class="ph ph-x-circle"></i>
+          <h2>Login</h2>
+          <input type="text" placeholder="Nome" />
+          <input type="text" placeholder="Senha" />
+          <button id="sigIn">Entrar</button>
+        </div>
+      </section>
     </div>
-    <script src="../script.js"></script>
+    <script src="./company.js"></script>
   </body>
 </html>

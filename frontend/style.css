@@ -6,6 +6,7 @@
 
 :root {
     font-size: 62.5%;
+    --primary-color: #3b82f6;
 }
 
 body {
@@ -14,7 +15,7 @@ body {
 }
 
 header {
-    background-color: rgb(176, 102, 92);
+    background-color: var(--primary-color);
 }
 
 nav {
@@ -55,7 +56,7 @@ nav li a:hover {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 80dvh;
+    height: calc(100% - 5.1dvh);
 }
 
 
@@ -100,10 +101,11 @@ button {
     padding: .8rem 1.5rem;
     border: 1px solid rgba(0, 0, 0, 0);
     border-radius: .5rem;
-    background-color: #FFDAB9;
+    background-color: #6499ee;
     font-size: 1.5rem;
     cursor: pointer;
     transition: 300ms;
+    color: #1e1e1e;
 }
 
 button:hover {
@@ -114,6 +116,7 @@ form {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    margin-bottom: 2rem;
     gap: 2rem;
 }
 
@@ -134,19 +137,34 @@ form {
     border-width: 0;
 }
 
-form {
-    margin-bottom: 2rem;
+#behind-modal {
+    height: 100dvh;
+
 }
+
+#register-section {
+    background-color: #dbdbdb;
+    width: 80rem;
+    height: 60rem;
+    border-radius: 1rem;
+}
+
+#register-section h1 {
+   margin-top: -5rem;
+   margin-bottom: 4rem;
+}
+
 
 .modalBlur {
     -webkit-filter: blur(8px);
+    background-color: rgba(0, 0, 0, 0.3);
     filter: blur(8px);
     opacity: 1;
 }
 
 #modal {
     position: absolute;
-    background-color: #E5D9C8;
+    background-color: #ffffff;
     width: 70rem;
     height: 40rem;
     border-radius: 1rem;
@@ -163,27 +181,27 @@ form {
     font-size: 2rem;
     right: 2%;
     top: 2%;
-    color: #B0665C;
     cursor: pointer;
 }
 
 #modal-content h2 {
     text-align: center;
     margin-bottom: 1rem;
-    color: #B0665C;
 }
 
 form input, #modal-content input {
     border: 1px solid rgb(118, 116, 116);
     border-radius: .5rem;
     padding: .5rem .5rem;
-    margin-bottom: 1rem;
-    background-color: rgba(255, 255, 255, 0.515);
+    margin-bottom: 2rem;
+    background-color: rgba(238, 238, 238, 0.858);
+    width: 20rem;
+    height: 3rem;
 }
 
 #modal-content button {
-    font-size: 1.3rem;
-    background-color: #B0665C;
+    font-size: 1.2rem;
+    background-color: var(--primary-color);
     color: #fff;
 }
 
@@ -199,7 +217,7 @@ form input, #modal-content input {
 }
 
 #company-profile thead, #candidate-profile  thead {
-    background-color:  #B0665C;
+    background-color:  var(--primary-color);
     color: #fff;
     font-size: 1.5rem;
 }

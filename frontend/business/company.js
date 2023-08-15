@@ -1,8 +1,8 @@
-//intro_candidate.html
-var btnRegisterC = document.getElementById("register-c");
-var btnShowProfileC = document.getElementById("show-profile-c");
+//intro_company.html
+var btnRegisterC = document.getElementById("register-comp");
+var btnShowProfileC = document.getElementById("show-prof-comp");
 btnRegisterC === null || btnRegisterC === void 0 ? void 0 : btnRegisterC.addEventListener("click", function () {
-    window.location.href = "./candidate_registration.html";
+    window.location.href = "./company_registration.html";
 });
 var modal = document.getElementById("modal");
 var behindModal = document.getElementById("behind-modal");
@@ -21,10 +21,10 @@ btnExitModal === null || btnExitModal === void 0 ? void 0 : btnExitModal.addEven
 });
 var btnsigIn = document.getElementById("sigIn");
 btnsigIn === null || btnsigIn === void 0 ? void 0 : btnsigIn.addEventListener("click", function () {
-    window.location.href = "./candidate_profile.html";
+    window.location.href = "./company_profile.html";
 });
-//candidate_registration.html
+//company_registration.html 
 var btnRegister = document.getElementById("register");
 btnRegister === null || btnRegister === void 0 ? void 0 : btnRegister.addEventListener("click", function () {
-    window.location.href = "./candidate_profile.html";
+    window.location.href = "./company_profile.html";
 });

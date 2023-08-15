@@ -1,9 +1,9 @@
-//intro_candidate.html
-let btnRegisterC = document.getElementById("register-c");
-let btnShowProfileC = document.getElementById("show-profile-c");
+//intro_company.html
+let btnRegisterC = document.getElementById("register-comp");
+let btnShowProfileC = document.getElementById("show-prof-comp");
 
 btnRegisterC?.addEventListener("click", function(): void {
-    window.location.href = "./candidate_registration.html";
+    window.location.href = "./company_registration.html";
 });
 
 
@@ -12,29 +12,28 @@ let behindModal = document.getElementById("behind-modal");
 
 btnShowProfileC?.addEventListener("click", function(): void {
     if (modal)
-    modal.style.display = "flex";
-if (behindModal)
-behindModal.classList.add("modalBlur");
+        modal.style.display = "flex";
+    if (behindModal)
+        behindModal.classList.add("modalBlur");
 });
 
 let btnExitModal = document.getElementById("exitModal");
 
 btnExitModal?.addEventListener("click", function (): void {
     if (modal)
-    modal.style.display = "none";
-if (behindModal)
-behindModal.classList.remove("modalBlur");
+        modal.style.display = "none";
+    if (behindModal)
+        behindModal.classList.remove("modalBlur");
 });
 
 let btnsigIn = document.getElementById("sigIn");
 btnsigIn?.addEventListener("click", function(): void {
-    window.location.href = "./candidate_profile.html";
+    window.location.href = "./company_profile.html";
 });
 
-
-//candidate_registration.html
+//company_registration.html 
 let btnRegister = document.getElementById("register");
 
 btnRegister?.addEventListener("click", function(): void {
-    window.location.href = "./candidate_profile.html";
+    window.location.href = "./company_profile.html";
 });
