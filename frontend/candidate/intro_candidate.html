@@ -16,6 +16,7 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
       rel="stylesheet"
     />
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <title>Linketinder - Candidate</title>
   </head>
   <body>
@@ -28,19 +29,24 @@
       </nav>
     </header>
     <div class="container">
-      <section>
+      <section id="behind-modal">
         <h1>Bem vindo a página do candidato no Linketinder</h1>
         <p>Escolha uma das opções abaixo:</p>
         <div class="buttons">
-          <button>Cadastrar</button>
-          <button>Ver perfil</button>
+          <button id="register-c">Cadastrar</button>
+          <button id="show-profile-c">Ver perfil</button>
         </div>
       </section>
-      <!-- <section id="modal">
+      <section id="modal" style="display: none;">
             <div id="modal-content">
-
+              <i id="exitModal" class="ph ph-x-circle"></i>
+              <h2>Login</h2>
+              <input type="text" placeholder="Nome">
+              <input type="text" placeholder="Senha">
+              <button id="sigIn">Entrar</button>
             </div>
-        </section> -->
+        </section>
     </div>
+    <script src="./candidate.js"></script>
   </body>
 </html>
