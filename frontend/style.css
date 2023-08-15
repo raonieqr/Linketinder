@@ -138,12 +138,53 @@ form {
     margin-bottom: 2rem;
 }
 
-form input {
+.modalBlur {
+    -webkit-filter: blur(8px);
+    filter: blur(8px);
+    opacity: 1;
+}
+
+#modal {
+    position: absolute;
+    background-color: #E5D9C8;
+    width: 70rem;
+    height: 40rem;
+    border-radius: 1rem;
+}
+
+#modal-content {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+
+#modal-content .ph {
+    position: absolute;
+    font-size: 2rem;
+    right: 2%;
+    top: 2%;
+    color: #B0665C;
+    cursor: pointer;
+}
+
+#modal-content h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+    color: #B0665C;
+}
+
+form input, #modal-content input {
     border: 1px solid rgb(118, 116, 116);
     border-radius: .5rem;
     padding: .5rem .5rem;
     margin-bottom: 1rem;
-    background-color: rgba(223, 223, 223, 0.515);
+    background-color: rgba(255, 255, 255, 0.515);
+}
+
+#modal-content button {
+    font-size: 1.3rem;
+    background-color: #B0665C;
+    color: #fff;
 }
 
 #title-company {
