@@ -23,15 +23,20 @@
       <nav>
         <h1>LK</h1>
         <ul>
-          <li><a href="#">Home</a></li>
+          <li><a href="./intro_company.html">Home</a></li>
           <li><a href="#">Perfil</a></li>
         </ul>
       </nav>
     </header>
     <div class="container">
       <section id="company-profile">
-        <div id="candidates">
+        <div id="graph">
           <h2>Candidatos cadastrados</h2>
+          <div id="chart">
+  
+          </div>
+        </div>
+        <div id="candidates">
           <table>
             <thead>
               <tr>
@@ -49,12 +54,6 @@
             </tbody>
           </table>
         </div>
-        <div id="graph">
-          <h2>Candidato x stacks</h2>
-          <div id="chart">
-
-          </div>
-        </div>
       </section>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
@@ -67,13 +66,13 @@
         series: [
           {
             name: "candidatos",
-            data: [30, 40, 10],
+            data: [30, 40, 10, 5, 18, 40],
           },
         ],
         xaxis: {
-          categories: ["python", "c", "c++"],
+          categories: ["python", "c", "c++", "java", "php", "groovy"],
         },
-        colors: ['#FF5733'],
+        colors: ['#E5D9C8'],
       };
 
       var chart = new ApexCharts(document.querySelector("#chart"), options);
