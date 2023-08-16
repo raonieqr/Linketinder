@@ -35,6 +35,7 @@
           <div id="chart">
   
           </div>
+          <!-- TODO: Criar campo na tabela de nome da vaga -->
         </div>
         <div id="candidates">
           <table>
@@ -43,13 +44,15 @@
                 <th>Nome</th>
                 <th>Formação</th>
                 <th>Skills</th>
+                <th>Match</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>x</td>
-                <td>Engenheiro de Software</td>
+                <td title="teste">Engenheiro de Software</td>
                 <td>python, c</td>
+                <td>1%</td>
               </tr>
             </tbody>
           </table>
@@ -72,7 +75,7 @@
         xaxis: {
           categories: ["python", "c", "c++", "java", "php", "groovy"],
         },
-        colors: ['#5f98f4'],
+        colors: ['#457350'],
       };
 
       var chart = new ApexCharts(document.querySelector("#chart"), options);

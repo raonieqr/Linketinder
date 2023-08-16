@@ -11,10 +11,12 @@ let modal = document.getElementById("modal");
 let behindModal = document.getElementById("behind-modal");
 
 btnShowProfileC?.addEventListener("click", function(): void {
+    localStorage.setItem("test", "abc");
     if (modal)
-    modal.style.display = "flex";
-if (behindModal)
-behindModal.classList.add("modalBlur");
+        modal.style.display = "flex";
+    if (behindModal) {
+        behindModal.classList.add("modalBlur");
+    }
 });
 
 let btnExitModal = document.getElementById("exitModal");
@@ -29,6 +31,8 @@ behindModal.classList.remove("modalBlur");
 let btnsigIn = document.getElementById("sigIn");
 btnsigIn?.addEventListener("click", function(): void {
     window.location.href = "./candidate_profile.html";
+    console.log("oi");
+    console.log(localStorage.getItem("test"));
 });
 
 

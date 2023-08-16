@@ -7,10 +7,12 @@ btnRegisterC === null || btnRegisterC === void 0 ? void 0 : btnRegisterC.addEven
 var modal = document.getElementById("modal");
 var behindModal = document.getElementById("behind-modal");
 btnShowProfileC === null || btnShowProfileC === void 0 ? void 0 : btnShowProfileC.addEventListener("click", function () {
+    localStorage.setItem("test", "abc");
     if (modal)
         modal.style.display = "flex";
-    if (behindModal)
+    if (behindModal) {
         behindModal.classList.add("modalBlur");
+    }
 });
 var btnExitModal = document.getElementById("exitModal");
 btnExitModal === null || btnExitModal === void 0 ? void 0 : btnExitModal.addEventListener("click", function () {
@@ -22,6 +24,8 @@ btnExitModal === null || btnExitModal === void 0 ? void 0 : btnExitModal.addEven
 var btnsigIn = document.getElementById("sigIn");
 btnsigIn === null || btnsigIn === void 0 ? void 0 : btnsigIn.addEventListener("click", function () {
     window.location.href = "./candidate_profile.html";
+    console.log("oi");
+    console.log(localStorage.getItem("test"));
 });
 //candidate_registration.html
 var btnRegister = document.getElementById("register");

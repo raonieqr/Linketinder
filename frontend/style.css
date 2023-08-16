@@ -6,7 +6,9 @@
 
 :root {
     font-size: 62.5%;
-    --primary-color: #3b82f6;
+    --primary-color: #142619;
+    --text-color: #313640;
+    
 }
 
 body {
@@ -47,7 +49,7 @@ nav li a{
 }
 
 nav li a:hover {
-    color: rgb(34, 34, 34);
+    color: #65BF7C;
 
 }
 
@@ -84,11 +86,13 @@ section h1 {
     margin-top: 4rem;
     margin-bottom: 2rem;
     font-size: 3.5rem;
+    color: var(--primary-color);
 }
 
 section p {
     font-size: 2.2rem;
     margin-bottom: 3rem;
+    color: var(--text-color);
 }
 
 .buttons {
@@ -101,15 +105,16 @@ button {
     padding: .8rem 1.5rem;
     border: 1px solid rgba(0, 0, 0, 0);
     border-radius: .5rem;
-    background-color: #6499ee;
+    background-color: #518C60;
     font-size: 1.5rem;
     cursor: pointer;
     transition: 300ms;
-    color: #1e1e1e;
+    color: #fff;
 }
 
 button:hover {
     border: 1px solid black;
+    background-color: #457350;
 }
 
 form {
@@ -164,8 +169,8 @@ form {
 
 #modal {
     position: absolute;
-    background-color: #ffffff;
-    width: 70rem;
+    background-color: #dbdbdb;
+    width: 50rem;
     height: 40rem;
     border-radius: 1rem;
 }
@@ -173,36 +178,39 @@ form {
 #modal-content {
     display: flex;
     flex-direction: column;
-    gap: .5rem;
 }
 
 #modal-content .ph {
     position: absolute;
-    font-size: 2rem;
-    right: 2%;
-    top: 2%;
+    color: red;
+    font-size: 2.5rem;
+    right: 3%;
+    top: 3%;
     cursor: pointer;
 }
 
 #modal-content h2 {
     text-align: center;
+    font-size: 1.8rem;
     margin-bottom: 1rem;
 }
 
 form input, #modal-content input {
-    border: 1px solid rgb(118, 116, 116);
+    border: none;
     border-radius: .5rem;
     padding: .5rem .5rem;
     margin-bottom: 2rem;
-    background-color: rgba(238, 238, 238, 0.858);
+    background-color: rgba(255, 249, 249, 0.958);
     width: 20rem;
     height: 3rem;
 }
 
+input::placeholder {
+    color: var(--text-color);
+}
+
 #modal-content button {
     font-size: 1.2rem;
-    background-color: var(--primary-color);
-    color: #fff;
 }
 
 #title-company {
