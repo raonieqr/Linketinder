@@ -73,28 +73,35 @@ function checkInput() {
     
     if (nameInput && nameInput.value) {
         if (isSpecialCharacter(nameInput.value)) {
-            console.log("É digito ou caracter especial");
+            console.log("Error: nome inválido");
             return ;
         }
         if (isDigit(nameInput.value)) {
-            console.log("É digito ou caracter especial");
+            console.log("Error: nome inválido");
             return ;
         }
         else
             console.log(nameInput.value);
     }
+    
+    if (emailInput && emailInput.value) {
+        if (isDigit(emailInput.value)) {
+            console.log("Error: email inválido");
+            return ;
+        }
+        else
+            console.log(emailInput.value);
+    }
 
 }
 
-
-  
-// const testCompany: Company = {
-//     name: nameInput,
-//     email: emailInput,
-//     skills: skillsInput,
-//     country: countryInput,
-//     cnpj: cnpjInput,
-//     state: stateInput,
-//     cep: cepInput,
-//     password: passwordInput
-// };
+const testCompany: Company = {
+    name: nameInput,
+    email: emailInput,
+    skills: skillsInput,
+    country: countryInput,
+    cnpj: cnpjInput,
+    state: stateInput,
+    cep: cepInput,
+    password: passwordInput
+};
