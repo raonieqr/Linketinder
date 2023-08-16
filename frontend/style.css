@@ -172,6 +172,67 @@ form {
     padding: 1rem 0.3rem;
 }
 
+/* #candidate_vacancies {
+    display: flex;
+    flex-direction: ;
+} */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    overflow: auto;
+    height: 50rem;
+}
+
+#candidate_vacancies h2 {
+    margin-bottom: 4rem;
+    font-size: 2rem;
+}
+
+#candidate_vacancies #vacancies {
+    background-color:  #dbdbdb;
+    border-radius: 1rem;
+    width: 35rem;
+    height: 15rem;
+}
+
+#candidate_vacancies .vacancies-detail{
+    display: flex;
+    gap: 6rem;
+}
+
+.vacancies-detail .title {
+   display: flex;
+   flex-direction: column;
+   gap: 4rem;
+   padding: 2rem 2.2rem;
+}
+
+.vacancies-detail .title h3 {
+    font-size: 1.5rem;
+    font-family: Poppins, sans-serif;
+}
+
+.vacancies-detail p {
+    font-size: 1.4rem;
+    font-family: Poppins, sans-serif;
+    padding: 2rem 0;
+}
+
+.vacancies-detail #match {
+    background-color: #457350;
+    display: flex;
+    align-items: center;
+    height: 2rem;
+    margin: 0;
+    padding: 1.8rem 1rem;
+    margin-top: 1.4rem;
+    border-radius: 1rem;
+    font-size: 1.2rem;
+    color: #fff;
+}
+
+
 textarea::placeholder {
     padding: .3rem;
     color: var(--text-color);
