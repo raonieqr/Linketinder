@@ -147,18 +147,37 @@ form {
 
 }
 
-#register-section {
+#register-section, #vacancies-section {
     background-color: #dbdbdb;
     width: 80rem;
     height: 60rem;
     border-radius: 1rem;
 }
 
-#register-section h1 {
+#register-section h1, #vacancies-section {
    margin-top: -5rem;
    margin-bottom: 4rem;
 }
 
+
+#vacancies-section input{
+    margin-bottom: 0;
+}
+
+#vacancies-section textarea {
+    border: none;
+    border-radius: 1rem;
+    resize: none;
+    margin-bottom: 1.8rem;
+    padding: 1rem 0.3rem;
+}
+
+textarea::placeholder {
+    padding: .3rem;
+    color: var(--text-color);
+    font-family: Poppins, sans-serif;
+    font-size: 1.3rem;
+}
 
 .modalBlur {
     -webkit-filter: blur(8px);
@@ -205,8 +224,11 @@ form input, #modal-content input {
     height: 3rem;
 }
 
-input::placeholder {
+input::placeholder{
     color: var(--text-color);
+    font-family: Poppins, sans-serif;
+    padding: .3rem;
+
 }
 
 #modal-content button {
