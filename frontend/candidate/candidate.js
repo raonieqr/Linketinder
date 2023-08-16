@@ -108,17 +108,7 @@ function checkInput() {
             else
                 skills = skillsInput.value.split(" ");
         }
-        // const companyLocal: Company = {
-        //     name: nameInput.value,
-        //     email: emailInput.value,
-        //     skills: skills,
-        //     country: countryInput.value,
-        //     cnpj: cnpjInput.value,
-        //     state: stateInput.value,
-        //     cep: Number.parseInt(cepInput.value),
-        //     password: passwordInput.value
-        // };
-        // localStorage.setItem("companyLocal", JSON.stringify(companyLocal));
+       
         return true;
     }
     return false;

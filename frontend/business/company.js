@@ -90,9 +90,9 @@ function checkInput() {
         var skills = void 0;
         if (skillsInput && skillsInput.value) {
             if (skillsInput.value.match(","))
-                skills = skillsInput.value.split(",");
+                skills = new Set(skillsInput.value.split(","));
             else
-                skills = skillsInput.value.split(" ");
+                skills = new Set(skillsInput.value.split(" "));
         }
         var companyLocal = {
             name: nameInput.value,

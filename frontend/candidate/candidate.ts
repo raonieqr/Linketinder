@@ -47,7 +47,7 @@ interface Candidate {
     name: string,
     age: number,
     email: string,
-    skills: string[],
+    skills: Set<String>,
     description: string,
     cpf: string,
     cep: number,
@@ -136,25 +136,25 @@ function checkInput() {
             return false;
         }
 
-        let skills: string[];
+        let skills: Set<string>;
         if (skillsInput && skillsInput.value) {
             if (skillsInput.value.match(","))
-                skills = skillsInput.value.split(",");
+                skills = new Set(skillsInput.value.split(","));
             else
-                skills = skillsInput.value.split(" ");
+                skills = new Set(skillsInput.value.split(" "));
         }
 
-        // const companyLocal: Company = {
-        //     name: nameInput.value,
-        //     email: emailInput.value,
-        //     skills: skills,
-        //     country: countryInput.value,
-        //     cnpj: cnpjInput.value,
-        //     state: stateInput.value,
-        //     cep: Number.parseInt(cepInput.value),
-        //     password: passwordInput.value
-        // };
-        // localStorage.setItem("companyLocal", JSON.stringify(companyLocal));
+        const candidateLocal: Candidate = {
+            name: nameInput.value,
+            age: Number.parseInt(ageInput.value),
+            email: emailInput.value,
+            skills: skills,
+            description: descriptionInput.value,
+            cpf: cpfInput.value,
+            cep: Number.parseInt(cepInput.value),
+            password: passwordInput.value
+        };
+        // localStorage.setItem("candidateLocal", JSON.stringify(candidateLocal));
         return true;
     }
     return false;

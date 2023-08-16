@@ -43,7 +43,7 @@ btnRegister?.addEventListener("click", function(): void {
 interface Company {
     name: string,
     email: string,
-    skills: string[],
+    skills: Set<string>,
     country: string,
     cnpj: string,
     state: string,
@@ -119,12 +119,12 @@ function checkInput() {
             return false;
         }
 
-        let skills: string[];
+        let skills: Set<string>;
         if (skillsInput && skillsInput.value) {
             if (skillsInput.value.match(","))
-                skills = skillsInput.value.split(",");
+                skills = new Set(skillsInput.value.split(","));
             else
-                skills = skillsInput.value.split(" ");
+                skills = new Set(skillsInput.value.split(" "));
         }
 
         const companyLocal: Company = {
@@ -137,7 +137,7 @@ function checkInput() {
             cep: Number.parseInt(cepInput.value),
             password: passwordInput.value
         };
-        localStorage.setItem("companyLocal", JSON.stringify(companyLocal));
+        // localStorage.setItem("companyLocal", JSON.stringify(companyLocal));
         return true;
     }
     return false;
