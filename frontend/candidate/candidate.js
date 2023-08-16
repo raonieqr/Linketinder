@@ -90,6 +90,13 @@ function checkInput() {
     var cepInput = document.getElementById("cep");
     var passwordInput = document.getElementById("password");
     var descriptionInput = document.getElementById("description");
+    function isEmpty(inputElement) {
+        return inputElement.value.trim() === "";
+    }
+    if (isEmpty(nameInput) || isEmpty(emailInput) || isEmpty(skillsInput) || isEmpty(ageInput) ||
+        isEmpty(cpfInput) || isEmpty(cepInput) || isEmpty(passwordInput) || isEmpty(descriptionInput)) {
+        showAlert("Error: Nenhum campo pode estar vazio");
+    }
     var isSuccessful = validateInput(nameInput, "nome") &&
         validateCpf(cpfInput) &&
         validateAge(ageInput) &&
@@ -104,11 +111,21 @@ function checkInput() {
         var skills = void 0;
         if (skillsInput && skillsInput.value) {
             if (skillsInput.value.match(","))
-                skills = skillsInput.value.split(",");
+                skills = new Set(skillsInput.value.split(","));
             else
-                skills = skillsInput.value.split(" ");
+                skills = new Set(skillsInput.value.split(" "));
         }
-       
+        var candidateLocal = {
+            name: nameInput.value,
+            age: Number.parseInt(ageInput.value),
+            email: emailInput.value,
+            skills: skills,
+            description: descriptionInput.value,
+            cpf: cpfInput.value,
+            cep: Number.parseInt(cepInput.value),
+            password: passwordInput.value
+        };
+        // localStorage.setItem("candidateLocal", JSON.stringify(candidateLocal));
         return true;
     }
     return false;

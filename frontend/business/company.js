@@ -76,6 +76,13 @@ function checkInput() {
     var stateInput = document.getElementById("state");
     var cepInput = document.getElementById("cep");
     var passwordInput = document.getElementById("password");
+    function isEmpty(inputElement) {
+        return inputElement.value.trim() === "";
+    }
+    if (isEmpty(nameInput) || isEmpty(emailInput) || isEmpty(skillsInput) || isEmpty(countryInput) ||
+        isEmpty(cnpjInput) || isEmpty(stateInput) || isEmpty(cepInput) || isEmpty(passwordInput)) {
+        showAlert("Error: Nenhum campo pode estar vazio");
+    }
     var isSuccessful = validateInput(nameInput, "nome") &&
         validateInput(countryInput, "país") &&
         validateInput(stateInput, "estado") &&
@@ -104,7 +111,7 @@ function checkInput() {
             cep: Number.parseInt(cepInput.value),
             password: passwordInput.value
         };
-        localStorage.setItem("companyLocal", JSON.stringify(companyLocal));
+        // localStorage.setItem("companyLocal", JSON.stringify(companyLocal));
         return true;
     }
     return false;

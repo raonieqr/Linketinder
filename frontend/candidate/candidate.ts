@@ -123,6 +123,15 @@ function checkInput() {
     let passwordInput = document.getElementById("password") as HTMLInputElement;
     let descriptionInput = document.getElementById("description") as HTMLInputElement;
 
+    function isEmpty(inputElement) {
+        return inputElement.value.trim() === "";
+    }
+    
+    if (isEmpty(nameInput) || isEmpty(emailInput) || isEmpty(skillsInput) || isEmpty(ageInput) ||
+        isEmpty(cpfInput) || isEmpty(cepInput) || isEmpty(passwordInput) || isEmpty(descriptionInput)) {
+        showAlert("Error: Nenhum campo pode estar vazio");
+    }
+
     const isSuccessful = validateInput(nameInput, "nome") &&
                          validateCpf(cpfInput) &&
                          validateAge(ageInput) &&

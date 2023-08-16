@@ -78,21 +78,21 @@ function checkInput() {
 
     function validateCnpj(input) {
         if (!isDigit(input.value) || input.value.length !== 14) {
-            return showAlert("cnpj inválido");
+            return showAlert("Error: cnpj inválido");
         }
         return input.value;
     }
 
     function validateCep(input) {
         if (!isDigit(input.value) || input.value.length !== 8) {
-            return showAlert("cep inválido");
+            return showAlert("Error: cep inválido");
         }
         return input.value;
     }
 
     function validateEmail(input) {
         if (isDigit(input.value) || !validationEmail(input.value)) {
-            return showAlert("email inválido");
+            return showAlert("Error: email inválido");
         }
         return input.value;
     }
@@ -105,6 +105,15 @@ function checkInput() {
     let stateInput = document.getElementById("state") as HTMLInputElement;
     let cepInput = document.getElementById("cep") as HTMLInputElement;
     let passwordInput = document.getElementById("password") as HTMLInputElement;
+
+    function isEmpty(inputElement) {
+        return inputElement.value.trim() === "";
+    }
+    
+    if (isEmpty(nameInput) || isEmpty(emailInput) || isEmpty(skillsInput) || isEmpty(countryInput) ||
+        isEmpty(cnpjInput) || isEmpty(stateInput) || isEmpty(cepInput) || isEmpty(passwordInput)) {
+        showAlert("Error: Nenhum campo pode estar vazio");
+    }
 
     const isSuccessful = validateInput(nameInput, "nome") &&
                          validateInput(countryInput, "país") &&
