@@ -35,5 +35,66 @@ btnsigIn?.addEventListener("click", function(): void {
 let btnRegister = document.getElementById("register");
 
 btnRegister?.addEventListener("click", function(): void {
-    window.location.href = "./company_profile.html";
+    // document.addEventListener("DOMContentLoaded", function() {
+        console.log("start check input");
+        checkInput();
+    //   });
+    // window.location.href = "./company_profile.html";
 });
+
+interface Company {
+    name: string,
+    email: string,
+    skills: string[],
+    country: string,
+    cnpj: string,
+    state: string,
+    cep: number,
+    password: string
+}
+
+function isDigit(input: string): boolean {
+    return /^\d+$/.test(input);
+}
+
+function isSpecialCharacter(input: string): boolean {
+    return /[/[0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(input);
+}
+
+function checkInput() {
+    let nameInput = document.getElementById("name") as HTMLInputElement;
+    let emailInput = document.getElementById("email") as HTMLInputElement;
+    let skillsInput = document.getElementById("skills") as HTMLInputElement;
+    let countryInput = document.getElementById("country") as HTMLInputElement;
+    let cnpjInput = document.getElementById("cnpj") as HTMLInputElement;
+    let stateInput = document.getElementById("state") as HTMLInputElement;
+    let cepInput = document.getElementById("cep") as HTMLInputElement;
+    let passwordInput = document.getElementById("password") as HTMLInputElement;
+    
+    if (nameInput && nameInput.value) {
+        if (isSpecialCharacter(nameInput.value)) {
+            console.log("É digito ou caracter especial");
+            return ;
+        }
+        if (isDigit(nameInput.value)) {
+            console.log("É digito ou caracter especial");
+            return ;
+        }
+        else
+            console.log(nameInput.value);
+    }
+
+}
+
+
+  
+// const testCompany: Company = {
+//     name: nameInput,
+//     email: emailInput,
+//     skills: skillsInput,
+//     country: countryInput,
+//     cnpj: cnpjInput,
+//     state: stateInput,
+//     cep: cepInput,
+//     password: passwordInput
+// };

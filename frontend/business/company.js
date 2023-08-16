@@ -26,5 +26,47 @@ btnsigIn === null || btnsigIn === void 0 ? void 0 : btnsigIn.addEventListener("c
 //company_registration.html 
 var btnRegister = document.getElementById("register");
 btnRegister === null || btnRegister === void 0 ? void 0 : btnRegister.addEventListener("click", function () {
-    window.location.href = "./company_profile.html";
+    // document.addEventListener("DOMContentLoaded", function() {
+    console.log("start check input");
+    checkInput();
+    //   });
+    // window.location.href = "./company_profile.html";
 });
+function isDigit(input) {
+    return /^\d+$/.test(input);
+}
+function isSpecialCharacter(input) {
+    return /[/[0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(input);
+}
+function checkInput() {
+    var nameInput = document.getElementById("name");
+    var emailInput = document.getElementById("email");
+    var skillsInput = document.getElementById("skills");
+    var countryInput = document.getElementById("country");
+    var cnpjInput = document.getElementById("cnpj");
+    var stateInput = document.getElementById("state");
+    var cepInput = document.getElementById("cep");
+    var passwordInput = document.getElementById("password");
+    if (nameInput && nameInput.value) {
+        if (isSpecialCharacter(nameInput.value)) {
+            console.log("É digito ou caracter especial");
+            return;
+        }
+        if (isDigit(nameInput.value)) {
+            console.log("É digito ou caracter especial");
+            return;
+        }
+        else
+            console.log(nameInput.value);
+    }
+}
+// const testCompany: Company = {
+//     name: nameInput,
+//     email: emailInput,
+//     skills: skillsInput,
+//     country: countryInput,
+//     cnpj: cnpjInput,
+//     state: stateInput,
+//     cep: cepInput,
+//     password: passwordInput
+// };
