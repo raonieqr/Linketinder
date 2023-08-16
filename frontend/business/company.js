@@ -26,11 +26,9 @@ btnsigIn === null || btnsigIn === void 0 ? void 0 : btnsigIn.addEventListener("c
 //company_registration.html 
 var btnRegister = document.getElementById("register");
 btnRegister === null || btnRegister === void 0 ? void 0 : btnRegister.addEventListener("click", function () {
-    // document.addEventListener("DOMContentLoaded", function() {
     console.log("start check input");
-    checkInput();
-    //   });
-    // window.location.href = "./company_profile.html";
+    if (checkInput())
+        window.location.href = "./company_profile.html";
 });
 function isDigit(input) {
     return /^\d+$/.test(input);
@@ -38,7 +36,38 @@ function isDigit(input) {
 function isSpecialCharacter(input) {
     return /[/[0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(input);
 }
+function validationEmail(input) {
+    return /@.*\.com/.test(input);
+}
 function checkInput() {
+    function showAlert(errorMsg) {
+        alert("Error: " + errorMsg);
+        return false;
+    }
+    function validateInput(input, nameVar) {
+        if (isSpecialCharacter(input.value) || isDigit(input.value)) {
+            return showAlert("Error: ".concat(nameVar, " inv\u00E1lido"));
+        }
+        return input.value;
+    }
+    function validateCnpj(input) {
+        if (!isDigit(input.value) || input.value.length !== 14) {
+            return showAlert("cnpj inválido");
+        }
+        return input.value;
+    }
+    function validateCep(input) {
+        if (!isDigit(input.value) || input.value.length !== 8) {
+            return showAlert("cep inválido");
+        }
+        return input.value;
+    }
+    function validateEmail(input) {
+        if (isDigit(input.value) || !validationEmail(input.value)) {
+            return showAlert("email inválido");
+        }
+        return input.value;
+    }
     var nameInput = document.getElementById("name");
     var emailInput = document.getElementById("email");
     var skillsInput = document.getElementById("skills");
@@ -47,18 +76,27 @@ function checkInput() {
     var stateInput = document.getElementById("state");
     var cepInput = document.getElementById("cep");
     var passwordInput = document.getElementById("password");
-    if (nameInput && nameInput.value) {
-        if (isSpecialCharacter(nameInput.value)) {
-            console.log("É digito ou caracter especial");
-            return;
+    var isSuccessful = validateInput(nameInput, "nome") &&
+        validateInput(countryInput, "país") &&
+        validateInput(stateInput, "estado") &&
+        validateCnpj(cnpjInput) &&
+        validateCep(cepInput) &&
+        validateEmail(emailInput);
+    if (isSuccessful) {
+        if (passwordInput && passwordInput.value.length < 8) {
+            showAlert("Error: senha muito curta");
+            return false;
         }
-        if (isDigit(nameInput.value)) {
-            console.log("É digito ou caracter especial");
-            return;
+        if (skillsInput && skillsInput.value) {
+            var skills = void 0;
+            if (skillsInput.value.match(","))
+                skills = skillsInput.value.split(",");
+            else
+                skills = skillsInput.value.split(" ");
         }
-        else
-            console.log(nameInput.value);
+        return true;
     }
+    return false;
 }
 // const testCompany: Company = {
 //     name: nameInput,

@@ -35,11 +35,9 @@ btnsigIn?.addEventListener("click", function(): void {
 let btnRegister = document.getElementById("register");
 
 btnRegister?.addEventListener("click", function(): void {
-    // document.addEventListener("DOMContentLoaded", function() {
         console.log("start check input");
-        checkInput();
-    //   });
-    // window.location.href = "./company_profile.html";
+        if (checkInput())
+            window.location.href = "./company_profile.html";
 });
 
 interface Company {
@@ -61,7 +59,44 @@ function isSpecialCharacter(input: string): boolean {
     return /[/[0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(input);
 }
 
+function validationEmail(input) {
+    return /@.*\.com/.test(input);
+}
+  
 function checkInput() {
+    function showAlert(errorMsg) {
+        alert("Error: " + errorMsg);
+        return false;
+    }
+
+    function validateInput(input, nameVar) {
+        if (isSpecialCharacter(input.value) || isDigit(input.value)) {
+            return showAlert(`Error: ${nameVar} inválido`);
+        }
+        return input.value;
+    }
+
+    function validateCnpj(input) {
+        if (!isDigit(input.value) || input.value.length !== 14) {
+            return showAlert("cnpj inválido");
+        }
+        return input.value;
+    }
+
+    function validateCep(input) {
+        if (!isDigit(input.value) || input.value.length !== 8) {
+            return showAlert("cep inválido");
+        }
+        return input.value;
+    }
+
+    function validateEmail(input) {
+        if (isDigit(input.value) || !validationEmail(input.value)) {
+            return showAlert("email inválido");
+        }
+        return input.value;
+    }
+
     let nameInput = document.getElementById("name") as HTMLInputElement;
     let emailInput = document.getElementById("email") as HTMLInputElement;
     let skillsInput = document.getElementById("skills") as HTMLInputElement;
@@ -70,38 +105,41 @@ function checkInput() {
     let stateInput = document.getElementById("state") as HTMLInputElement;
     let cepInput = document.getElementById("cep") as HTMLInputElement;
     let passwordInput = document.getElementById("password") as HTMLInputElement;
-    
-    if (nameInput && nameInput.value) {
-        if (isSpecialCharacter(nameInput.value)) {
-            console.log("Error: nome inválido");
-            return ;
+
+    const isSuccessful = validateInput(nameInput, "nome") &&
+                         validateInput(countryInput, "país") &&
+                         validateInput(stateInput, "estado") &&
+                         validateCnpj(cnpjInput) &&
+                         validateCep(cepInput) &&
+                         validateEmail(emailInput);
+
+    if (isSuccessful) {
+        if (passwordInput && passwordInput.value.length < 8) {
+            showAlert("Error: senha muito curta");
+            return false;
         }
-        if (isDigit(nameInput.value)) {
-            console.log("Error: nome inválido");
-            return ;
-        }
-        else
-            console.log(nameInput.value);
-    }
-    
-    if (emailInput && emailInput.value) {
-        if (isDigit(emailInput.value)) {
-            console.log("Error: email inválido");
-            return ;
-        }
-        else
-            console.log(emailInput.value);
+
+        if (skillsInput && skillsInput.value) {
+            let skills: string[];
+            if (skillsInput.value.match(","))
+                skills = skillsInput.value.split(",");
+            else
+                skills = skillsInput.value.split(" ");
     }
 
+        return true;
+    }
+    return false;
 }
 
-const testCompany: Company = {
-    name: nameInput,
-    email: emailInput,
-    skills: skillsInput,
-    country: countryInput,
-    cnpj: cnpjInput,
-    state: stateInput,
-    cep: cepInput,
-    password: passwordInput
-};
+
+// const testCompany: Company = {
+//     name: nameInput,
+//     email: emailInput,
+//     skills: skillsInput,
+//     country: countryInput,
+//     cnpj: cnpjInput,
+//     state: stateInput,
+//     cep: cepInput,
+//     password: passwordInput
+// };
