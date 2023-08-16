@@ -119,27 +119,26 @@ function checkInput() {
             return false;
         }
 
+        let skills: string[];
         if (skillsInput && skillsInput.value) {
-            let skills: string[];
             if (skillsInput.value.match(","))
                 skills = skillsInput.value.split(",");
             else
                 skills = skillsInput.value.split(" ");
-    }
+        }
 
+        const testCompany: Company = {
+            name: nameInput.value,
+            email: emailInput.value,
+            skills: skills,
+            country: countryInput.value,
+            cnpj: cnpjInput.value,
+            state: stateInput.value,
+            cep: Number.parseInt(cepInput.value),
+            password: passwordInput.value
+        };
         return true;
     }
     return false;
 }
 
-
-// const testCompany: Company = {
-//     name: nameInput,
-//     email: emailInput,
-//     skills: skillsInput,
-//     country: countryInput,
-//     cnpj: cnpjInput,
-//     state: stateInput,
-//     cep: cepInput,
-//     password: passwordInput
-// };
