@@ -127,7 +127,7 @@ function checkInput() {
                 skills = skillsInput.value.split(" ");
         }
 
-        const testCompany: Company = {
+        const companyLocal: Company = {
             name: nameInput.value,
             email: emailInput.value,
             skills: skills,
@@ -137,6 +137,7 @@ function checkInput() {
             cep: Number.parseInt(cepInput.value),
             password: passwordInput.value
         };
+        localStorage.setItem("companyLocal", JSON.stringify(companyLocal));
         return true;
     }
     return false;

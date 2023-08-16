@@ -87,24 +87,25 @@ function checkInput() {
             showAlert("Error: senha muito curta");
             return false;
         }
+        var skills = void 0;
         if (skillsInput && skillsInput.value) {
-            var skills = void 0;
             if (skillsInput.value.match(","))
                 skills = skillsInput.value.split(",");
             else
                 skills = skillsInput.value.split(" ");
         }
+        var companyLocal = {
+            name: nameInput.value,
+            email: emailInput.value,
+            skills: skills,
+            country: countryInput.value,
+            cnpj: cnpjInput.value,
+            state: stateInput.value,
+            cep: Number.parseInt(cepInput.value),
+            password: passwordInput.value
+        };
+        localStorage.setItem("companyLocal", JSON.stringify(companyLocal));
         return true;
     }
     return false;
 }
-// const testCompany: Company = {
-//     name: nameInput,
-//     email: emailInput,
-//     skills: skillsInput,
-//     country: countryInput,
-//     cnpj: cnpjInput,
-//     state: stateInput,
-//     cep: cepInput,
-//     password: passwordInput
-// };
