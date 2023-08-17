@@ -6,6 +6,11 @@ module.exports = {
         candidate: './candidate/candidate.ts',
         business: './business/company.ts',
     },
+    devServer: {
+        contentBase: path.resolve(__dirname, 'dist'),
+        compress: true,
+        port: 9000,
+    },
     output: {
         filename: '[name].min.js',
         path: path.join(__dirname, 'dist')
@@ -13,8 +18,8 @@ module.exports = {
     plugins: [
         new CopyPlugin({
             patterns:[
-            {from: 'candidate', to: 'webCandidate'},
-            {from: 'business', to: 'webBusiness'}],
+            {from: 'candidate', to: 'candidate'},
+            {from: 'business', to: 'business'}],
         }),
     ],
     resolve: {

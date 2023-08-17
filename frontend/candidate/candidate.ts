@@ -13,7 +13,6 @@ let modal = document.getElementById("modal");
 let behindModal = document.getElementById("behind-modal");
 
 btnShowProfileC?.addEventListener("click", function(): void {
-    localStorage.setItem("test", "abc");
     if (modal)
         modal.style.display = "flex";
     if (behindModal) {
@@ -31,16 +30,32 @@ btnExitModal?.addEventListener("click", function (): void {
 });
 
 let btnsigIn = document.getElementById("sigIn");
-btnsigIn?.addEventListener("click", function(): void {
-    window.location.href = "./candidate_profile.html";
-});
+btnsigIn?.addEventListener("click", function (): void {
+    let candCheck = localStorage.getItem("candidateLocal");
+    let userName = document.getElementById("userName") as HTMLInputElement;
+    let userPass = document.getElementById("userPass") as HTMLInputElement;
 
+    function isLoginValid(candidateObj: any, username: string, password: string): boolean {
+        return candidateObj.name === username && candidateObj.password === password;
+    }
+
+    if (candCheck) {
+        var candObj = JSON.parse(candCheck);
+        if (candObj && userName && userPass) {
+            if (isLoginValid(candObj, userName.value, userPass.value)) {
+                window.location.href = "./candidate_profile.html";
+                return;
+            }
+        }
+    }
+    alert("Error: login ou senha inválido");
+});
 
 //candidate_registration.html
 let btnRegister = document.getElementById("register");
 
 btnRegister?.addEventListener("click", function(): void {
-    if (checkInput())
+    if (checkInput()) 
         window.location.href = "./candidate_profile.html";
 });
 
@@ -156,10 +171,8 @@ function checkInput() {
             password: passwordInput.value,
             applications: null
         };
-        // localStorage.setItem("candidateLocal", JSON.stringify(candidateLocal));
+        localStorage.setItem("candidateLocal", JSON.stringify(candidateLocal));
         return true;
     }
     return false;
 }
-
-//candidate_vacancies.html

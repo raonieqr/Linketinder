@@ -30,8 +30,26 @@ btnExitModal?.addEventListener("click", function (): void {
 
 let btnsigIn = document.getElementById("sigIn");
 btnsigIn?.addEventListener("click", function(): void {
-    window.location.href = "./company_profile.html";
+    let compCheck = localStorage.getItem("companyLocal");
+    let compName = document.getElementById("companyUser") as HTMLInputElement;
+    let compPass = document.getElementById("companyPass") as HTMLInputElement;
+
+    function isLoginValid(companyObj: any, username: string, password: string): boolean {
+        return companyObj.name === username && companyObj.password === password;
+    }
+
+    if (compCheck) {
+        var compObj = JSON.parse(compCheck);
+        if (compObj && compName && compPass) {
+            if (isLoginValid(compObj,compName.value, compPass.value)) {
+                window.location.href = "./company_profile.html";
+                return;
+            }
+        }
+    }
+    alert("Error: login ou senha inválido");
 });
+
 
 //company_registration.html 
 let btnRegister = document.getElementById("register");
@@ -172,12 +190,8 @@ registerVacancy?.addEventListener("click", function() {
         description: descriptionVacancy?.value,
         skills: Array.from(skills).join().split(",")
     };
-    
-    console.log(companyObj);
     companyObj.vacancy = JSON.parse(JSON.stringify(vacancyPosting));
-    console.log(companyObj.vacancy);
-    setTimeout(function() {
-        console.log("...");
-    }, 2000);
-    // localStorage.removeItem('companyLocal');
+    window.location.href = "./company_profile.html";
+    localStorage.removeItem('companyLocal');
+    localStorage.setItem("companyLocal", JSON.stringify(companyObj));
 });

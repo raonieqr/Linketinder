@@ -170,6 +170,7 @@ form {
     resize: none;
     margin-bottom: 1.8rem;
     padding: 1rem 0.3rem;
+    background-color: rgba(255, 249, 249, 0.958);
 }
 
 .grid {
