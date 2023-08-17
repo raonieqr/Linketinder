@@ -75,7 +75,7 @@ function validationEmail(input: string) {
   
 function checkInput() {
     function showAlert(errorMsg: string) {
-        alert("Error: " + errorMsg);
+        alert(errorMsg);
         return false;
     }
 
