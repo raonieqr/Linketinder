@@ -13,8 +13,8 @@ export interface Company {
 export interface VacancyPosting {
     company: Company,
     name: string,
-    skills: string[],
-    description: string
+    description: string,
+    skills: string[]
 }
 
 export interface Candidate {

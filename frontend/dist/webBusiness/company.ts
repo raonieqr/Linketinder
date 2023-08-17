@@ -160,21 +160,19 @@ registerVacancy?.addEventListener("click", function() {
     
     let skills: Set<string[]> = new Set();
     if (skillsVacancy && skillsVacancy.value) {
-        console.log(skillsVacancy.value)
         if (skillsVacancy.value.match(","))
             skills.add(skillsVacancy.value.split(","));
         else
             skills.add(skillsVacancy.value.split(" "));
     }
-    console.log(skills);
+    console.log(descriptionVacancy?.value);
     const vacancyPosting: VacancyPosting = {
         company: companyObj,
         name: nameVacancy?.value,
-        skills: Array.from(skills).join().split(","),
-        description: descriptionVacancy?.value
+        description: descriptionVacancy?.value,
+        skills: Array.from(skills).join().split(",")
     };
     
-    console.log("teste: " + skills.toString().split(" "));
     console.log(companyObj);
     companyObj.vacancy = JSON.parse(JSON.stringify(vacancyPosting));
     console.log(companyObj.vacancy);
