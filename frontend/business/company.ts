@@ -69,7 +69,7 @@ function isSpecialCharacter(input: string): boolean {
 }
 
 function validationEmail(input: string) {
-    return /@.*\.com/.test(input);
+    return /\S+@\w+\.\w{2,6}(\.\w{2})?/g.test(input);
 }
   
 function checkInput() {
