@@ -133,11 +133,11 @@ function checkInput() {
     function isEmpty(inputElement: any) {
         return inputElement.value.trim() === "";
     }
-    
+
+    }
     if (isEmpty(nameInput) || isEmpty(emailInput) || isEmpty(skillsInput) || isEmpty(ageInput) ||
         isEmpty(cpfInput) || isEmpty(cepInput) || isEmpty(passwordInput) || isEmpty(descriptionInput)) {
         showAlert("Error: Nenhum campo pode estar vazio");
-    }
 
     const isSuccessful = validateInput(nameInput, "nome") &&
                          validateCpf(cpfInput) &&
