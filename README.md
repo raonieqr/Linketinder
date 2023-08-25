@@ -36,6 +36,10 @@ groovy src/Main.groovy
 - List Companies: The program allows you to list information about registered companies.
 - List Candidates: The program enables you to list information about registered candidates.
 - Add New Candidate: You can add a new candidate with details such as name, email, skills, age, state, description, CPF, and ZIP code.
+- **New Feature: Matching**  
+  - Create Vacancies: Companys can now create job vacancies for their companies. The application will prompt for the vacancy name, description, and required skills. Skills are entered as a comma-separated list. This feature streamlines the process    of creating vacancies and finding suitable candidates.
+  - Like Vacancies: Companies can now "like" vacancies posted by candidates that match their needs. This demonstrates interest in the vacancy and enables potential matches between companies and candidates.
+  - View Matches: Candidates and companies can now view their mutual matches. Candidates can see the vacancies that have been "liked" by companies, and companies can see the candidates that have expressed interest.
 
 ## Contribution
 Contributions are welcome! If you encounter issues, bugs, or want to add new features, feel free to open a pull request.
