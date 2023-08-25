@@ -15,7 +15,7 @@ class CompanyTest {
 		ArrayList<String> expectedSkills = new ArrayList<>();
 		expectedSkills.add("C");
 
-		Company company = new Company("abc", "abc@gmail.com", "01234567891234", "Brasil",
+		Company company = new Company(1, "abc", "abc@gmail.com", "01234567891234", "Brasil",
 				"Desenvolvedor", "RJ", expectedSkills,22785055);
 		ArrayList<Company> companys = new ArrayList<>();
 
@@ -34,9 +34,10 @@ class CompanyTest {
 		expectedSkills.add("C++");
 		expectedSkills.add("Java");
 
-		Company company = new Company("abc", "abc@gmail.com", "01234567891234", "Brasil",
+		Company company = new Company(1,"abc", "abc@gmail.com", "01234567891234", "Brasil",
 				"Desenvolvedor", "RJ", expectedSkills,22785055);
 
+		assertEquals(1, company.getId());
 		assertEquals("abc", company.getName());
 		assertEquals("abc@gmail.com", company.getEmail());
 		assertEquals("01234567891234", company.getCnpj());

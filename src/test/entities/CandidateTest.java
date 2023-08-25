@@ -15,7 +15,7 @@ class CandidateTest {
 		ArrayList<String> expectedSkills = new ArrayList<>();
 		expectedSkills.add("C");
 
-		Candidate candidate = new Candidate("Beto", "beto@gmail.com", expectedSkills, 18, "RJ",
+		Candidate candidate = new Candidate(1, "Beto", "beto@gmail.com", expectedSkills, 18, "RJ",
 				"Desenvolvedor", "12344566701", 22785055);
 		ArrayList<Candidate> candidates = new ArrayList<>();
 
@@ -32,9 +32,10 @@ class CandidateTest {
 		expectedSkills.add("C");
 		expectedSkills.add("C++");
 		expectedSkills.add("Java");
-		Candidate candidate = new Candidate("Beto", "beto@gmail.com", expectedSkills, 18, "RJ",
+		Candidate candidate = new Candidate(1, "Beto", "beto@gmail.com", expectedSkills, 18, "RJ",
 				"Desenvolvedor", "12344566701", 22785055);
 
+		assertEquals(1, candidate.getId());
 		assertEquals("Beto", candidate.getName());
 		assertEquals("beto@gmail.com", candidate.getEmail());
 		assertArrayEquals(expectedSkills.toArray(), candidate.getSkills().toArray());

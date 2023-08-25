@@ -1,24 +1,35 @@
 package entities
 
 class Company extends Person {
+    int id;
     String cnpj
     String description
     String state
     String country
     ArrayList<String> skills
     int cep
+    ArrayList<MatchVacancy> matchVacancies = new ArrayList<>();
 
-    Company(String name, String email, String cnpj, String country,
+    Company(int id, String name, String email, String cnpj, String country,
             String description, String state, ArrayList<String> skills =
                     ["Python", "Java", "Spring Framework", "Angular", "C"],
             int cep) {
         super(name, email)
+        this.id = id
         this.cnpj = cnpj
         this.country = country
         this.description = description
         this.state = state
         this.skills = skills
         this.cep = cep
+    }
+
+    int getId() {
+        return id
+    }
+
+    void setId(int id) {
+        this.id = id
     }
 
     String getCnpj() {
@@ -51,6 +62,22 @@ class Company extends Person {
 
     void setCep(int cep) {
         this.cep = cep
+    }
+
+    Vacancy getVacancy() {
+        return vacancy
+    }
+
+    void setVacancy(Vacancy vacancy) {
+        this.vacancy = vacancy
+    }
+
+    ArrayList<MatchVacancy> getMatchVacancies() {
+        return matchVacancies
+    }
+
+    void setMatchVacancies(ArrayList<MatchVacancy> matchVacancies) {
+        this.matchVacancies = matchVacancies
     }
 
     @Override
