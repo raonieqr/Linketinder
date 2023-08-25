@@ -99,12 +99,9 @@ class Main {
             else if(option == 5) {
                 Company comp =  checkCompanyID(companies)
 
-                println("Qual nome da vaga? ")
-                String name = reader.readLine()
-                println("Qual descrição da vaga? ")
-                String description = reader.readLine()
-                println("Quais skills necessárias? ")
-                String skills = reader.readLine()
+                String name = getUserInput("Qual nome da vaga? ")
+                String description = getUserInput("Qual descrição da vaga? ")
+                String skills = getUserInput("Quais skills necessárias? ")
 
                 vacancies.add(new Vacancy(++idVacancy, name, description,
                         comp, skills.split("[,;]+") as
@@ -113,15 +110,12 @@ class Main {
                 println("Vaga criada com sucesso!")
             }
             else if (option == 6) {
-                println("Você é empresa ou candidato? ")
-                println("1 - Empresa")
-                println("2 - Candidato")
-
                 String choose
                 boolean checkChoose = true
 
                 while(checkChoose) {
-                   choose = reader.readLine()
+                   choose = getUserInput("Você é empresa ou candidato?\n" +
+                           "1 - Empresa\n" + "2 - Candidato\n")
                     if (!choose.matches("^[1-2]\$"))
                         println("Error: opção inválida. Tente novamente")
                     else
@@ -153,6 +147,7 @@ class Main {
                             MatchVacancy matchVacancy = checkMatchVacancyID(candi.getMatchVacancies())
 
                             comp.getMatchVacancies().find { it.getId() == matchVacancy.getId() }?.setCompanyLiked(true)
+                            println("Match realizado!")
                         }
                         break
 
@@ -181,20 +176,19 @@ class Main {
                             candi.getMatchVacancies().add(match)
 
                             vacancy.getCompany().getMatchVacancies().add(match)
+                            println("Vaga curtida!")
                         }
                         break
                 }
             }
             else if (option == 7) {
-                println("Você é empresa ou candidato? ")
-                println("1 - Empresa")
-                println("2 - Candidato")
-
                 String choose
                 boolean checkChoose = true
 
                 while(checkChoose) {
-                    choose = reader.readLine()
+                    choose = getUserInput("Você é empresa ou candidato?\n" +
+                            "1 - Empresa\n" + "2 - Candidato\n")
+
                     if (!choose.matches("^[1-2]\$"))
                         println("Error: opção inválida. Tente novamente")
                     else
@@ -235,16 +229,12 @@ class Main {
     }
 
     static MatchVacancy checkMatchVacancyID(ArrayList<MatchVacancy> matches) {
-        BufferedReader reader = new BufferedReader(new InputStreamReader
-                (System.in))
         int index
         MatchVacancy matc
 
-        println("Digite o id da vaga:")
-
         boolean idFind = true
         while (idFind) {
-            index = Integer.parseInt(reader.readLine())
+            index = getUserInputInt("Digite o id da vaga: ")
             matches.each { match ->
                 if (match.getId() == index) {
                     matc = match
@@ -259,16 +249,12 @@ class Main {
     }
 
     static Vacancy checkVacancyID(ArrayList<Vacancy> vacancies) {
-        BufferedReader reader = new BufferedReader(new InputStreamReader
-                (System.in))
         int index
         Vacancy vacan
 
-        println("Digite o id da vaga:")
-
         boolean idFind = true
         while (idFind) {
-            index = Integer.parseInt(reader.readLine())
+            index = getUserInputInt("Digite o id da vaga: ")
             vacancies.each { vacancy ->
                 if (vacancy.getId() == index) {
                     vacan = vacancy
@@ -283,16 +269,12 @@ class Main {
     }
 
     static Candidate checkCandidateID(ArrayList<Candidate> candidates) {
-        BufferedReader reader = new BufferedReader(new InputStreamReader
-                (System.in))
         int index
         Candidate candi
 
-        println("Digite o id do candidato:")
-
         boolean idFind = true
         while (idFind) {
-            index = Integer.parseInt(reader.readLine())
+            index = getUserInputInt("Digite o id do candidato: ")
             candidates.each { candidate ->
                 if (candidate.getId() == index) {
                     candi = candidate
@@ -307,16 +289,12 @@ class Main {
     }
 
     static Company checkCompanyID(ArrayList<Company>companies) {
-        BufferedReader reader = new BufferedReader(new InputStreamReader
-                (System.in))
         int index
         Company comp
 
-        println("Digite o id da sua empresa: ")
-
         boolean idFind = true
         while (idFind) {
-            index = Integer.parseInt(reader.readLine())
+            index = getUserInputInt("Digite o id da sua empresa: ")
             companies.each { companie ->
                 if (companie.getId() == index) {
                     comp = companie
