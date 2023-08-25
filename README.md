@@ -11,9 +11,10 @@ Make sure you have Groovy installed on your local machine. If not, you can downl
 2. Navigate to the root directory of the project.
 
 ## Stacks
-# Backend
+**Backend**
 -  Groovy
-# Frontend:
+ 
+**Frontend**
 - HTML5: The standard markup language for structuring and creating web application content.
 
 - CSS3: Used to style and visually enhance the application, ensuring a pleasing user experience.
