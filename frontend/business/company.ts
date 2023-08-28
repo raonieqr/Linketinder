@@ -1,4 +1,5 @@
 import { VacancyPosting, Company } from "../module";
+import ApexCharts from 'apexcharts';
 
 //intro_company.html
 let btnRegisterC = document.getElementById("register-comp");
@@ -148,7 +149,7 @@ function checkInput() {
         const companyLocal: Company = {
             name: nameInput.value,
             email: emailInput.value,
-            skills: Array.from(skills).join().split(","),
+            skills: Array.from(skills).join().toLowerCase().trim().split(/[;, ]+/),
             country: countryInput.value,
             cnpj: cnpjInput.value,
             state: stateInput.value,
@@ -183,15 +184,96 @@ registerVacancy?.addEventListener("click", function() {
         else
             skills.add(skillsVacancy.value.split(" "));
     }
-    console.log(descriptionVacancy?.value);
+
+    let now = new Date();
+
+    let day = now.getDate().toString().padStart(2, '0');
+    let month = (now.getMonth() + 1).toString().padStart(2, '0');
+    let year = now.getFullYear();
+    
     const vacancyPosting: VacancyPosting = {
         company: companyObj,
         name: nameVacancy?.value,
         description: descriptionVacancy?.value,
-        skills: Array.from(skills).join().split(",")
+        date: `${day}/${month}/${year}`,
+        skills: Array.from(skills).join().toLowerCase().trim().split(/[;, ]+/)
     };
     companyObj.vacancy = JSON.parse(JSON.stringify(vacancyPosting));
     window.location.href = "./company_profile.html";
     localStorage.removeItem('companyLocal');
     localStorage.setItem("companyLocal", JSON.stringify(companyObj));
 });
+
+//company_profile.html
+function generateGraph() {
+
+    var options = {
+        chart: {
+          type: "bar",
+        },
+        series: [
+          {
+            name: "candidatos",
+            data: [30, 40, 10, 5, 18, 40],
+          },
+        ],
+        xaxis: {
+          categories: ["python", "c", "c++", "java", "php", "groovy"],
+        },
+        colors: ['#457350'],
+      };
+    
+      var chart = new ApexCharts(document.querySelector("#chart"), options);
+    
+      chart.render();
+}
+
+generateGraph();
+
+function generateTable() {
+    let tbody = document.querySelector("tbody");
+    let row = document.querySelector("tbody tr");
+    let table = document.querySelector("table")
+
+    let c0 = document.createElement('td');
+    let c1 = document.createElement('td');
+    let c2 = document.createElement('td');
+    let c3 = document.createElement('td');
+    let c4 = document.createElement('td');
+
+    let company = localStorage.getItem("companyLocal");
+    
+    if (company) 
+        var compObj = JSON.parse(company);
+    
+    
+    if (compObj.vacancy) {
+
+        var candidate = localStorage.getItem("candidateLocal");
+        if (candidate) {
+
+        var candiObj = JSON.parse(candidate)
+        if (compObj.vacancy.skills && candiObj.skills) 
+            var matchingSkills = compObj.vacancy.skills.filter((skill: string) => candiObj.skills.includes(skill));
+        }
+    }
+
+    var matchPercentage = (matchingSkills.length / compObj.vacancy.skills.length) * 100
+    c0.innerText = compObj.vacancy.name;
+    c1.innerText = "x";
+    c2.innerText = "Engenheiro de software";
+    c3.innerText = candiObj.skills;
+    c4.innerHTML = `${matchPercentage.toFixed(2).toString()}%`;
+
+    row?.appendChild(c0);
+    row?.appendChild(c1);
+    row?.appendChild(c2);
+    row?.appendChild(c3);
+    row?.appendChild(c4);
+    if (row && tbody) {
+        tbody?.appendChild(row);
+        table?.appendChild(tbody);
+    }
+}
+
+generateTable();

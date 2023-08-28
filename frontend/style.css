@@ -13,6 +13,7 @@
 
 body {
     font-family: Poppins, Helvetica, sans-serif;
+    overflow-y: hidden;
     height: 100dvh;
 }
 
@@ -58,7 +59,7 @@ nav li a:hover {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: calc(100% - 5.1dvh);
+    height: 100%;
 }
 
 
@@ -67,7 +68,7 @@ section {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 100%;;
+    width: 100%;
     height: 100%;
 }
 
@@ -195,6 +196,7 @@ form {
 
 #candidate_vacancies .vacancies-detail{
     display: flex;
+    position: relative;
     gap: 6rem;
 }
 
@@ -218,13 +220,15 @@ form {
 }
 
 .vacancies-detail #match {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
     background-color: #457350;
     display: flex;
     align-items: center;
     height: 2rem;
     margin: 0;
     padding: 1.8rem 1rem;
-    margin-top: 1.4rem;
     border-radius: 1rem;
     font-size: 1.2rem;
     color: #fff;
@@ -294,8 +298,13 @@ input::placeholder{
     font-size: 1.2rem;
 }
 
-#title-company {
+/* #title-company {
     margin-left: -100rem;
+} */
+
+.ph-heart {
+   font-size: 2rem;
+    color: rgba(252, 36, 36, 0.706);
 }
 
 #company-profile table, #candidate-profile table{
@@ -331,4 +340,4 @@ input::placeholder{
 #company-profile #chart {
     width: 70rem;
     margin: 35px auto;
-  }
+}

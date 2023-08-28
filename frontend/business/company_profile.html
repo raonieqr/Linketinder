@@ -34,14 +34,13 @@
         <div id="graph">
           <h2>Candidatos cadastrados</h2>
           <div id="chart">
-  
           </div>
-          <!-- TODO: Criar campo na tabela de nome da vaga -->
         </div>
         <div id="candidates">
           <table>
             <thead>
               <tr>
+                <th>Vaga</th>
                 <th>Nome</th>
                 <th>Formação</th>
                 <th>Skills</th>
@@ -50,39 +49,17 @@
             </thead>
             <tbody>
               <tr>
+                <!-- <td>Desenvolvedor Python</td>
                 <td>x</td>
-                <td title="teste">Engenheiro de Software</td>
+                <td>Engenheiro de Software</td>
                 <td>python, c</td>
-                <td>1%</td>
+                <td>1%</td> -->
               </tr>
             </tbody>
           </table>
         </div>
       </section>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-
-    <script>
-      var options = {
-        chart: {
-          type: "bar",
-        },
-        series: [
-          {
-            name: "candidatos",
-            data: [30, 40, 10, 5, 18, 40],
-          },
-        ],
-        xaxis: {
-          categories: ["python", "c", "c++", "java", "php", "groovy"],
-        },
-        colors: ['#457350'],
-      };
-
-      var chart = new ApexCharts(document.querySelector("#chart"), options);
-
-      chart.render();
-    </script>
     <script src="./business.min.js"></script>
   </body>
 </html>

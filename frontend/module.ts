@@ -14,6 +14,7 @@ export interface VacancyPosting {
     company: Company,
     name: string,
     description: string,
+    date: String,
     skills: string[]
 }
 
