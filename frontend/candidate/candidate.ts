@@ -217,10 +217,44 @@ function updateVacancy() {
 updateVacancy();
 
 
+
 document.addEventListener('DOMContentLoaded', function() {
-  let v = document.getElementById("vacancyLink");
-  v?.addEventListener('click', function(event) {    
+  let vacancyLink = document.getElementById("vacancyLinkacancyLink");
+  vacancyLink?.addEventListener('click', function() {    
     updateVacancy();
      
   });
 });
+
+function generateTable() {
+  let tbody = document.querySelector("tbody");
+  let row = document.querySelector("tbody tr");
+  let table = document.querySelector("table")
+
+  let c0 = document.createElement('td');
+  let c1 = document.createElement('td');
+  let c2 = document.createElement('td');
+
+  let company = localStorage.getItem("companyLocal");
+  
+  if (company) 
+      var compObj = JSON.parse(company);
+  
+  if (compObj.vacancy) {
+
+    c0.innerText = compObj.vacancy.name;
+    c1.innerText = "x";
+    c2.innerText = compObj.vacancy.skills;
+
+    row?.appendChild(c0);
+    row?.appendChild(c1);
+    row?.appendChild(c2);
+    
+    if (row && tbody) {
+        tbody?.appendChild(row);
+        table?.appendChild(tbody);
+    }
+  }
+}
+
+generateTable();
