@@ -41,7 +41,8 @@ groovy src/Main.groovy
   - Create Vacancies: Companys can now create job vacancies for their companies. The application will prompt for the vacancy name, description, and required skills. Skills are entered as a comma-separated list. This feature streamlines the process    of creating vacancies and finding suitable candidates.
   - Like Vacancies: Companies can now "like" vacancies posted by candidates that match their needs. This demonstrates interest in the vacancy and enables potential matches between companies and candidates.
   - View Matches: Candidates and companies can now view their mutual matches. Candidates can see the vacancies that have been "liked" by companies, and companies can see the candidates that have expressed interest.
-- **New** View Matches: Candidates and companies can now view their mutual matches. Candidates can see the vacancies that have been "liked" by companies, and companies can see the candidates that have expressed interest.
+- View Matches: Candidates and companies can now view their mutual matches. Candidates can see the vacancies that have been "liked" by companies, and companies can see the candidates that have expressed interest.
+- **NEW** Database: Save application data in the future
 ## Contribution
 Contributions are welcome! If you encounter issues, bugs, or want to add new features, feel free to open a pull request.
 

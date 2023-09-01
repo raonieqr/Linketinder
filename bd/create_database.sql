@@ -134,11 +134,11 @@ VALUES
     
 -- VISUALIZAR EXEMPLO DE CANDIDATOS E SKILL
     
-SELECT candidates.id, candidates."name", candidates.age, candidates."state", candidates.email, skills.description AS skill
+/*SELECT candidates.id, candidates."name", candidates.age, candidates."state", candidates.email, skills.description AS skill
 FROM candidates
 JOIN candidate_skills ON candidates.id = candidate_skills.id_candidate
 JOIN skills ON candidate_skills.id_skill = skills.id
-
+*/
 
     
 -- DELETA AS TABELAS
