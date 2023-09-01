@@ -58,7 +58,7 @@ CREATE TABLE role_matching (
 
 
 
--- INSERE SKILLS
+-- INSERT SKILLS
 
 INSERT INTO skills (description) VALUES
     ('C'),
@@ -82,7 +82,7 @@ INSERT INTO skills (description) VALUES
 
 
 
--- INSERE OS CANDIDATOS
+-- INSERT CANDIDATES
 
 INSERT INTO candidates ("name", email, age, "state", description, cep, cpf, "password")
 VALUES
@@ -94,7 +94,7 @@ VALUES
     
     
 
--- INSERE SKILLS DOS CANDIDATOS
+-- INSERT SKILLS OF CANDIDATES
 
 INSERT INTO candidate_skills(id_candidate, id_skill) VALUES
 (1, 1),
@@ -120,7 +120,7 @@ INSERT INTO candidate_skills(id_candidate, id_skill) VALUES
 
 
 
--- INSERE AS EMPRESAS
+-- INSERT COMPANIES
 
 INSERT INTO companies ("name", email, cnpj, country, description, "state", cep, "password")
 VALUES
@@ -132,7 +132,7 @@ VALUES
 
     
     
--- VISUALIZAR EXEMPLO DE CANDIDATOS E SKILL
+-- SHOW CANDIDATES AND SKILL
     
 /*SELECT candidates.id, candidates."name", candidates.age, candidates."state", candidates.email, skills.description AS skill
 FROM candidates
@@ -141,7 +141,7 @@ JOIN skills ON candidate_skills.id_skill = skills.id
 */
 
     
--- DELETA AS TABELAS
+-- REMOVE ALL TABLES
 
 /*DROP TABLE candidates, candidate_skills, companies, role_matching, roles, skills, roles_skills*/
 
