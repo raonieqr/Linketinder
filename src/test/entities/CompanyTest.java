@@ -12,11 +12,8 @@ class CompanyTest {
 	public void testAddCompany() {
 
 		//Given:
-		ArrayList<String> expectedSkills = new ArrayList<>();
-		expectedSkills.add("C");
-
 		Company company = new Company(1, "abc", "abc@gmail.com", "01234567891234", "Brasil",
-				"Desenvolvedor", "RJ", expectedSkills,22785055);
+				"Desenvolvedor", "RJ", 22785055);
 		ArrayList<Company> companys = new ArrayList<>();
 
 		//When:
@@ -29,13 +26,8 @@ class CompanyTest {
 	@Test
 	void testCompanyAttributes() {
 
-		ArrayList<String> expectedSkills = new ArrayList<>();
-		expectedSkills.add("C");
-		expectedSkills.add("C++");
-		expectedSkills.add("Java");
-
 		Company company = new Company(1,"abc", "abc@gmail.com", "01234567891234", "Brasil",
-				"Desenvolvedor", "RJ", expectedSkills,22785055);
+				"Desenvolvedor", "RJ", 22785055);
 
 		assertEquals(1, company.getId());
 		assertEquals("abc", company.getName());
@@ -44,7 +36,6 @@ class CompanyTest {
 		assertEquals("Brasil", company.getCountry());
 		assertEquals("Desenvolvedor", company.getDescription());
 		assertEquals("RJ", company.getState());
-		assertArrayEquals(expectedSkills.toArray(), company.getSkills().toArray());
 		assertEquals(22785055, company.getCep());
 	}
 }
