@@ -1,5 +1,7 @@
 import db.DBHandler
 import entities.*
+import groovy.sql.GroovyRowResult
+import groovy.sql.Sql
 
 class Main {
     static void main(String[] args) {
@@ -52,6 +54,10 @@ class Main {
                                 companie.email + " Estado:" + companie.state +
                                 " País:" +
                                 companie.country)
+                        companies.add(new Company(companie.id as int, companie.name as String,
+                                companie.email as String, companie.cnpj as String, companie.
+                                country as String, companie.description as String, companie.
+                                state as String, companie.cep as int))
                         println("---------------------------------------------------------------")
                     }
                 }
@@ -73,6 +79,12 @@ class Main {
                                 candidate.state +
                                 " Skills:" + viewCandidateSkill.skill.join("," +
                                 " "))
+                        candidates.add(new Candidate(candidate.id as int,
+                                candidate.name as String, candidate.email as
+                                String, viewCandidateSkill.skill as ArrayList<String>, candidate.
+                                age as int, candidate.state as String,
+                                candidate.description as String, candidate.
+                                cpf as String, candidate.cep as int))
                         println("---------------------------------------------------------------")
                     }
                 }
@@ -86,12 +98,40 @@ class Main {
                     def cpf = getUserInput("CPF: ")
                     def cep = getUserInputInt("CEP: ")
 
-                    ArrayList<String> skillsList = skills.split(',').collect { it.trim() }
-                    candidates.add(new Candidate(++idCandidate, name, email, age,
-                            state, description, cpf, cep))
-                    sql.executeInsert(""" 
-                            INSERT INTO candidates (NAME, CEP, CPF, STATE, AGE, DESCRIPTION, EMAIL, PASSWORD) VALUES ($name, $cep, $cpf, $state, $age, $description, $email, 'batatinha')
-                    """);
+                    ArrayList<String> skillsList = skills.split("[,;]+").collect { it.trim() }
+
+                    candidates.add(new Candidate(++idCandidate, name, email, age, state, description, cpf, cep))
+
+                    sql.executeInsert("""
+                        INSERT INTO candidates (NAME, CEP, CPF, STATE, AGE, DESCRIPTION, EMAIL, PASSWORD) 
+                        VALUES ($name, $cep, $cpf, $state, $age, $description, $email, 'batatinha')
+                    """)
+
+                    skillsList.each { skill ->
+                        def containsSkill = sql.firstRow("""
+                            SELECT id, COUNT(*)
+                            FROM skills 
+                            WHERE description = $skill
+                            GROUP BY id
+                        """)
+
+                        def idSkill
+
+                        if (containsSkill != null && containsSkill.count > 0) {
+                            idSkill = containsSkill.id
+                        } else {
+                            def result = sql.firstRow("""
+                                INSERT INTO skills (DESCRIPTION) VALUES ($skill) RETURNING id
+                            """)
+                            idSkill = result.id
+                        }
+
+                        sql.executeInsert("""
+                            INSERT INTO candidate_skills (ID_CANDIDATE, ID_SKILL) 
+                            VALUES ($idCandidate, $idSkill)
+                        """)
+                    }
+
                     println("Cadastrado com sucesso")
                 }
                 else if (option == 4) {
@@ -101,27 +141,67 @@ class Main {
                     def country = getUserInput("País: ")
                     def description = getUserInput("Descrição: ")
                     def state = getUserInput("Estado: ")
-//                    def skills = getUserInput("Habilidades (separadas por vírgula): ")
                     def cep = getUserInputInt("CEP: ")
 
-//                    ArrayList<String> skillsList = skills.split(',').collect { it.trim() }
 
                     companies.add(new Company(++idCompany, name, email, cnpj,
                             country,
                             description, state, cep))
+                    sql.executeInsert("""
+                        INSERT INTO companies (NAME, CEP, CNPJ, STATE, 
+                        DESCRIPTION, EMAIL, COUNTRY, PASSWORD) 
+                        VALUES ($name, $cep, $cnpj, $state, $description,
+                        $email, $country, 'batatinha')
+                    """)
                     println("Cadastrado com sucesso")
                 }
                 else if(option == 5) {
-                    Company comp =  checkCompanyID(companies)
+                    def compDb =  checkCompanyID(dbHandler)
+
+                    Company comp = new Company(compDb.id as int, compDb.name as
+                            String,
+                            compDb.email as String, compDb.cnpj as String, compDb.
+                            country as String, compDb.description as String,
+                            compDb.
+                            state as String, compDb.cep as int)
 
                     String name = getUserInput("Qual nome da vaga? ")
                     String description = getUserInput("Qual descrição da vaga? ")
                     String skills = getUserInput("Quais skills necessárias? ")
 
+                    ArrayList<String> skillsList = skills.split("[,;]+")
                     vacancies.add(new Vacancy(++idVacancy, name, description,
-                            comp, skills.split("[,;]+") as
-                            ArrayList<String>))
+                            comp as Company, skillsList))
+                    sql.executeInsert("""
+                        INSERT INTO roles (NAME, DESCRIPTION, ID_COMPANY,
+                        DATE)
+                        VALUES ($name, $description, $comp.id, current_date)
+                    """)
 
+                    skillsList.each { skill ->
+                        def containsSkill = sql.firstRow("""
+                            SELECT id, COUNT(*)
+                            FROM skills
+                            WHERE description = $skill
+                            GROUP BY id
+                        """)
+
+                        def idSkill
+
+                        if (containsSkill != null && containsSkill.count > 0) {
+                            idSkill = containsSkill.id
+                        } else {
+                            def result = sql.firstRow("""
+                                INSERT INTO skills (DESCRIPTION) VALUES ($skill) RETURNING id
+                            """)
+                            idSkill = result.id
+                        }
+
+                        sql.executeInsert("""
+                            INSERT INTO roles_skills (ID_ROLE, ID_SKILL)
+                            VALUES ($idVacancy, $idSkill)
+                        """)
+                    }
                     println("Vaga criada com sucesso!")
                 }
                 else if (option == 6) {
@@ -212,7 +292,7 @@ class Main {
 
                     switch (choose) {
                         case "1":
-                            Company company = checkCompanyID(companies)
+                            Company company = checkCompanyID(dbHandler) as Company
 
                             if (company.getMatchVacancies().isEmpty())
                                 println("A sua empresa ainda não deu match")
@@ -309,15 +389,16 @@ class Main {
         return candi
     }
 
-    static Company checkCompanyID(ArrayList<Company>companies) {
+    static GroovyRowResult checkCompanyID(DBHandler db) {
         int index
-        Company comp
-
+        def comp = null
+        def sql = db.getSql()
+        def companies = sql.rows("SELECT * FROM companies")
         boolean idFind = true
         while (idFind) {
             index = getUserInputInt("Digite o id da sua empresa: ")
             companies.each { companie ->
-                if (companie.getId() == index) {
+                if (companie.id == index) {
                     comp = companie
                     idFind = false
                 }
