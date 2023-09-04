@@ -89,7 +89,9 @@ class Main {
                     ArrayList<String> skillsList = skills.split(',').collect { it.trim() }
                     candidates.add(new Candidate(++idCandidate, name, email, age,
                             state, description, cpf, cep))
-
+                    sql.executeInsert(""" 
+                            INSERT INTO candidates (NAME, CEP, CPF, STATE, AGE, DESCRIPTION, EMAIL, PASSWORD) VALUES ($name, $cep, $cpf, $state, $age, $description, $email, 'batatinha')
+                    """);
                     println("Cadastrado com sucesso")
                 }
                 else if (option == 4) {
@@ -99,15 +101,14 @@ class Main {
                     def country = getUserInput("País: ")
                     def description = getUserInput("Descrição: ")
                     def state = getUserInput("Estado: ")
-                    def skills = getUserInput("Habilidades (separadas por vírgula): ")
+//                    def skills = getUserInput("Habilidades (separadas por vírgula): ")
                     def cep = getUserInputInt("CEP: ")
 
-                    ArrayList<String> skillsList = skills.split(',').collect { it.trim() }
+//                    ArrayList<String> skillsList = skills.split(',').collect { it.trim() }
 
                     companies.add(new Company(++idCompany, name, email, cnpj,
                             country,
                             description, state, cep))
-
                     println("Cadastrado com sucesso")
                 }
                 else if(option == 5) {
