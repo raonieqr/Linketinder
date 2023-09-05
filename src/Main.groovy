@@ -1,12 +1,16 @@
 import db.DBHandler
-import entities.*
+import model.dao.impl.CandidateImpl
+import model.dao.impl.CompanyImpl
+import model.entities.*
 import groovy.sql.GroovyRowResult
-import groovy.sql.Sql
 
 class Main {
     static void main(String[] args) {
+
         def dbHandler = DBHandler.getInstance()
+
         try {
+
             def sql = dbHandler.getSql()
             def resultIdCompany = sql.firstRow("SELECT max(id) FROM companies")
             def resultIdCandidate = sql.firstRow("SELECT max(id) FROM " +
@@ -17,6 +21,7 @@ class Main {
                     "role_matching")
 
             println("Bem vindo ao LinkeTinder")
+
             int idCompany = resultIdCompany.max == null? 0: resultIdCompany.max
             int idCandidate = resultIdCandidate.max == null? 0:
                     resultIdCandidate.max
@@ -24,6 +29,8 @@ class Main {
             int idMatch = resultIdMatch.max == null? 0: resultIdMatch.max
             int option;
 
+            CandidateImpl candidateImpl = new CandidateImpl()
+            CompanyImpl companyImpl = new CompanyImpl()
             ArrayList<Candidate> candidates = new ArrayList<>()
             ArrayList<Company> companies = new ArrayList<>()
             ArrayList<Vacancy> vacancies = new ArrayList<>()
@@ -45,50 +52,29 @@ class Main {
                 option = Integer.parseInt(reader.readLine())
 
                 if (option == 1) {
-                    def viewAllCompanies = sql.rows("SELECT * FROM " +
-                            "companies")
-                    viewAllCompanies.each {companie ->
-                        println("Id:" + companie.id + " Nome:" + companie.
-                                name +
-                                " E-mail:" +
-                                companie.email + " Estado:" + companie.state +
-                                " País:" +
-                                companie.country)
-                        companies.add(new Company(companie.id as int, companie.name as String,
-                                companie.email as String, companie.cnpj as String, companie.
-                                country as String, companie.description as String, companie.
-                                state as String, companie.cep as int))
-                        println("---------------------------------------------------------------")
-                    }
+                    companyImpl.getAllCompanies(companies)
+                    if (companies.isEmpty())
+                        println("Não há empresas registradas")
+                    else
+                        companies.each {companie ->
+                            companie.showInfo()
+                        }
+                    println("---------------------------------------------------------------")
+
                 }
                 else if (option == 2) {
-                    def viewAllCandidates = sql.rows("SELECT * FROM " +
-                            "candidates")
-                    viewAllCandidates.each {candidate ->
-                        def viewCandidateSkill = sql.rows("SELECT " +
-                                "DISTINCT skills.description AS skill\n" +
-                                "FROM candidates\n" +
-                                "JOIN candidate_skills ON $candidate.id = " +
-                                "candidate_skills.id_candidate\n" +
-                                "JOIN skills ON candidate_skills.id_skill = skills.id")
-                        println("Id:" + candidate.id + " Nome:" + candidate.name +
-                                " E-mail:" +
-                                candidate.email + " Descrição: " + candidate.
-                                description + " " +
-                                "Estado:" +
-                                candidate.state +
-                                " Skills:" + viewCandidateSkill.skill.join("," +
-                                " "))
-                        candidates.add(new Candidate(candidate.id as int,
-                                candidate.name as String, candidate.email as
-                                String, viewCandidateSkill.skill as ArrayList<String>, candidate.
-                                age as int, candidate.state as String,
-                                candidate.description as String, candidate.
-                                cpf as String, candidate.cep as int))
-                        println("---------------------------------------------------------------")
-                    }
+                        candidateImpl.getAllCandidates(candidates)
+                        if (candidates.isEmpty())
+                            println("Não há candidatos cadastrados")
+                        else {
+                            candidates.each { candidate ->
+                                candidate.showInfo()
+                                println("---------------------------------------------------------------")
+                            }
+                        }
                 }
                 else if (option == 3) {
+
                     def name = getUserInput("Nome: ")
                     def email = getUserInput("E-mail: ")
                     def skills = getUserInput("Habilidades (separadas por vírgula): ")
@@ -100,37 +86,10 @@ class Main {
 
                     ArrayList<String> skillsList = skills.split("[,;]+").collect { it.trim() }
 
-                    candidates.add(new Candidate(++idCandidate, name, email, age, state, description, cpf, cep))
+                    Candidate candidate = new Candidate(++idCandidate, name, email, skillsList, age, state, description, cpf, cep)
+                    candidates.add(candidate)
 
-                    sql.executeInsert("""
-                        INSERT INTO candidates (NAME, CEP, CPF, STATE, AGE, DESCRIPTION, EMAIL, PASSWORD) 
-                        VALUES ($name, $cep, $cpf, $state, $age, $description, $email, 'batatinha')
-                    """)
-
-                    skillsList.each { skill ->
-                        def containsSkill = sql.firstRow("""
-                            SELECT id, COUNT(*)
-                            FROM skills 
-                            WHERE description = $skill
-                            GROUP BY id
-                        """)
-
-                        def idSkill
-
-                        if (containsSkill != null && containsSkill.count > 0) {
-                            idSkill = containsSkill.id
-                        } else {
-                            def result = sql.firstRow("""
-                                INSERT INTO skills (DESCRIPTION) VALUES ($skill) RETURNING id
-                            """)
-                            idSkill = result.id
-                        }
-
-                        sql.executeInsert("""
-                            INSERT INTO candidate_skills (ID_CANDIDATE, ID_SKILL) 
-                            VALUES ($idCandidate, $idSkill)
-                        """)
-                    }
+                    candidateImpl.insertCandidate(candidate)
 
                     println("Cadastrado com sucesso")
                 }
@@ -175,7 +134,7 @@ class Main {
                     sql.executeInsert("""
                         INSERT INTO roles (NAME, DESCRIPTION, ID_COMPANY,
                         DATE)
-                        VALUES ($name, $description, $comp.id, current_date)
+                        VALUES ($name, $description, $compDb.id, current_date)
                     """)
 
                     skillsList.each { skill ->

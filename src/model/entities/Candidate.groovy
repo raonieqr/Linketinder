@@ -1,4 +1,4 @@
-package entities
+package model.entities
 
 class Candidate extends Person {
     int id;
@@ -81,8 +81,8 @@ class Candidate extends Person {
 
     @Override
     void showInfo() {
-        println("name: $name, email: $super.email, cpf: $cpf, " +
-                "estado: $state, cep: $cep, descrição: $description, " +
-                "competências: $skills)")
+        def skill = skills.join(", ")
+        println("name: $name, email: $super.email, cpf: $cpf, estado: $state," +
+                " cep: $cep, descrição: $description, competências: $skill ")
     }
 }

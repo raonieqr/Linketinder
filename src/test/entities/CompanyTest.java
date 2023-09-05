@@ -1,6 +1,6 @@
 package test.entities;
 
-import entities.Company;
+import model.entities.Company;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
