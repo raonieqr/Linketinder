@@ -5,13 +5,11 @@ class MatchVacancy {
     Vacancy vacancy
     Candidate candidate
     boolean companyLiked
-    boolean candidateLiked
 
-    MatchVacancy(int id, Vacancy vacancy, Candidate candidate, boolean candidateLiked) {
+    MatchVacancy(int id, Vacancy vacancy, Candidate candidate) {
         this.id = id
         this.vacancy = vacancy
         this.candidate = candidate
-        this.candidateLiked = candidateLiked
         this.companyLiked = false
     }
 
@@ -63,7 +61,6 @@ class MatchVacancy {
                 ", vacancy=" + vacancy.toString() +
                 ", candidate=" + candidate.showInfo() +
                 ", companyLiked=" + companyLiked +
-                ", candidateLiked=" + candidateLiked +
                 '}';
     }
 }

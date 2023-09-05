@@ -3,7 +3,6 @@ import model.dao.impl.CandidateImpl
 import model.dao.impl.CompanyImpl
 import model.dao.impl.VacancyImpl
 import model.entities.*
-import groovy.sql.GroovyRowResult
 
 class Main {
     static void main(String[] args) {
@@ -132,7 +131,7 @@ class Main {
                             comp, skillsList)
 
                     vacancies.add(vacancy)
-
+                    // TODO: Capitalize in skills
                     vacancyImpl.insertVacancy(vacancy)
 
                     println("Vaga criada com sucesso!")
@@ -157,7 +156,7 @@ class Main {
                                 println("Ainda não há candidatos")
                             else {
                                 comp.getMatchVacancies().each {match ->
-                                    println("Id da vaga " + match.getVacancy().getId())
+                                    println("Id da vaga " + match.getId())
                                     println("Id do candidato " + match.
                                             getCandidate().getId())
                                     println("Descrição " + match.getCandidate().
@@ -175,6 +174,13 @@ class Main {
                                 MatchVacancy matchVacancy = checkMatchVacancyID(candi.getMatchVacancies())
 
                                 comp.getMatchVacancies().find { it.getId() == matchVacancy.getId() }?.setCompanyLiked(true)
+
+                                sql.executeInsert("""
+                                    UPDATE role_matching
+                                    SET companymatched = true
+                                    WHERE id = ${matchVacancy.getId()}
+                                """)
+
                                 println("Match realizado!")
                             }
                             break
@@ -199,7 +205,13 @@ class Main {
 
                                 Vacancy vacancy = checkVacancyID(vacancies)
                                 MatchVacancy match = new MatchVacancy(++idMatch,
-                                        vacancy, candi, true)
+                                        vacancy, candi)
+
+                                sql.executeInsert("""
+                                    INSERT INTO role_matching (ID_CANDIDATE, 
+                                    ID_ROLE) VALUES (${candi.getId()}, 
+                                    ${vacancy.getId()})
+                                """)
 
                                 candi.getMatchVacancies().add(match)
 
