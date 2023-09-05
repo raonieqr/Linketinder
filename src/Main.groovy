@@ -1,6 +1,7 @@
 import db.DBHandler
 import model.dao.impl.CandidateImpl
 import model.dao.impl.CompanyImpl
+import model.dao.impl.VacancyImpl
 import model.entities.*
 import groovy.sql.GroovyRowResult
 
@@ -30,12 +31,16 @@ class Main {
 
             CandidateImpl candidateImpl = new CandidateImpl()
             CompanyImpl companyImpl = new CompanyImpl()
+            VacancyImpl vacancyImpl = new VacancyImpl()
+
             ArrayList<Candidate> candidates = new ArrayList<>()
             ArrayList<Company> companies = new ArrayList<>()
             ArrayList<Vacancy> vacancies = new ArrayList<>()
 
-            println("Bem vindo ao LinkeTinder")
+            candidateImpl.getAllCandidates(candidates)
+            companyImpl.getAllCompanies(companies)
 
+            println("Bem vindo ao LinkeTinder")
 
             BufferedReader reader = new BufferedReader(new InputStreamReader
                     (System.in))
@@ -54,7 +59,6 @@ class Main {
                 option = Integer.parseInt(reader.readLine())
 
                 if (option == 1) {
-                    companyImpl.getAllCompanies(companies)
                     if (companies.isEmpty())
                         println("Não há empresas registradas")
                     else
@@ -66,7 +70,6 @@ class Main {
 
                 }
                 else if (option == 2) {
-                        candidateImpl.getAllCandidates(candidates)
                         if (candidates.isEmpty())
                             println("Não há candidatos cadastrados")
                         else {
@@ -90,7 +93,8 @@ class Main {
 
                     ArrayList<String> skillsList = skills.split("[,;]+").collect { it.trim() }
 
-                    Candidate candidate = new Candidate(++idCandidate, name, email, skillsList, age, state, description, cpf, cep)
+                    Candidate candidate = new Candidate(++idCandidate, name,
+                            email, skillsList, age, state, description, cpf, cep)
                     candidates.add(candidate)
 
                     candidateImpl.insertCandidate(candidate)
@@ -106,62 +110,31 @@ class Main {
                     def state = getUserInput("Estado: ")
                     def cep = getUserInputInt("CEP: ")
 
-                    Company company = new Company(++idCompany, name, email, cnpj,
-                            country,
-                            description, state, cep)
+                    Company company = new Company(++idCompany, name, email,
+                            cnpj, country, description, state, cep)
 
                     companies.add(company)
 
                     companyImpl.insertCompany(company)
+
                     println("Cadastrado com sucesso")
                 }
                 else if(option == 5) {
-                    def compDb =  checkCompanyID(dbHandler)
-
-                    Company comp = new Company(compDb.id as int, compDb.name as
-                            String,
-                            compDb.email as String, compDb.cnpj as String, compDb.
-                            country as String, compDb.description as String,
-                            compDb.
-                            state as String, compDb.cep as int)
+                    Company comp =  checkCompanyID(companies)
 
                     String name = getUserInput("Qual nome da vaga? ")
                     String description = getUserInput("Qual descrição da vaga? ")
                     String skills = getUserInput("Quais skills necessárias? ")
 
                     ArrayList<String> skillsList = skills.split("[,;]+")
-                    vacancies.add(new Vacancy(++idVacancy, name, description,
-                            comp as Company, skillsList))
-                    sql.executeInsert("""
-                        INSERT INTO roles (NAME, DESCRIPTION, ID_COMPANY,
-                        DATE)
-                        VALUES ($name, $description, $compDb.id, current_date)
-                    """)
 
-                    skillsList.each { skill ->
-                        def containsSkill = sql.firstRow("""
-                            SELECT id, COUNT(*)
-                            FROM skills
-                            WHERE description = $skill
-                            GROUP BY id
-                        """)
+                    Vacancy vacancy = new Vacancy(++idVacancy, name, description,
+                            comp, skillsList)
 
-                        def idSkill
+                    vacancies.add(vacancy)
 
-                        if (containsSkill != null && containsSkill.count > 0) {
-                            idSkill = containsSkill.id
-                        } else {
-                            def result = sql.firstRow("""
-                                INSERT INTO skills (DESCRIPTION) VALUES ($skill) RETURNING id
-                            """)
-                            idSkill = result.id
-                        }
+                    vacancyImpl.insertVacancy(vacancy)
 
-                        sql.executeInsert("""
-                            INSERT INTO roles_skills (ID_ROLE, ID_SKILL)
-                            VALUES ($idVacancy, $idSkill)
-                        """)
-                    }
                     println("Vaga criada com sucesso!")
                 }
                 else if (option == 6) {
@@ -349,16 +322,15 @@ class Main {
         return candi
     }
 
-    static GroovyRowResult checkCompanyID(DBHandler db) {
+    static Company checkCompanyID(ArrayList<Company> companies) {
         int index
-        def comp = null
-        def sql = db.getSql()
-        def companies = sql.rows("SELECT * FROM companies")
+        Company comp
+
         boolean idFind = true
         while (idFind) {
             index = getUserInputInt("Digite o id da sua empresa: ")
             companies.each { companie ->
-                if (companie.id == index) {
+                if (companie.getId() == index) {
                     comp = companie
                     idFind = false
                 }
