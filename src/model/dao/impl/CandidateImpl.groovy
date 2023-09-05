@@ -24,13 +24,16 @@ class CandidateImpl implements  CandidateDAO{
                         JOIN skills ON candidate_skills.id_skill = skills.id
                     """)
 
-                    candidates.add(new Candidate(candidate.id as int,
+                    Candidate candi = new Candidate(candidate.id as int,
                             candidate.name as String, candidate.email as
                             String, viewCandidateSkill.skill as ArrayList<String>,
                             candidate.age as int, candidate.state as String,
                             candidate.description as String, candidate.
                             cpf as String, candidate.cep as int)
-                    )
+
+                    // TODO: implement get match in bd
+//                    candi.getMatchVacancies().add()
+                    candidates.add(candi)
                 }
             }
         }

@@ -191,13 +191,25 @@ class Main {
                             if (vacancies.isEmpty())
                                 println("Não existem vagas no momento")
                             else {
+
+                                boolean containsVacancie = false
                                 vacancies.each {vacancie ->
-                                    println("Id da vaga: " + vacancie.getId())
-                                    println("Titulo: " + vacancie.getName())
-                                    println("Descrição: " + vacancie.getDescription())
-                                    println("Skills:")
-                                    println(vacancie.getSkills().join(", "))
-                                    println("------------------------------")
+
+                                    candi.getMatchVacancies().each { matchingVacancy ->
+                                        if (matchingVacancy.getVacancy().getId() == vacancie.getId()) {
+                                            containsVacancie = true
+                                            return
+                                        }
+                                    }
+                                    if (!containsVacancie) {
+                                        println("Id da vaga: " + vacancie.getId())
+                                        println("Titulo: " + vacancie.getName())
+                                        println("Descrição: " + vacancie.getDescription())
+                                        println("Skills:")
+                                        println(vacancie.getSkills().join(", "))
+                                        println("------------------------------")
+
+                                    }
                                 }
 
                                 Vacancy vacancy = checkVacancyID(vacancies)
