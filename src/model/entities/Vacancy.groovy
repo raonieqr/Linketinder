@@ -12,7 +12,7 @@ class Vacancy {
         this.name = name
         this.description = description
         this.company = company
-        this.skills = skills.collect(skill -> skill.trim())
+        this.skills = skills
     }
 
     int getId() {

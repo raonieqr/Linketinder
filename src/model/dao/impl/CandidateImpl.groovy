@@ -31,7 +31,6 @@ class CandidateImpl implements  CandidateDAO{
                             candidate.description as String, candidate.
                             cpf as String, candidate.cep as int)
                     )
-
                 }
             }
         }

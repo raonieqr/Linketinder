@@ -21,6 +21,7 @@ class Company extends Person {
         this.cep = cep
     }
 
+
     int getId() {
         return id
     }

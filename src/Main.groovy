@@ -38,6 +38,7 @@ class Main {
 
             candidateImpl.getAllCandidates(candidates)
             companyImpl.getAllCompanies(companies)
+            vacancyImpl.getAllVacancy(vacancies, companies)
 
             println("Bem vindo ao LinkeTinder")
 
@@ -162,16 +163,15 @@ class Main {
                                     println("Descrição " + match.getCandidate().
                                             getDescription())
                                     println("Skills:")
-                                    match.getCandidate().getSkills().each
-                                    {skill ->
-                                        print(skill + " ")
-                                    }
-                                    println()
+                                    println(match.getCandidate().getSkills()
+                                            .join(", "))
                                     println("------------------------------")
                                 }
                                 Candidate candi = checkCandidateID(candidates)
 
-                                MatchVacancy matchVacancy = checkMatchVacancyID(candi.getMatchVacancies())
+                                MatchVacancy matchVacancy =
+                                        checkMatchVacancyID(candi.
+                                                getMatchVacancies(), candidates)
 
                                 comp.getMatchVacancies().find { it.getId() == matchVacancy.getId() }?.setCompanyLiked(true)
 
@@ -196,10 +196,7 @@ class Main {
                                     println("Titulo: " + vacancie.getName())
                                     println("Descrição: " + vacancie.getDescription())
                                     println("Skills:")
-                                    vacancie.getSkills().each {skill ->
-                                        print(skill + " ")
-                                    }
-                                    println()
+                                    println(vacancie.getSkills().join(", "))
                                     println("------------------------------")
                                 }
 
@@ -274,12 +271,18 @@ class Main {
         }
     }
 
-    static MatchVacancy checkMatchVacancyID(ArrayList<MatchVacancy> matches) {
+    static MatchVacancy checkMatchVacancyID(ArrayList<MatchVacancy> matches,
+                                            ArrayList<Candidate> candidates) {
         int index
         MatchVacancy matc
 
         boolean idFind = true
+        boolean isCandidate = true
         while (idFind) {
+            if (!isCandidate) {
+                def candi = checkCandidateID(candidates)
+                matches = candi.getMatchVacancies()
+            }
             index = getUserInputInt("Digite o id da vaga: ")
             matches.each { match ->
                 if (match.getId() == index) {
@@ -287,9 +290,11 @@ class Main {
                     idFind = false
                 }
             }
-            if (matc == null)
+            if (matc == null) {
                 println("Error: Match não encontrado. Tente " +
                         "novamente")
+                isCandidate = false
+            }
         }
         return matc
     }
