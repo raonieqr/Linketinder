@@ -20,7 +20,6 @@ class Main {
             def resultIdMatch = sql.firstRow("SELECT max(id) FROM " +
                     "role_matching")
 
-            println("Bem vindo ao LinkeTinder")
 
             int idCompany = resultIdCompany.max == null? 0: resultIdCompany.max
             int idCandidate = resultIdCandidate.max == null? 0:
@@ -34,6 +33,9 @@ class Main {
             ArrayList<Candidate> candidates = new ArrayList<>()
             ArrayList<Company> companies = new ArrayList<>()
             ArrayList<Vacancy> vacancies = new ArrayList<>()
+
+            println("Bem vindo ao LinkeTinder")
+
 
             BufferedReader reader = new BufferedReader(new InputStreamReader
                     (System.in))
@@ -58,8 +60,9 @@ class Main {
                     else
                         companies.each {companie ->
                             companie.showInfo()
+                            println("-------------------------------------" +
+                                    "--------------------------")
                         }
-                    println("---------------------------------------------------------------")
 
                 }
                 else if (option == 2) {
@@ -69,7 +72,8 @@ class Main {
                         else {
                             candidates.each { candidate ->
                                 candidate.showInfo()
-                                println("---------------------------------------------------------------")
+                                println("-----------------------------------" +
+                                        "----------------------------")
                             }
                         }
                 }
@@ -102,16 +106,13 @@ class Main {
                     def state = getUserInput("Estado: ")
                     def cep = getUserInputInt("CEP: ")
 
-
-                    companies.add(new Company(++idCompany, name, email, cnpj,
+                    Company company = new Company(++idCompany, name, email, cnpj,
                             country,
-                            description, state, cep))
-                    sql.executeInsert("""
-                        INSERT INTO companies (NAME, CEP, CNPJ, STATE, 
-                        DESCRIPTION, EMAIL, COUNTRY, PASSWORD) 
-                        VALUES ($name, $cep, $cnpj, $state, $description,
-                        $email, $country, 'batatinha')
-                    """)
+                            description, state, cep)
+
+                    companies.add(company)
+
+                    companyImpl.insertCompany(company)
                     println("Cadastrado com sucesso")
                 }
                 else if(option == 5) {

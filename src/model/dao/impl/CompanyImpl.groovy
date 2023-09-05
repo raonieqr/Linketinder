@@ -31,5 +31,18 @@ class CompanyImpl implements CompanyDAO{
 
     @Override
     void insertCompany(Company company) {
+        try {
+            sql.executeInsert("""
+                INSERT INTO companies (NAME, CEP, CNPJ, STATE, 
+                DESCRIPTION, EMAIL, COUNTRY, PASSWORD) 
+                VALUES (${company.getName()}, ${company.getCep()},
+                ${company.getCnpj()}, ${company.getState()},
+                ${company.getDescription()}, ${company.getEmail()},
+                ${company.getCountry()}, 'batatinha')
+            """)
+        }
+        catch (Exception e) {
+            e.printStackTrace()
+        }
     }
 }
