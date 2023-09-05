@@ -3,13 +3,16 @@ package model.dao.impl
 import db.DBHandler
 import model.dao.CandidateDAO
 import model.entities.Candidate
+import model.entities.MatchVacancy
+import model.entities.Vacancy
 
 class CandidateImpl implements  CandidateDAO{
     def dbHandler = DBHandler.getInstance()
     def sql = dbHandler.getSql()
 
     @Override
-    void getAllCandidates(ArrayList<Candidate> candidates) {
+    void getAllCandidates(ArrayList<Candidate> candidates,
+                          ArrayList<Vacancy> vacancies) {
         try {
 
             def viewAllCandidates =
@@ -32,7 +35,26 @@ class CandidateImpl implements  CandidateDAO{
                             cpf as String, candidate.cep as int)
 
                     // TODO: implement get match in bd
-//                    candi.getMatchVacancies().add()
+                    def getMatchCandidate = sql.rows("""
+                        SELECT rm.id, rm.id_role, rm.id_candidate, rm.companymatched
+                        FROM role_matching AS rm
+                        JOIN roles on rm.id_role = roles.id
+                        WHERE id_candidate = ${candidate.id}
+                    """)
+
+                    getMatchCandidate.each {row ->
+                        vacancies.each {vacancy ->
+                            if (vacancy.getId() == row.id_role) {
+                                MatchVacancy match = new MatchVacancy
+                                        (row.id as int, vacancy,
+                                                candi)
+                                match.setCompanyLiked(row
+                                        .companymatched as boolean)
+                                println(match.getCandidate().getName())
+                                candi.getMatchVacancies().add(match)
+                            }
+                        }
+                    }
                     candidates.add(candi)
                 }
             }

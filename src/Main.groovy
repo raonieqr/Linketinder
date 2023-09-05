@@ -36,9 +36,10 @@ class Main {
             ArrayList<Company> companies = new ArrayList<>()
             ArrayList<Vacancy> vacancies = new ArrayList<>()
 
-            candidateImpl.getAllCandidates(candidates)
             companyImpl.getAllCompanies(companies)
             vacancyImpl.getAllVacancy(vacancies, companies)
+            candidateImpl.getAllCandidates(candidates, vacancies)
+
 
             println("Bem vindo ao LinkeTinder")
 

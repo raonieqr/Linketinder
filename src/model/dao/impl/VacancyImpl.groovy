@@ -33,19 +33,17 @@ class VacancyImpl implements VacancyDAO{
                         roles_skills.id_role = $id;
                 """)
 
-                def comp
+                Company comp
 
                 companies.each { company ->
                     if (company.getId() == vacancy.id_company as int) {
-                        comp = company as Company
+                        comp = new Company(company.id as int, company.name as String, company.email as String, company.cnpj as String, company.country as String, company.description as String, company.state as String, company.cep as int)
                     }
                 }
 
-                if (comp != null)
-                    vacancies.add(new Vacancy(vacancy.id as int,
-                            vacancy.name as String, vacancy.description as String,
-                            comp as Company, viewAllSkill.description as
-                            ArrayList<String>))
+                if (comp != null && comp) {
+                    vacancies.add(new Vacancy(vacancy.id as int, vacancy.name as String, vacancy.description as String, comp, viewAllSkill.description as ArrayList<String>))
+                }
             }
         }
     }

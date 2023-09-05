@@ -13,13 +13,14 @@ class CompanyImpl implements CompanyDAO{
         try {
 
             def viewAllCompanies = sql.rows("SELECT * FROM companies")
-            if (viewAllCompanies) {
+            if (!viewAllCompanies.isEmpty()) {
                 viewAllCompanies.each {companie ->
-                    companies.add(new Company(companie.id as int,
-                        companie.name as String, companie.email as String,
-                        companie.cnpj as String, companie.country as String,
-                        companie.description as String,
-                        companie.state as String, companie.cep as int)
+                    if (companie.name != null)
+                        companies.add(new Company(companie.id as int,
+                            companie.name as String, companie.email as String,
+                            companie.cnpj as String, companie.country as String,
+                            companie.description as String,
+                            companie.state as String, companie.cep as int)
                     )
                 }
             }

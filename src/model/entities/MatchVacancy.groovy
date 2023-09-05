@@ -49,9 +49,6 @@ class MatchVacancy {
         return candidateLiked
     }
 
-    void setCandidateLiked(boolean candidateLiked) {
-        this.candidateLiked = candidateLiked
-    }
 
 
     @Override
