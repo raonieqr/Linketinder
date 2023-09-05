@@ -50,7 +50,6 @@ class CandidateImpl implements  CandidateDAO{
                                                 candi)
                                 match.setCompanyLiked(row
                                         .companymatched as boolean)
-                                println(match.getCandidate().getName())
                                 candi.getMatchVacancies().add(match)
                             }
                         }

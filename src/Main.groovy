@@ -3,6 +3,7 @@ import model.dao.impl.CandidateImpl
 import model.dao.impl.CompanyImpl
 import model.dao.impl.VacancyImpl
 import model.entities.*
+import org.junit.jupiter.engine.discovery.predicates.IsNestedTestClass
 
 class Main {
     static void main(String[] args) {
@@ -36,9 +37,6 @@ class Main {
             ArrayList<Company> companies = new ArrayList<>()
             ArrayList<Vacancy> vacancies = new ArrayList<>()
 
-            companyImpl.getAllCompanies(companies)
-            vacancyImpl.getAllVacancy(vacancies, companies)
-            candidateImpl.getAllCandidates(candidates, vacancies)
 
 
             println("Bem vindo ao LinkeTinder")
@@ -46,6 +44,10 @@ class Main {
             BufferedReader reader = new BufferedReader(new InputStreamReader
                     (System.in))
             while (option != 8) {
+
+                companyImpl.getAllCompanies(companies)
+                vacancyImpl.getAllVacancy(vacancies, companies)
+                candidateImpl.getAllCandidates(candidates, vacancies)
 
                 println("Escolha um dos comandos abaixo:")
                 println("1 - Listar empresas")
@@ -189,46 +191,76 @@ class Main {
                         case "2":
                             Candidate candi = checkCandidateID(candidates)
 
-                            if (vacancies.isEmpty())
+                            if (vacancies.isEmpty()) {
                                 println("Não existem vagas no momento")
-                            else {
+                            } else {
 
-                                boolean containsVacancie = false
-                                vacancies.each {vacancie ->
+                                boolean allVacanciesLiked = true
+                                ArrayList<Integer> printedVacancyIds = new ArrayList<>()
+                                Set<Integer> idsLikeds = new HashSet<>();
+
+                                vacancies.each { vacancie ->
+                                    boolean containsVacancie = false
 
                                     candi.getMatchVacancies().each { matchingVacancy ->
-                                        if (matchingVacancy.getVacancy().getId() == vacancie.getId()) {
+                                        if (matchingVacancy.getVacancy().
+                                                getId() == vacancie.getId()) {
+                                            idsLikeds.add(vacancie.getId())
                                             containsVacancie = true
                                             return
                                         }
                                     }
-                                    if (!containsVacancie) {
+
+                                    if (!containsVacancie && !printedVacancyIds.contains(vacancie.getId())) {
+                                        allVacanciesLiked = false
+                                        printedVacancyIds.add(vacancie.getId())
                                         println("Id da vaga: " + vacancie.getId())
                                         println("Titulo: " + vacancie.getName())
                                         println("Descrição: " + vacancie.getDescription())
                                         println("Skills:")
                                         println(vacancie.getSkills().join(", "))
                                         println("------------------------------")
-
                                     }
                                 }
 
-                                Vacancy vacancy = checkVacancyID(vacancies)
-                                MatchVacancy match = new MatchVacancy(++idMatch,
-                                        vacancy, candi)
+                                if (allVacanciesLiked) {
+                                    println("Você já curtiu todas as vagas disponíveis.")
+                                } else {
 
-                                sql.executeInsert("""
-                                    INSERT INTO role_matching (ID_CANDIDATE, 
-                                    ID_ROLE) VALUES (${candi.getId()}, 
-                                    ${vacancy.getId()})
-                                """)
+                                    boolean containsNumber = true
 
-                                candi.getMatchVacancies().add(match)
+                                    Vacancy vacancy
+                                    while (containsNumber) {
+                                        containsNumber = false
+                                        vacancy = checkVacancyID(vacancies)
+                                        for (Integer id : idsLikeds) {
+                                            if (id.equals(vacancy.getId())) {
+                                                containsNumber = true
+                                                println("Você só pode curtir " +
+                                                        "as vagas que estão " +
+                                                        "na lista")
+                                                break
+                                            }
+                                        }
+                                    }
 
-                                vacancy.getCompany().getMatchVacancies().add(match)
-                                println("Vaga curtida!")
+                                    if (vacancy != null && !containsNumber) {
+                                        MatchVacancy match = new MatchVacancy(++idMatch, vacancy, candi)
+
+                                        sql.executeInsert("""
+                                            INSERT INTO role_matching (ID_CANDIDATE, ID_ROLE)
+                                            VALUES (${candi.getId()}, ${vacancy.getId()})
+                                        """)
+
+                                        candi.getMatchVacancies().add(match)
+                                        println("Vaga curtida!")
+                                    }
+                                }
                             }
-                            break
+
+
+
+
                     }
                 }
                 else if (option == 7) {
