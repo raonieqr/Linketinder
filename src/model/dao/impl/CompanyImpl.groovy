@@ -11,7 +11,6 @@ class CompanyImpl implements CompanyDAO{
     @Override
     void getAllCompanies(ArrayList<Company> companies) {
         try {
-
             def viewAllCompanies = sql.rows("SELECT * FROM companies")
             if (!viewAllCompanies.isEmpty()) {
                 viewAllCompanies.each {companie ->

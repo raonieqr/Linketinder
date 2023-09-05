@@ -45,6 +45,10 @@ class Main {
                     (System.in))
             while (option != 8) {
 
+                companies.clear()
+                vacancies.clear()
+                candidates.clear()
+
                 companyImpl.getAllCompanies(companies)
                 vacancyImpl.getAllVacancy(vacancies, companies)
                 candidateImpl.getAllCandidates(candidates, vacancies)
@@ -191,9 +195,9 @@ class Main {
                         case "2":
                             Candidate candi = checkCandidateID(candidates)
 
-                            if (vacancies.isEmpty()) {
+                            if (vacancies.isEmpty())
                                 println("Não existem vagas no momento")
-                            } else {
+                            else {
 
                                 boolean allVacanciesLiked = true
                                 ArrayList<Integer> printedVacancyIds = new ArrayList<>()
@@ -223,9 +227,9 @@ class Main {
                                     }
                                 }
 
-                                if (allVacanciesLiked) {
+                                if (allVacanciesLiked)
                                     println("Você já curtiu todas as vagas disponíveis.")
-                                } else {
+                                else {
 
                                     boolean containsNumber = true
 
@@ -258,9 +262,6 @@ class Main {
                                 }
                             }
 
-
-
-
                     }
                 }
                 else if (option == 7) {
@@ -286,6 +287,9 @@ class Main {
                             else
                                 company.getMatchVacancies().
                                         each {matches ->
+                                            print("Vaga: " + matches.
+                                                    getVacancy().
+                                                    getName() + ", ")
                                             matches.getCandidate().showInfo()
                                         }
                             break
@@ -296,6 +300,9 @@ class Main {
 
                             candi.getMatchVacancies().each {match ->
                                 if (match.companyLiked) {
+                                    print("Vaga: " + match.
+                                            getVacancy().
+                                            getName() + ", ")
                                     match.getVacancy().getCompany().showInfo()
                                     isMatch = true
                                 }
