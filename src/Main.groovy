@@ -162,15 +162,15 @@ class Main {
                     switch (choose){
                         case "1":
                             Company comp =  checkCompanyID(companies)
-                            println(comp.getMatchVacancies())
                             if (comp.getMatchVacancies().isEmpty())
                                 println("Ainda não há candidatos")
                             else {
                                 comp.getMatchVacancies().each {match ->
-                                    println("Id da vaga " + match.getId())
-                                    println("Id do candidato " + match.
+                                    println("Id da vaga: " + match.getId())
+                                    println("Id do candidato: " + match.
                                             getCandidate().getId())
-                                    println("Descrição " + match.getCandidate().
+                                    println("Descrição: " + match.
+                                            getCandidate().
                                             getDescription())
                                     println("Skills:")
                                     println(match.getCandidate().getSkills()
