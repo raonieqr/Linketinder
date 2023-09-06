@@ -100,7 +100,8 @@ class Main {
                     def cpf = getUserInput("CPF: ")
                     def cep = getUserInputInt("CEP: ")
 
-                    ArrayList<String> skillsList = skills.split("[,;]+").collect { it.trim() }
+                    ArrayList<String> skillsList = skills.split("[,;\\s]+")
+                    skillsList = skillsList.collect { it.capitalize() }
 
                     Candidate candidate = new Candidate(++idCandidate, name,
                             email, skillsList, age, state, description, cpf, cep)
@@ -135,7 +136,8 @@ class Main {
                     String description = getUserInput("Qual descrição da vaga? ")
                     String skills = getUserInput("Quais skills necessárias? ")
 
-                    ArrayList<String> skillsList = skills.split("[,;]+")
+                    ArrayList<String> skillsList = skills.split("[,;\\s]+")
+                    skillsList = skillsList.collect { it.capitalize() }
 
                     Vacancy vacancy = new Vacancy(++idVacancy, name, description,
                             comp, skillsList)
