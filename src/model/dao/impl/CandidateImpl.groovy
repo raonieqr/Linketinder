@@ -57,7 +57,6 @@ class CandidateImpl implements  CandidateDAO{
                 }
             }
         }
-        //TODO: change exception
         catch (Exception e) {
             e.printStackTrace()
         }

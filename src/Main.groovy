@@ -1,6 +1,7 @@
 import db.DBHandler
 import model.dao.impl.CandidateImpl
 import model.dao.impl.CompanyImpl
+import model.dao.impl.MatchVacancyImpl
 import model.dao.impl.VacancyImpl
 import model.entities.*
 import org.junit.jupiter.engine.discovery.predicates.IsNestedTestClass
@@ -32,12 +33,11 @@ class Main {
             CandidateImpl candidateImpl = new CandidateImpl()
             CompanyImpl companyImpl = new CompanyImpl()
             VacancyImpl vacancyImpl = new VacancyImpl()
+            MatchVacancyImpl matchVacancyImpl = new MatchVacancy()
 
             ArrayList<Candidate> candidates = new ArrayList<>()
             ArrayList<Company> companies = new ArrayList<>()
             ArrayList<Vacancy> vacancies = new ArrayList<>()
-
-
 
             println("Bem vindo ao LinkeTinder")
 
@@ -143,7 +143,6 @@ class Main {
                             comp, skillsList)
 
                     vacancies.add(vacancy)
-                    // TODO: Capitalize in skills
                     vacancyImpl.insertVacancy(vacancy)
 
                     println("Vaga criada com sucesso!")
@@ -187,11 +186,7 @@ class Main {
 
                                 comp.getMatchVacancies().find { it.getId() == matchVacancy.getId() }?.setCompanyLiked(true)
 
-                                sql.executeInsert("""
-                                    UPDATE role_matching
-                                    SET companymatched = true
-                                    WHERE id = ${matchVacancy.getId()}
-                                """)
+                                matchVacancyImpl.updateLikedCompany(matchVacancy)
 
                                 println("Match realizado!")
                             }
@@ -256,10 +251,8 @@ class Main {
                                     if (vacancy != null && !containsNumber) {
                                         MatchVacancy match = new MatchVacancy(++idMatch, vacancy, candi)
 
-                                        sql.executeInsert("""
-                                            INSERT INTO role_matching (ID_CANDIDATE, ID_ROLE)
-                                            VALUES (${candi.getId()}, ${vacancy.getId()})
-                                        """)
+                                        matchVacancyImpl
+                                           .insertCandidateLiked(candi, vacancy)
 
                                         candi.getMatchVacancies().add(match)
                                         println("Vaga curtida!")
