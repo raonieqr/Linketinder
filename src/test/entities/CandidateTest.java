@@ -1,6 +1,6 @@
 package test.entities;
 
-import entities.Candidate;
+import model.entities.Candidate;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

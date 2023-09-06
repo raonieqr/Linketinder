@@ -1,239 +1,343 @@
-import entities.*
+import db.DBHandler
+import model.dao.impl.CandidateImpl
+import model.dao.impl.CompanyImpl
+import model.dao.impl.VacancyImpl
+import model.entities.*
+import org.junit.jupiter.engine.discovery.predicates.IsNestedTestClass
 
 class Main {
     static void main(String[] args) {
-        println("Bem vindo ao LinkeTinder")
-        int idCompany = 5
-        int idCandidate = 5
-        int idVacancy = 0
-        int idMatch = 0
-        int option;
 
-        ArrayList<Candidate> candidates = new ArrayList<>()
-        ArrayList<Company> companies = new ArrayList<>()
-        ArrayList<Vacancy> vacancies = new ArrayList<>()
+        def dbHandler = DBHandler.getInstance()
 
-        candidates.add(new Candidate(1, "Raoni", "raoniestevan@gmail.com",
-                ["C", "C++", "Java", "Python"], 25, "RJ", "Desenvolvedor", "12344566701", 22785055))
-        candidates.add(new Candidate(2, "Alice", "alice@example.com",
-                ["Python", "Java", "HTML", "CSS"], 28, "SP", "Web Developer", "987654321", 12345678))
-        candidates.add(new Candidate(3,"Bob", "bob@example.com", ["Java",
-                                                                 "JavaScript", "SQL", "React"], 30, "MG", "Full Stack Developer", "555555555", 54321098))
-        candidates.add(new Candidate(4, "Eva", "eva@example.com", ["Ruby",
-                                                                 "PHP", "Swift", "Kotlin"], 22, "RS", "Mobile Developer", "111111111", 98765432))
-        candidates.add(new Candidate(5, "Carlos", "carlos@example.com",
-                ["Python", "C#", "Unity", "Game Development"], 26, "BA", "Game Developer", "222222222", 11223344))
+        try {
 
-        companies.add(new Company(1, "ZG", "zg@zg.com.br", "12345678945567",
-                "Brasil", "Desenvolvedor Java", "GO", ["Java", "Groovy"], 70806000))
-        companies.add(new Company(2, "TechCorp", "info@techcorp.com",
-                "98765432101234", "USA", "Web Developer", "CA", ["JavaScript", "HTML", "CSS"], 90210))
-        companies.add(new Company(3, "InnovateTech", "contact@innovatetech." +
-                "com", "55555555556789", "Canada", "Full Stack Developer", "ON", ["Java", "Python", "Angular"], 54321098))
-        companies.add(new Company(4, "GameWorld", "info@gameworld.com",
-                "11111111234567", "Brazil", "Game Developer", "SP", ["Unity", "C#", "Game Development"], 12345678))
-        companies.add(new Company(15,"SoftSys", "contact@softsys.com",
-                "22222222345678", "USA", "Software Engineer", "NY", ["Java", "Python", "SQL"], 10001))
+            def sql = dbHandler.getSql()
+            def resultIdCompany = sql.firstRow("SELECT max(id) FROM companies")
+            def resultIdCandidate = sql.firstRow("SELECT max(id) FROM " +
+                    "candidates")
+            def resultIdVacancy = sql.firstRow("SELECT max(id) FROM " +
+                    "roles")
+            def resultIdMatch = sql.firstRow("SELECT max(id) FROM " +
+                    "role_matching")
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader
-                (System.in))
-        while (option != 8) {
 
-            println("Escolha um dos comandos abaixo:")
-            println("1 - Listar empresas")
-            println("2 - Listar candidatos")
-            println("3 - Adicionar novo candidato")
-            println("4 - Adicionar nova empresa")
-            println("5 - Criar vaga para empresa");
-            println("6 - Curtir vaga");
-            println("7 - Visualizar matches");
-            println("8 - Sair")
+            int idCompany = resultIdCompany.max == null? 0: resultIdCompany.max
+            int idCandidate = resultIdCandidate.max == null? 0:
+                    resultIdCandidate.max
+            int idVacancy = resultIdVacancy.max == null? 0: resultIdVacancy.max
+            int idMatch = resultIdMatch.max == null? 0: resultIdMatch.max
+            int option;
 
-            option = Integer.parseInt(reader.readLine())
+            CandidateImpl candidateImpl = new CandidateImpl()
+            CompanyImpl companyImpl = new CompanyImpl()
+            VacancyImpl vacancyImpl = new VacancyImpl()
 
-            if (option == 1) {
-                companies.each { companie ->
-                    companie.showInfo()
-                }
-            }
-            else if (option == 2) {
-                candidates.each { candidate ->
-                    candidate.showInfo()
-                }
-            }
-            else if (option == 3) {
-                def name = getUserInput("Nome: ")
-                def email = getUserInput("E-mail: ")
-                def skills = getUserInput("Habilidades (separadas por vírgula): ")
-                def age = getUserInputInt("Idade: ")
-                def state = getUserInput("Estado: ")
-                def description = getUserInput("Descrição: ")
-                def cpf = getUserInput("CPF: ")
-                def cep = getUserInputInt("CEP: ")
+            ArrayList<Candidate> candidates = new ArrayList<>()
+            ArrayList<Company> companies = new ArrayList<>()
+            ArrayList<Vacancy> vacancies = new ArrayList<>()
 
-                ArrayList<String> skillsList = skills.split(',').collect { it.trim() }
-                candidates.add(new Candidate(++idCandidate, name, email,
-                        skillsList, age,
-                        state, description, cpf, cep))
 
-                println("Cadastrado com sucesso")
-            }
-            else if (option == 4) {
-                def name = getUserInput("Nome: ")
-                def email = getUserInput("E-mail: ")
-                def cnpj = getUserInput("Cnpj: ")
-                def country = getUserInput("País: ")
-                def description = getUserInput("Descrição: ")
-                def state = getUserInput("Estado: ")
-                def skills = getUserInput("Habilidades (separadas por vírgula): ")
-                def cep = getUserInputInt("CEP: ")
 
-                ArrayList<String> skillsList = skills.split(',').collect { it.trim() }
+            println("Bem vindo ao LinkeTinder")
 
-                companies.add(new Company(++idCompany, name, email, cnpj,
-                        country,
-                        description, state, skillsList, cep))
+            BufferedReader reader = new BufferedReader(new InputStreamReader
+                    (System.in))
+            while (option != 8) {
 
-                println("Cadastrado com sucesso")
-            }
-            else if(option == 5) {
-                Company comp =  checkCompanyID(companies)
+                companies.clear()
+                vacancies.clear()
+                candidates.clear()
 
-                String name = getUserInput("Qual nome da vaga? ")
-                String description = getUserInput("Qual descrição da vaga? ")
-                String skills = getUserInput("Quais skills necessárias? ")
+                companyImpl.getAllCompanies(companies)
+                vacancyImpl.getAllVacancy(vacancies, companies)
+                candidateImpl.getAllCandidates(candidates, vacancies)
 
-                vacancies.add(new Vacancy(++idVacancy, name, description,
-                        comp, skills.split("[,;]+") as
-                        ArrayList<String>))
+                Company.getMatch(candidates, companies)
 
-                println("Vaga criada com sucesso!")
-            }
-            else if (option == 6) {
-                String choose
-                boolean checkChoose = true
+                println("Escolha um dos comandos abaixo:")
+                println("1 - Listar empresas")
+                println("2 - Listar candidatos")
+                println("3 - Adicionar novo candidato")
+                println("4 - Adicionar nova empresa")
+                println("5 - Criar vaga para empresa");
+                println("6 - Curtir");
+                println("7 - Visualizar matches");
+                println("8 - Sair")
 
-                while(checkChoose) {
-                   choose = getUserInput("Você é empresa ou candidato?\n" +
-                           "1 - Empresa\n" + "2 - Candidato\n")
-                    if (!choose.matches("^[1-2]\$"))
-                        println("Error: opção inválida. Tente novamente")
+                option = Integer.parseInt(reader.readLine())
+
+                if (option == 1) {
+                    if (companies.isEmpty())
+                        println("Não há empresas registradas")
                     else
-                        checkChoose = false
-                }
+                        companies.each {companie ->
+                            companie.showInfo()
+                            println("-------------------------------------" +
+                                    "--------------------------")
+                        }
 
-                switch (choose){
-                    case "1":
-                        Company comp =  checkCompanyID(companies)
-                        if (comp.getMatchVacancies().isEmpty())
-                            println("Ainda não há candidatos")
+                }
+                else if (option == 2) {
+                        if (candidates.isEmpty())
+                            println("Não há candidatos cadastrados")
                         else {
-                            comp.getMatchVacancies().each {match ->
-                                println("Id da vaga " + match.getVacancy().getId())
-                                println("Id do candidato " + match.
-                                        getCandidate().getId())
-                                println("Descrição " + match.getCandidate().
-                                        getDescription())
-                                println("Skills:")
-                                match.getCandidate().getSkills().each
-                                {skill ->
-                                    print(skill + " ")
-                                }
-                                println()
-                                println("------------------------------")
+                            candidates.each { candidate ->
+                                candidate.showInfo()
+                                println("-----------------------------------" +
+                                        "----------------------------")
                             }
+                        }
+                }
+                else if (option == 3) {
+
+                    def name = getUserInput("Nome: ")
+                    def email = getUserInput("E-mail: ")
+                    def skills = getUserInput("Habilidades (separadas por vírgula): ")
+                    def age = getUserInputInt("Idade: ")
+                    def state = getUserInput("Estado: ")
+                    def description = getUserInput("Descrição: ")
+                    def cpf = getUserInput("CPF: ")
+                    def cep = getUserInputInt("CEP: ")
+
+                    ArrayList<String> skillsList = skills.split("[,;]+").collect { it.trim() }
+
+                    Candidate candidate = new Candidate(++idCandidate, name,
+                            email, skillsList, age, state, description, cpf, cep)
+                    candidates.add(candidate)
+
+                    candidateImpl.insertCandidate(candidate)
+
+                    println("Cadastrado com sucesso")
+                }
+                else if (option == 4) {
+                    def name = getUserInput("Nome: ")
+                    def email = getUserInput("E-mail: ")
+                    def cnpj = getUserInput("Cnpj: ")
+                    def country = getUserInput("País: ")
+                    def description = getUserInput("Descrição: ")
+                    def state = getUserInput("Estado: ")
+                    def cep = getUserInputInt("CEP: ")
+
+                    Company company = new Company(++idCompany, name, email,
+                            cnpj, country, description, state, cep)
+
+                    companies.add(company)
+
+                    companyImpl.insertCompany(company)
+
+                    println("Cadastrado com sucesso")
+                }
+                else if(option == 5) {
+                    Company comp =  checkCompanyID(companies)
+
+                    String name = getUserInput("Qual nome da vaga? ")
+                    String description = getUserInput("Qual descrição da vaga? ")
+                    String skills = getUserInput("Quais skills necessárias? ")
+
+                    ArrayList<String> skillsList = skills.split("[,;]+")
+
+                    Vacancy vacancy = new Vacancy(++idVacancy, name, description,
+                            comp, skillsList)
+
+                    vacancies.add(vacancy)
+                    // TODO: Capitalize in skills
+                    vacancyImpl.insertVacancy(vacancy)
+
+                    println("Vaga criada com sucesso!")
+                }
+                else if (option == 6) {
+                    String choose
+                    boolean checkChoose = true
+
+                    while(checkChoose) {
+                       choose = getUserInput("Você é empresa ou candidato?\n" +
+                               "1 - Empresa\n" + "2 - Candidato\n")
+                        if (!choose.matches("^[1-2]\$"))
+                            println("Error: opção inválida. Tente novamente")
+                        else
+                            checkChoose = false
+                    }
+
+                    switch (choose){
+                        case "1":
+                            Company comp =  checkCompanyID(companies)
+                            if (comp.getMatchVacancies().isEmpty())
+                                println("Ainda não há candidatos")
+                            else {
+                                comp.getMatchVacancies().each {match ->
+                                    println("Id da vaga: " + match.getId())
+                                    println("Id do candidato: " + match.
+                                            getCandidate().getId())
+                                    println("Descrição: " + match.
+                                            getCandidate().
+                                            getDescription())
+                                    println("Skills:")
+                                    println(match.getCandidate().getSkills()
+                                            .join(", "))
+                                    println("------------------------------")
+                                }
+                                Candidate candi = checkCandidateID(candidates)
+
+                                MatchVacancy matchVacancy =
+                                        checkMatchVacancyID(candi.
+                                                getMatchVacancies(), candidates)
+
+                                comp.getMatchVacancies().find { it.getId() == matchVacancy.getId() }?.setCompanyLiked(true)
+
+                                sql.executeInsert("""
+                                    UPDATE role_matching
+                                    SET companymatched = true
+                                    WHERE id = ${matchVacancy.getId()}
+                                """)
+
+                                println("Match realizado!")
+                            }
+                            break
+
+                        case "2":
                             Candidate candi = checkCandidateID(candidates)
 
-                            MatchVacancy matchVacancy = checkMatchVacancyID(candi.getMatchVacancies())
+                            if (vacancies.isEmpty())
+                                println("Não existem vagas no momento")
+                            else {
 
-                            comp.getMatchVacancies().find { it.getId() == matchVacancy.getId() }?.setCompanyLiked(true)
-                            println("Match realizado!")
-                        }
-                        break
+                                boolean allVacanciesLiked = true
+                                ArrayList<Integer> printedVacancyIds = new ArrayList<>()
+                                Set<Integer> idsLikeds = new HashSet<>();
 
-                    case "2":
-                        Candidate candi = checkCandidateID(candidates)
+                                vacancies.each { vacancie ->
+                                    boolean containsVacancie = false
 
-                        if (vacancies.isEmpty())
-                            println("Não existem vagas no momento")
-                        else {
-                            vacancies.each {vacancie ->
-                                println("Id da vaga: " + vacancie.getId())
-                                println("Titulo: " + vacancie.getName())
-                                println("Descrição: " + vacancie.getDescription())
-                                println("Skills:")
-                                vacancie.getSkills().each {skill ->
-                                    print(skill + " ")
-                                }
-                                println()
-                                println("------------------------------")
-                            }
-
-                            Vacancy vacancy = checkVacancyID(vacancies)
-                            MatchVacancy match = new MatchVacancy(++idMatch,
-                                    vacancy, candi, true)
-
-                            candi.getMatchVacancies().add(match)
-
-                            vacancy.getCompany().getMatchVacancies().add(match)
-                            println("Vaga curtida!")
-                        }
-                        break
-                }
-            }
-            else if (option == 7) {
-                String choose
-                boolean checkChoose = true
-
-                while(checkChoose) {
-                    choose = getUserInput("Você é empresa ou candidato?\n" +
-                            "1 - Empresa\n" + "2 - Candidato\n")
-
-                    if (!choose.matches("^[1-2]\$"))
-                        println("Error: opção inválida. Tente novamente")
-                    else
-                        checkChoose = false
-                }
-
-                switch (choose) {
-                    case "1":
-                        Company company = checkCompanyID(companies)
-
-                        if (company.getMatchVacancies().isEmpty())
-                            println("A sua empresa ainda não deu match")
-                        else
-                            company.getMatchVacancies().
-                                    each {matches ->
-                                        matches.getCandidate().showInfo()
+                                    candi.getMatchVacancies().each { matchingVacancy ->
+                                        if (matchingVacancy.getVacancy().
+                                                getId() == vacancie.getId()) {
+                                            idsLikeds.add(vacancie.getId())
+                                            containsVacancie = true
+                                            return
+                                        }
                                     }
-                        break
 
-                    case "2":
-                        Candidate candi = checkCandidateID(candidates)
-                        boolean isMatch = false
+                                    if (!containsVacancie && !printedVacancyIds.contains(vacancie.getId())) {
+                                        allVacanciesLiked = false
+                                        printedVacancyIds.add(vacancie.getId())
+                                        println("Id da vaga: " + vacancie.getId())
+                                        println("Titulo: " + vacancie.getName())
+                                        println("Descrição: " + vacancie.getDescription())
+                                        println("Skills:")
+                                        println(vacancie.getSkills().join(", "))
+                                        println("------------------------------")
+                                    }
+                                }
 
-                        candi.getMatchVacancies().each {match ->
-                            if (match.companyLiked) {
-                                match.getVacancy().getCompany().showInfo()
-                                isMatch = true
+                                if (allVacanciesLiked)
+                                    println("Você já curtiu todas as vagas disponíveis.")
+                                else {
+
+                                    boolean containsNumber = true
+
+                                    Vacancy vacancy
+                                    while (containsNumber) {
+                                        containsNumber = false
+                                        vacancy = checkVacancyID(vacancies)
+                                        for (Integer id : idsLikeds) {
+                                            if (id.equals(vacancy.getId())) {
+                                                containsNumber = true
+                                                println("Você só pode curtir " +
+                                                        "as vagas que estão " +
+                                                        "na lista")
+                                                break
+                                            }
+                                        }
+                                    }
+
+                                    if (vacancy != null && !containsNumber) {
+                                        MatchVacancy match = new MatchVacancy(++idMatch, vacancy, candi)
+
+                                        sql.executeInsert("""
+                                            INSERT INTO role_matching (ID_CANDIDATE, ID_ROLE)
+                                            VALUES (${candi.getId()}, ${vacancy.getId()})
+                                        """)
+
+                                        candi.getMatchVacancies().add(match)
+                                        println("Vaga curtida!")
+                                    }
+                                }
                             }
-                        }
 
-                        if (!isMatch)
-                            println("Ainda não houve match")
-                        break
+                    }
+                }
+                else if (option == 7) {
+                    String choose
+                    boolean checkChoose = true
+
+                    while(checkChoose) {
+                        choose = getUserInput("Você é empresa ou candidato?\n" +
+                                "1 - Empresa\n" + "2 - Candidato\n")
+
+                        if (!choose.matches("^[1-2]\$"))
+                            println("Error: opção inválida. Tente novamente")
+                        else
+                            checkChoose = false
+                    }
+
+                    switch (choose) {
+                        case "1":
+                            Company company = checkCompanyID(companies)
+
+                            if (company.getMatchVacancies().isEmpty())
+                                println("A sua empresa ainda não deu match")
+                            else
+                                company.getMatchVacancies().
+                                        each {matches ->
+                                            print("Vaga: " + matches.
+                                                    getVacancy().
+                                                    getName() + ", ")
+                                            matches.getCandidate().showInfo()
+                                        }
+                            break
+
+                        case "2":
+                            Candidate candi = checkCandidateID(candidates)
+                            boolean isMatch = false
+
+                            candi.getMatchVacancies().each {match ->
+                                if (match.companyLiked) {
+                                    print("Vaga: " + match.
+                                            getVacancy().
+                                            getName() + ", ")
+                                    match.getVacancy().getCompany().showInfo()
+                                    isMatch = true
+                                }
+                            }
+
+                            if (!isMatch)
+                                println("Ainda não houve match")
+                            break
+                    }
                 }
             }
         }
-
+        catch (Exception e) {
+            e.printStackTrace()
+        }
+        finally {
+            dbHandler.close()
+        }
     }
 
-    static MatchVacancy checkMatchVacancyID(ArrayList<MatchVacancy> matches) {
+    static MatchVacancy checkMatchVacancyID(ArrayList<MatchVacancy> matches,
+                                            ArrayList<Candidate> candidates) {
         int index
         MatchVacancy matc
 
         boolean idFind = true
+        boolean isCandidate = true
         while (idFind) {
+            if (!isCandidate) {
+                def candi = checkCandidateID(candidates)
+                matches = candi.getMatchVacancies()
+            }
             index = getUserInputInt("Digite o id da vaga: ")
             matches.each { match ->
                 if (match.getId() == index) {
@@ -241,9 +345,11 @@ class Main {
                     idFind = false
                 }
             }
-            if (matc == null)
+            if (matc == null) {
                 println("Error: Match não encontrado. Tente " +
                         "novamente")
+                isCandidate = false
+            }
         }
         return matc
     }
@@ -288,7 +394,7 @@ class Main {
         return candi
     }
 
-    static Company checkCompanyID(ArrayList<Company>companies) {
+    static Company checkCompanyID(ArrayList<Company> companies) {
         int index
         Company comp
 
