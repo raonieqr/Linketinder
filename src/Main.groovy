@@ -33,7 +33,7 @@ class Main {
             CandidateImpl candidateImpl = new CandidateImpl()
             CompanyImpl companyImpl = new CompanyImpl()
             VacancyImpl vacancyImpl = new VacancyImpl()
-            MatchVacancyImpl matchVacancyImpl = new MatchVacancy()
+            MatchVacancyImpl matchVacancyImpl = new MatchVacancyImpl()
 
             ArrayList<Candidate> candidates = new ArrayList<>()
             ArrayList<Company> companies = new ArrayList<>()
@@ -163,32 +163,55 @@ class Main {
                     switch (choose){
                         case "1":
                             Company comp =  checkCompanyID(companies)
+
+                            ArrayList<Integer> idsCandidates = new ArrayList<>()
+
                             if (comp.getMatchVacancies().isEmpty())
                                 println("Ainda não há candidatos")
                             else {
                                 comp.getMatchVacancies().each {match ->
-                                    println("Id da vaga: " + match.getId())
-                                    println("Id do candidato: " + match.
-                                            getCandidate().getId())
-                                    println("Descrição: " + match.
-                                            getCandidate().
-                                            getDescription())
-                                    println("Skills:")
-                                    println(match.getCandidate().getSkills()
-                                            .join(", "))
-                                    println("------------------------------")
+                                    if (!match.getCompanyLiked()) {
+                                        idsCandidates.add(match
+                                           .getCandidate().getId())
+                                        println("Id da vaga: " + match.getId())
+                                        println("Id do candidato: " + match.
+                                                getCandidate().getId())
+                                        println("Descrição: " + match.
+                                                getCandidate().
+                                                getDescription())
+                                        println("Skills:")
+                                        println(match.getCandidate().getSkills()
+                                                .join(", "))
+                                        println("------------------------------")
+                                    }
                                 }
-                                Candidate candi = checkCandidateID(candidates)
+                                Candidate candi
 
-                                MatchVacancy matchVacancy =
-                                        checkMatchVacancyID(candi.
-                                                getMatchVacancies(), candidates)
+                                boolean isCandidate = false
+                                while (!isCandidate) {
+                                    if (idsCandidates.isEmpty()) {
+                                        println("Não há candidatos")
+                                        break
+                                    }
+                                     candi = checkCandidateID(candidates)
+                                    if (idsCandidates.contains(candi.getId())) {
+                                        isCandidate = true
+                                        break
+                                    }
+                                }
 
-                                comp.getMatchVacancies().find { it.getId() == matchVacancy.getId() }?.setCompanyLiked(true)
 
-                                matchVacancyImpl.updateLikedCompany(matchVacancy)
+                                if (candi != null && isCandidate) {
+                                    MatchVacancy matchVacancy =
+                                            checkMatchVacancyID(candi.
+                                                    getMatchVacancies(), candidates)
 
-                                println("Match realizado!")
+                                    comp.getMatchVacancies().find { it.getId() == matchVacancy.getId() }?.setCompanyLiked(true)
+
+                                    matchVacancyImpl.updateLikedCompany(matchVacancy)
+
+                                    println("Match realizado!")
+                                }
                             }
                             break
 

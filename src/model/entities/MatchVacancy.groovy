@@ -6,6 +6,7 @@ class MatchVacancy {
     Candidate candidate
     boolean companyLiked
 
+
     MatchVacancy(int id, Vacancy vacancy, Candidate candidate) {
         this.id = id
         this.vacancy = vacancy
