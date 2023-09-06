@@ -77,6 +77,20 @@ class Company extends Person {
         this.matchVacancies = matchVacancies
     }
 
+    static void getMatch(ArrayList<Candidate> candidates,
+                         ArrayList<Company> companies) {
+        candidates.each {it ->
+            it.getMatchVacancies().each {mv ->
+                 {
+                    companies.each {cp ->
+                    if (mv.getVacancy().getCompany().getId() == cp.getId())
+                        cp.getMatchVacancies().add(mv)
+                    }
+                }
+            }
+        }
+    }
+
     @Override
     void showInfo() {
         println("name: $name, email: $email, cnpj: $cnpj, pais: $country, " +

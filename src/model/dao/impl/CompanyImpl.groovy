@@ -21,6 +21,7 @@ class CompanyImpl implements CompanyDAO{
                             companie.description as String,
                             companie.state as String, companie.cep as int)
                     )
+
                 }
             }
         }

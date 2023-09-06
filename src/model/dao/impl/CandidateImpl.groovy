@@ -34,7 +34,6 @@ class CandidateImpl implements  CandidateDAO{
                             candidate.description as String, candidate.
                             cpf as String, candidate.cep as int)
 
-                    // TODO: implement get match in bd
                     def getMatchCandidate = sql.rows("""
                         SELECT rm.id, rm.id_role, rm.id_candidate, rm.companymatched
                         FROM role_matching AS rm
@@ -58,6 +57,7 @@ class CandidateImpl implements  CandidateDAO{
                 }
             }
         }
+        //TODO: change exception
         catch (Exception e) {
             e.printStackTrace()
         }

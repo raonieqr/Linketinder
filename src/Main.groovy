@@ -53,13 +53,15 @@ class Main {
                 vacancyImpl.getAllVacancy(vacancies, companies)
                 candidateImpl.getAllCandidates(candidates, vacancies)
 
+                Company.getMatch(candidates, companies)
+
                 println("Escolha um dos comandos abaixo:")
                 println("1 - Listar empresas")
                 println("2 - Listar candidatos")
                 println("3 - Adicionar novo candidato")
                 println("4 - Adicionar nova empresa")
                 println("5 - Criar vaga para empresa");
-                println("6 - Curtir vaga");
+                println("6 - Curtir");
                 println("7 - Visualizar matches");
                 println("8 - Sair")
 
@@ -160,6 +162,7 @@ class Main {
                     switch (choose){
                         case "1":
                             Company comp =  checkCompanyID(companies)
+                            println(comp.getMatchVacancies())
                             if (comp.getMatchVacancies().isEmpty())
                                 println("Ainda não há candidatos")
                             else {
@@ -280,7 +283,7 @@ class Main {
 
                     switch (choose) {
                         case "1":
-                            Company company = checkCompanyID(dbHandler) as Company
+                            Company company = checkCompanyID(companies)
 
                             if (company.getMatchVacancies().isEmpty())
                                 println("A sua empresa ainda não deu match")

@@ -1,5 +1,6 @@
 package model.dao
 
+import model.entities.Candidate
 import model.entities.Company
 import model.entities.Vacancy
 
