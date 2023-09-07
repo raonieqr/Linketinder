@@ -6,6 +6,8 @@ import model.dao.impl.VacancyImpl
 import model.entities.*
 import org.junit.jupiter.engine.discovery.predicates.IsNestedTestClass
 
+import java.sql.SQLException
+
 class Main {
     static void main(String[] args) {
 
@@ -76,7 +78,6 @@ class Main {
                             println("-------------------------------------" +
                                     "--------------------------")
                         }
-
                 }
                 else if (option == 2) {
                         if (candidates.isEmpty())
@@ -93,15 +94,29 @@ class Main {
 
                     def name = getUserInput("Nome: ")
                     def email = getUserInput("E-mail: ")
+
+                    email = checkEmail(candidates, email)
+
                     def skills = getUserInput("Habilidades (separadas por vírgula): ")
                     def age = getUserInputInt("Idade: ")
                     def state = getUserInput("Estado: ")
                     def description = getUserInput("Descrição: ")
                     def cpf = getUserInput("CPF: ")
+
+                    while(cpf.length() != 11) {
+                        cpf = getUserInput("Error: O cpf deve ter 11 " +
+                                "caracteres. Tente novamente: ")
+                    }
+
+                    cpf = checkCpf(candidates, cpf)
+
                     def cep = getUserInputInt("CEP: ")
 
                     ArrayList<String> skillsList = skills.split("[,;\\s]+")
+                    skillsList = skillsList.collect { it.toLowerCase() }
                     skillsList = skillsList.collect { it.capitalize() }
+
+
 
                     Candidate candidate = new Candidate(++idCandidate, name,
                             email, skillsList, age, state, description, cpf, cep)
@@ -114,8 +129,26 @@ class Main {
                 else if (option == 4) {
                     def name = getUserInput("Nome: ")
                     def email = getUserInput("E-mail: ")
+
+                    email = checkEmail(companies, email)
+
                     def cnpj = getUserInput("Cnpj: ")
+
+                    while(cnpj.length() != 14) {
+                        cnpj = getUserInput("Error: O cnpj deve ter 14 " +
+                                "caracteres. Tente novamente: ")
+                    }
+
+                    cnpj = checkCnpj(companies, cnpj)
+
                     def country = getUserInput("País: ")
+
+                    while(country.length() >= 2 &&
+                            country.length() <= 3) {
+                        country = getUserInput("Error: O País deve ter 2 a 3 " +
+                                "caracteres. Tente novamente: ")
+                    }
+
                     def description = getUserInput("Descrição: ")
                     def state = getUserInput("Estado: ")
                     def cep = getUserInputInt("CEP: ")
@@ -137,6 +170,7 @@ class Main {
                     String skills = getUserInput("Quais skills necessárias? ")
 
                     ArrayList<String> skillsList = skills.split("[,;\\s]+")
+                    skillsList = skillsList.collect { it.toLowerCase() }
                     skillsList = skillsList.collect { it.capitalize() }
 
                     Vacancy vacancy = new Vacancy(++idVacancy, name, description,
@@ -342,6 +376,54 @@ class Main {
         finally {
             dbHandler.close()
         }
+    }
+
+    static String checkEmail(ArrayList<?> object, String email) {
+        boolean exist = true
+        while (exist) {
+            exist = false
+
+            object.each {obj ->
+                if (obj.getEmail().equals(email)) {
+                    exist = true
+                    email = getUserInput("Error: o email já " +
+                            "existe. Tente novamente outro email: ")
+                }
+            }
+        }
+        return email
+    }
+
+    static String checkCnpj(ArrayList<?> object, String cnpj) {
+        boolean exist = true
+        while (exist) {
+            exist = false
+
+            object.each { obj ->
+                if (obj.getCnpj().equals(cnpj)) {
+                    exist = true
+                    cnpj = getUserInput("Error: o cnpj já " +
+                            "existe. Tente novamente outro cnpj: ")
+                }
+            }
+        }
+        return cnpj
+    }
+
+    static String checkCpf(ArrayList<?> object, String cpf) {
+        boolean exist = true
+        while (exist) {
+            exist = false
+
+            object.each {obj ->
+                if (obj.getCpf().equals(cpf)) {
+                    exist = true
+                    cpf = getUserInput("Error: o cpf já " +
+                            "existe. Tente novamente outro cpf: ")
+                }
+            }
+        }
+        return cpf
     }
 
     static MatchVacancy checkMatchVacancyID(ArrayList<MatchVacancy> matches,
