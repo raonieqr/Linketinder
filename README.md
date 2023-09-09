@@ -42,7 +42,10 @@ groovy src/Main.groovy
   - Like Vacancies: Companies can now "like" vacancies posted by candidates that match their needs. This demonstrates interest in the vacancy and enables potential matches between companies and candidates.
   - View Matches: Candidates and companies can now view their mutual matches. Candidates can see the vacancies that have been "liked" by companies, and companies can see the candidates that have expressed interest.
 - View Matches: Candidates and companies can now view their mutual matches. Candidates can see the vacancies that have been "liked" by companies, and companies can see the candidates that have expressed interest.
-- **NEW** Database: Save application data
+- Database: Save application data
+- **NEW** Gradle:
+  - Gradle was added to take care of dependency injections, testing and running the program.
+    The commands can be used: gradle test to run the tests, gradle build to build the project and gradle run to run
 ## Contribution
 Contributions are welcome! If you encounter issues, bugs, or want to add new features, feel free to open a pull request.
 
