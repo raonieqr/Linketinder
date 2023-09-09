@@ -33,5 +33,6 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="groovy-5.0.0-alpha-1" level="project" />
   </component>
 </module>
