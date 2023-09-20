@@ -1,4 +1,6 @@
+import linketinder.controller.CompanyController
 import linketinder.db.DBHandler
+import linketinder.model.IDGenerator
 import linketinder.model.dao.impl.CandidateImpl
 import linketinder.model.dao.impl.CompanyImpl
 import linketinder.model.dao.impl.MatchVacancyImpl
@@ -14,25 +16,11 @@ class Main {
         def dbHandler = DBHandler.getInstance()
 
         try {
-
-            // TODO: criar classe para isso
-
-            def sql = dbHandler.getSql()
-            def resultIdCompany = sql.firstRow("SELECT max(id) FROM companies")
-            def resultIdCandidate = sql.firstRow("SELECT max(id) FROM " +
-                    "candidates")
-            def resultIdVacancy = sql.firstRow("SELECT max(id) FROM " +
-                    "roles")
-            def resultIdMatch = sql.firstRow("SELECT max(id) FROM " +
-                    "role_matching")
-
-
-            int idCompany = resultIdCompany.max == null? 0: resultIdCompany.max
-            int idCandidate = resultIdCandidate.max == null? 0:
-                    resultIdCandidate.max
-            int idVacancy = resultIdVacancy.max == null? 0: resultIdVacancy.max
-            int idMatch = resultIdMatch.max == null? 0: resultIdMatch.max
-            int option;
+            int idCompany = IDGenerator.getNextCompanyID()
+            int idCandidate = IDGenerator.getNextCandidateID()
+            int idVacancy = IDGenerator.getNextVacancyID()
+            int idMatch = IDGenerator.getNextMatchID()
+            int option
 
             CandidateImpl candidateImpl = new CandidateImpl()
             CompanyImpl companyImpl = new CompanyImpl()
@@ -73,21 +61,10 @@ class Main {
                 println("8 - Sair")
 
                 String getInput = reader.readLine()
-                if (getInput == null) {
-                    println("Error: você passou uma entrada inválida")
-                    return
-                }
                 option = Integer.parseInt(getInput)
 
                 if (option == 1) {
-                    if (companies.isEmpty())
-                        println("Não há empresas registradas")
-                    else
-                        companies.each {companie ->
-                            companie.showInfo()
-                            println("-------------------------------------" +
-                                    "--------------------------")
-                        }
+                    CompanyController.listCompanies(companies)
                 }
                 else if (option == 2) {
                         if (candidates.isEmpty())
