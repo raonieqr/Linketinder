@@ -1,3 +1,4 @@
+import linketinder.controller.CandidateController
 import linketinder.controller.CompanyController
 import linketinder.db.DBHandler
 import linketinder.model.IDGenerator
@@ -9,6 +10,8 @@ import linketinder.model.entities.Candidate
 import linketinder.model.entities.Company
 import linketinder.model.entities.MatchVacancy
 import linketinder.model.entities.Vacancy
+import linketinder.view.CandidateView
+import linketinder.view.CompanyView
 
 class Main {
     static void main(String[] args) {
@@ -63,89 +66,29 @@ class Main {
                 String getInput = reader.readLine()
                 option = Integer.parseInt(getInput)
 
-                if (option == 1) {
+                if (option == 1)
                     CompanyController.listCompanies(companies)
-                }
-                else if (option == 2) {
-                        if (candidates.isEmpty())
-                            println("Não há candidatos cadastrados")
-                        else {
-                            candidates.each { candidate ->
-                                candidate.showInfo()
-                                println("-----------------------------------" +
-                                        "----------------------------")
-                            }
-                        }
-                }
+
+                else if (option == 2)
+                    CandidateController.listCandidates(candidates)
+
                 else if (option == 3) {
 
-                    def name = getUserInput("Nome: ")
-                    def email = getUserInput("E-mail: ")
+                    Candidate candidate = CandidateView
+                            .createCandidate(++idCandidate, candidates)
 
-                    email = checkEmail(candidates, email)
-
-                    def skills = getUserInput("Habilidades (separadas por vírgula): ")
-                    def age = getUserInputInt("Idade: ")
-                    def state = getUserInput("Estado: ")
-                    def description = getUserInput("Descrição: ")
-                    def cpf = getUserInput("CPF: ")
-
-                    while(cpf.length() != 11) {
-                        cpf = getUserInput("Error: O cpf deve ter 11 " +
-                                "caracteres. Tente novamente: ")
-                    }
-
-                    cpf = checkCpf(candidates, cpf)
-
-                    def cep = getUserInputInt("CEP: ")
-
-                    ArrayList<String> skillsList = skills.split("[,;\\s]+")
-                    skillsList = skillsList.collect { it.toLowerCase() }
-                    skillsList = skillsList.collect { it.capitalize() }
-
-
-
-                    Candidate candidate = new Candidate(++idCandidate, name,
-                            email, skillsList, age, state, description, cpf, cep)
-                    candidates.add(candidate)
-
-                    candidateImpl.insertCandidate(candidate)
+                    CandidateController
+                            .addCandidate(candidates, candidate, candidateImpl)
 
                     println("Cadastrado com sucesso")
                 }
                 else if (option == 4) {
-                    def name = getUserInput("Nome: ")
-                    def email = getUserInput("E-mail: ")
 
-                    email = checkEmail(companies, email)
+                    Company company = CompanyView
+                            .createCompany(++idCompany, companies)
 
-                    def cnpj = getUserInput("Cnpj: ")
-
-                    while(cnpj.length() != 14) {
-                        cnpj = getUserInput("Error: O cnpj deve ter 14 " +
-                                "caracteres. Tente novamente: ")
-                    }
-
-                    cnpj = checkCnpj(companies, cnpj)
-
-                    def country = getUserInput("País: ")
-
-                    while(country.length() >= 2 &&
-                            country.length() <= 3) {
-                        country = getUserInput("Error: O País deve ter 2 a 3 " +
-                                "caracteres. Tente novamente: ")
-                    }
-
-                    def description = getUserInput("Descrição: ")
-                    def state = getUserInput("Estado: ")
-                    def cep = getUserInputInt("CEP: ")
-
-                    Company company = new Company(++idCompany, name, email,
-                            cnpj, country, description, state, cep)
-
-                    companies.add(company)
-
-                    companyImpl.insertCompany(company)
+                    CompanyController
+                            .addCompany(companies, company, companyImpl)
 
                     println("Cadastrado com sucesso")
                 }
