@@ -1,16 +1,22 @@
 package linketinder.view
 
+import linketinder.model.dao.impl.MatchVacancyImpl
 import linketinder.model.entities.Candidate
 import linketinder.model.entities.Company
+import linketinder.model.entities.MatchVacancy
 import linketinder.utils.InputValidator
+import linketinder.utils.MatchValidator
 
 class CompanyView {
+
     static showCompanies(ArrayList<Company> companies) {
+
         if (companies.isEmpty())
             println("Não há empresas registradas")
         else
             companies.each {companie ->
                 companie.showInfo()
+
                 println("-------------------------------------" +
                         "--------------------------")
             }
@@ -18,6 +24,7 @@ class CompanyView {
 
     static Company createCompany(int idCompany,
                                  ArrayList<Company> companies) {
+
         String name = InputValidator.promptForUserInput("Nome: ")
         String email = InputValidator.promptForUserInput("E-mail: ")
 
@@ -45,5 +52,30 @@ class CompanyView {
 
         return new Company(idCompany, name, email, cnpj, country,
                 description, state, cep)
+    }
+
+    static Candidate processCompanyMatches(Company comp,
+                                      ArrayList<Candidate> candidates) {
+
+        ArrayList<Integer> idsCandidates = new ArrayList<>()
+
+        if (comp.getMatchVacancies().isEmpty())
+            println("Ainda não há candidatos")
+
+        else {
+            comp.getMatchVacancies().each { match ->
+                if (!match.getCompanyLiked()) {
+                    idsCandidates.add(match.getCandidate().getId())
+                    println("Id da vaga: " + match.getId())
+                    println("Id do candidato: " + match.getCandidate().getId())
+                    println("Descrição: " + match.getCandidate().getDescription())
+                    println("Skills:")
+                    println(match.getCandidate().getSkills().join(", "))
+                    println("------------------------------")
+                }
+            }
+        }
+
+        return MatchValidator.findMatchingCandidate(idsCandidates, candidates)
     }
 }

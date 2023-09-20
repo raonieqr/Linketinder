@@ -7,14 +7,19 @@ import linketinder.model.entities.Vacancy
 
 class InputValidator {
     static String ensureUniqueEmail(ArrayList<?> objects, String email) {
+
         boolean exists = true
+
         while (exists) {
             exists = false
 
             objects.each { obj ->
                 if (obj.getEmail().equals(email)) {
+
                     exists = true
-                    email = promptForUserInput("Error: o email já existe. Tente novamente outro email: ")
+
+                    email = promptForUserInput("Error: o email já existe" +
+                            ". Tente novamente outro email: ")
                 }
             }
         }
@@ -22,14 +27,19 @@ class InputValidator {
     }
 
     static String ensureUniqueCnpj(ArrayList<?> objects, String cnpj) {
+
         boolean exists = true
+
         while (exists) {
             exists = false
 
             objects.each { obj ->
                 if (obj.getCnpj().equals(cnpj)) {
+
                     exists = true
-                    cnpj = promptForUserInput("Error: o CNPJ já existe. Tente novamente outro CNPJ: ")
+
+                    cnpj = promptForUserInput("Error: o CNPJ já existe." +
+                            " Tente novamente outro CNPJ: ")
                 }
             }
         }
@@ -37,40 +47,55 @@ class InputValidator {
     }
 
     static String ensureUniqueCpf(ArrayList<?> objects, String cpf) {
+
         boolean exists = true
+
         while (exists) {
             exists = false
 
             objects.each { obj ->
                 if (obj.getCpf().equals(cpf)) {
+
                     exists = true
-                    cpf = promptForUserInput("Error: o CPF já existe. Tente novamente outro CPF: ")
+
+                    cpf = promptForUserInput("Error: o CPF já existe." +
+                            " Tente novamente outro CPF: ")
                 }
             }
         }
         return cpf
     }
 
-    static findMatchVacancyByID(ArrayList<MatchVacancy> matches, ArrayList<Candidate> candidates) {
+    static findMatchVacancyByID(ArrayList<MatchVacancy> matches,
+                                ArrayList<Candidate> candidates) {
+
         int index
         MatchVacancy match
 
         boolean idFound = true
         boolean isCandidate = true
+
         while (idFound) {
+
             if (!isCandidate) {
-                def selectedCandidate = findCandidateByID(candidates)
+
+                Candidate selectedCandidate = findCandidateByID(candidates)
                 matches = selectedCandidate.getMatchVacancies()
             }
+
             index = promptForIntegerInput("Digite o ID da vaga: ")
+
             matches.each { m ->
+
                 if (m.getId() == index) {
                     match = m
+
                     idFound = false
                 }
             }
             if (match == null) {
                 println("Error: Match não encontrado. Tente novamente")
+
                 isCandidate = false
             }
         }
@@ -78,15 +103,21 @@ class InputValidator {
     }
 
     static Vacancy findVacancyByID(ArrayList<Vacancy> vacancies) {
+
         int index
         Vacancy vacancy
 
         boolean idFound = true
+
         while (idFound) {
+
             index = promptForIntegerInput("Digite o ID da vaga: ")
+
             vacancies.each { v ->
+
                 if (v.getId() == index) {
                     vacancy = v
+
                     idFound = false
                 }
             }
@@ -97,15 +128,21 @@ class InputValidator {
     }
 
     static Candidate findCandidateByID(ArrayList<Candidate> candidates) {
+
         int index
         Candidate candidate
 
         boolean idFound = true
+
         while (idFound) {
+
             index = promptForIntegerInput("Digite o ID do candidato: ")
+
             candidates.each { c ->
+
                 if (c.getId() == index) {
                     candidate = c
+
                     idFound = false
                 }
             }
@@ -116,15 +153,21 @@ class InputValidator {
     }
 
     static Company findCompanyByID(ArrayList<Company> companies) {
+
         int index
         Company company
 
         boolean idFound = true
+
         while (idFound) {
+
             index = promptForIntegerInput("Digite o ID da sua empresa: ")
+
             companies.each { comp ->
+
                 if (comp.getId() == index) {
                     company = comp
+
                     idFound = false
                 }
             }
@@ -135,24 +178,36 @@ class InputValidator {
     }
 
     static String promptForUserInput(String prompt) {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System
+                .in))
+
         print(prompt)
-        def input = reader.readLine()
+
+        String input = reader.readLine()
         while (input.trim().isEmpty()) {
+
             println("Error: O campo não pode estar vazio. Tente novamente.")
             print(prompt)
+
             input = reader.readLine()
         }
         return input
     }
 
     static int promptForIntegerInput(String prompt) {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System
+                .in))
+
         print(prompt)
-        def input = reader.readLine()
+
+        String input = reader.readLine()
         while (!input.isInteger()) {
+
             println("Error: Entrada inválida. Tente novamente.")
             print(prompt)
+
             input = reader.readLine()
         }
         return Integer.parseInt(input)

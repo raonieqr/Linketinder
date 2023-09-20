@@ -1,5 +1,6 @@
 import linketinder.controller.CandidateController
 import linketinder.controller.CompanyController
+import linketinder.controller.VacancyController
 import linketinder.db.DBHandler
 import linketinder.model.IDGenerator
 import linketinder.model.dao.impl.CandidateImpl
@@ -12,11 +13,12 @@ import linketinder.model.entities.MatchVacancy
 import linketinder.model.entities.Vacancy
 import linketinder.view.CandidateView
 import linketinder.view.CompanyView
+import linketinder.view.VacancyView
 
 class Main {
     static void main(String[] args) {
 
-        def dbHandler = DBHandler.getInstance()
+        DBHandler dbHandler = DBHandler.getInstance()
 
         try {
             int idCompany = IDGenerator.getNextCompanyID()
@@ -51,7 +53,6 @@ class Main {
                 Company.getMatch(candidates, companies)
 
                 // TODO: delete company and candidate
-                // TODO: criar view especifico para cada classe
 
                 println("Escolha um dos comandos abaixo:")
                 println("1 - Listar empresas")
@@ -93,21 +94,13 @@ class Main {
                     println("Cadastrado com sucesso")
                 }
                 else if(option == 5) {
-                    Company comp =  checkCompanyID(companies)
+                    Company company =  checkCompanyID(companies)
 
-                    String name = getUserInput("Qual nome da vaga? ")
-                    String description = getUserInput("Qual descrição da vaga? ")
-                    String skills = getUserInput("Quais skills necessárias? ")
+                    Vacancy vacancy = VacancyView.createVacancy(++idVacancy,
+                            company)
 
-                    ArrayList<String> skillsList = skills.split("[,;\\s]+")
-                    skillsList = skillsList.collect { it.toLowerCase() }
-                    skillsList = skillsList.collect { it.capitalize() }
-
-                    Vacancy vacancy = new Vacancy(++idVacancy, name, description,
-                            comp, skillsList)
-
-                    vacancies.add(vacancy)
-                    vacancyImpl.insertVacancy(vacancy)
+                    VacancyController.addVacancy(vacancy, vacancies,
+                            vacancyImpl)
 
                     println("Vaga criada com sucesso!")
                 }
@@ -126,57 +119,17 @@ class Main {
 
                     switch (choose){
                         case "1":
-                            Company comp =  checkCompanyID(companies)
+                            Company company =  checkCompanyID(companies)
 
-                            ArrayList<Integer> idsCandidates = new ArrayList<>()
+                            Candidate candidate = CompanyView
+                                    .processCompanyMatches(company, candidates)
 
-                            if (comp.getMatchVacancies().isEmpty())
-                                println("Ainda não há candidatos")
-                            else {
-                                comp.getMatchVacancies().each {match ->
-                                    if (!match.getCompanyLiked()) {
-                                        idsCandidates.add(match
-                                           .getCandidate().getId())
-                                        println("Id da vaga: " + match.getId())
-                                        println("Id do candidato: " + match.
-                                                getCandidate().getId())
-                                        println("Descrição: " + match.
-                                                getCandidate().
-                                                getDescription())
-                                        println("Skills:")
-                                        println(match.getCandidate().getSkills()
-                                                .join(", "))
-                                        println("------------------------------")
-                                    }
-                                }
-                                Candidate candi
+                            if (candidate != null)
+                                CompanyController.processCompanyMatches(candidate,
+                                candidates, company,matchVacancyImpl)
 
-                                boolean isCandidate = false
-                                while (!isCandidate) {
-                                    if (idsCandidates.isEmpty()) {
-                                        println("Não há candidatos")
-                                        break
-                                    }
-                                     candi = checkCandidateID(candidates)
-                                    if (idsCandidates.contains(candi.getId())) {
-                                        isCandidate = true
-                                        break
-                                    }
-                                }
+                            println("Match realizado!")
 
-
-                                if (candi != null && isCandidate) {
-                                    MatchVacancy matchVacancy =
-                                            checkMatchVacancyID(candi.
-                                                    getMatchVacancies(), candidates)
-
-                                    comp.getMatchVacancies().find { it.getId() == matchVacancy.getId() }?.setCompanyLiked(true)
-
-                                    matchVacancyImpl.updateLikedCompany(matchVacancy)
-
-                                    println("Match realizado!")
-                                }
-                            }
                             break
 
                         case "2":
@@ -225,7 +178,7 @@ class Main {
                                         containsNumber = false
                                         vacancy = checkVacancyID(vacancies)
                                         for (Integer id : idsLikeds) {
-                                            if (id.equals(vacancy.getId())) {
+                                            if (id == vacancy.getId()) {
                                                 containsNumber = true
                                                 println("Você só pode curtir " +
                                                         "as vagas que estão " +
@@ -306,82 +259,6 @@ class Main {
         finally {
             dbHandler.close()
         }
-    }
-
-    static String checkEmail(ArrayList<?> object, String email) {
-        boolean exist = true
-        while (exist) {
-            exist = false
-
-            object.each {obj ->
-                if (obj.getEmail().equals(email)) {
-                    exist = true
-                    email = getUserInput("Error: o email já " +
-                            "existe. Tente novamente outro email: ")
-                }
-            }
-        }
-        return email
-    }
-
-    static String checkCnpj(ArrayList<?> object, String cnpj) {
-        boolean exist = true
-        while (exist) {
-            exist = false
-
-            object.each { obj ->
-                if (obj.getCnpj().equals(cnpj)) {
-                    exist = true
-                    cnpj = getUserInput("Error: o cnpj já " +
-                            "existe. Tente novamente outro cnpj: ")
-                }
-            }
-        }
-        return cnpj
-    }
-
-    static String checkCpf(ArrayList<?> object, String cpf) {
-        boolean exist = true
-        while (exist) {
-            exist = false
-
-            object.each {obj ->
-                if (obj.getCpf().equals(cpf)) {
-                    exist = true
-                    cpf = getUserInput("Error: o cpf já " +
-                            "existe. Tente novamente outro cpf: ")
-                }
-            }
-        }
-        return cpf
-    }
-
-    static MatchVacancy checkMatchVacancyID(ArrayList<MatchVacancy> matches,
-                                            ArrayList<Candidate> candidates) {
-        int index
-        MatchVacancy matc
-
-        boolean idFind = true
-        boolean isCandidate = true
-        while (idFind) {
-            if (!isCandidate) {
-                def candi = checkCandidateID(candidates)
-                matches = candi.getMatchVacancies()
-            }
-            index = getUserInputInt("Digite o id da vaga: ")
-            matches.each { match ->
-                if (match.getId() == index) {
-                    matc = match
-                    idFind = false
-                }
-            }
-            if (matc == null) {
-                println("Error: Match não encontrado. Tente " +
-                        "novamente")
-                isCandidate = false
-            }
-        }
-        return matc
     }
 
     static Vacancy checkVacancyID(ArrayList<Vacancy> vacancies) {

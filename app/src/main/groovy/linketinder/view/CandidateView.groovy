@@ -4,12 +4,15 @@ import linketinder.model.entities.Candidate
 import linketinder.utils.InputValidator
 
 class CandidateView {
+
     static showCandidates(ArrayList<Candidate> candidates) {
+
         if (candidates.isEmpty())
             println("Não há candidatos cadastrados")
         else {
             candidates.each { candidate ->
                 candidate.showInfo()
+
                 println("-----------------------------------" +
                         "----------------------------")
             }
