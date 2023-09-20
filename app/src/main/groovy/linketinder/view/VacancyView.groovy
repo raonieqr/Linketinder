@@ -22,4 +22,19 @@ class VacancyView {
         return new Vacancy(idVacancy, name, description,
                 company, skillsList)
     }
+
+    static void displayVacancy(Vacancy vacancy) {
+
+        println("Id da vaga: " + vacancy.getId())
+        println("Título: " + vacancy.getName())
+        println("Descrição: " + vacancy.getDescription())
+        println("Skills:")
+        println(vacancy.getSkills().join(", "))
+        println("------------------------------")
+    }
+
+    static void displayNoVacancies() {
+        println("Não existem vagas no momento")
+    }
+
 }

@@ -1,6 +1,5 @@
 package linketinder.controller
 
-import linketinder.model.dao.impl.CandidateImpl
 import linketinder.model.dao.impl.CompanyImpl
 import linketinder.model.dao.impl.MatchVacancyImpl
 import linketinder.model.entities.Candidate

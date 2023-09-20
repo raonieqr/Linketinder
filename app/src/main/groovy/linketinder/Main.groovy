@@ -1,5 +1,6 @@
 import linketinder.controller.CandidateController
 import linketinder.controller.CompanyController
+import linketinder.controller.MatchController
 import linketinder.controller.VacancyController
 import linketinder.db.DBHandler
 import linketinder.model.IDGenerator
@@ -133,72 +134,12 @@ class Main {
                             break
 
                         case "2":
-                            Candidate candi = checkCandidateID(candidates)
+                            Candidate candidate = checkCandidateID(candidates)
 
-                            if (vacancies.isEmpty())
-                                println("Não existem vagas no momento")
-                            else {
+                            MatchController.listAvailableVacancies(candidate,
+                                    vacancies, matchVacancyImpl, ++idMatch)
 
-                                boolean allVacanciesLiked = true
-                                ArrayList<Integer> printedVacancyIds = new ArrayList<>()
-                                Set<Integer> idsLikeds = new HashSet<>();
-
-                                vacancies.each { vacancie ->
-                                    boolean containsVacancie = false
-
-                                    candi.getMatchVacancies().each { matchingVacancy ->
-                                        if (matchingVacancy.getVacancy().
-                                                getId() == vacancie.getId()) {
-                                            idsLikeds.add(vacancie.getId())
-                                            containsVacancie = true
-                                            return
-                                        }
-                                    }
-
-                                    if (!containsVacancie && !printedVacancyIds.contains(vacancie.getId())) {
-                                        allVacanciesLiked = false
-                                        printedVacancyIds.add(vacancie.getId())
-                                        println("Id da vaga: " + vacancie.getId())
-                                        println("Titulo: " + vacancie.getName())
-                                        println("Descrição: " + vacancie.getDescription())
-                                        println("Skills:")
-                                        println(vacancie.getSkills().join(", "))
-                                        println("------------------------------")
-                                    }
-                                }
-
-                                if (allVacanciesLiked)
-                                    println("Você já curtiu todas as vagas disponíveis.")
-                                else {
-
-                                    boolean containsNumber = true
-
-                                    Vacancy vacancy
-                                    while (containsNumber) {
-                                        containsNumber = false
-                                        vacancy = checkVacancyID(vacancies)
-                                        for (Integer id : idsLikeds) {
-                                            if (id == vacancy.getId()) {
-                                                containsNumber = true
-                                                println("Você só pode curtir " +
-                                                        "as vagas que estão " +
-                                                        "na lista")
-                                                break
-                                            }
-                                        }
-                                    }
-
-                                    if (vacancy != null && !containsNumber) {
-                                        MatchVacancy match = new MatchVacancy(++idMatch, vacancy, candi)
-
-                                        matchVacancyImpl
-                                           .insertCandidateLiked(candi, vacancy)
-
-                                        candi.getMatchVacancies().add(match)
-                                        println("Vaga curtida!")
-                                    }
-                                }
-                            }
+                            println("Vaga curtida!")
 
                     }
                 }
@@ -261,27 +202,7 @@ class Main {
         }
     }
 
-    static Vacancy checkVacancyID(ArrayList<Vacancy> vacancies) {
-        int index
-        Vacancy vacan
-
-        boolean idFind = true
-        while (idFind) {
-            index = getUserInputInt("Digite o id da vaga: ")
-            vacancies.each { vacancy ->
-                if (vacancy.getId() == index) {
-                    vacan = vacancy
-                    idFind = false
-                }
-            }
-            if (vacan == null)
-                println("Error: Vaga não encontrada. Tente " +
-                        "novamente")
-        }
-        return vacan
-    }
-
-    static Candidate checkCandidateID(ArrayList<Candidate> candidates) {
+        static Candidate checkCandidateID(ArrayList<Candidate> candidates) {
         int index
         Candidate candi
 
