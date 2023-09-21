@@ -2,7 +2,7 @@ import { VacancyPosting, Company } from "../module";
 import ApexCharts from 'apexcharts';
 import * as check from "../validations";
 
-//intro_company.html
+// ******* intro_company.html *******
 
 
 let registerCompanyButton = document.getElementById("register-comp");
@@ -46,12 +46,14 @@ function handleSignInClick(){
 
   if (!compCheck || !compName || !compPass) {
     alert("Error: campo vazio");
+
     return;
   }
     const compObj = JSON.parse(compCheck);
 
   if (!check.isLoginValid(compObj, compName.value, compPass.value)) {
     alert("Error: login ou senha inválido");
+
     return;
   }
   window.location.href = "./company_profile.html";
@@ -64,12 +66,13 @@ if (btnSignIn)
   btnSignIn.addEventListener("click", handleSignInClick);
 
 
-//company_registration.html 
+// ******* company_registration.html *******
 
 
 let btnRegister = document.getElementById("register");
 
 function handleRegisterClick(): void {
+
     if (saveCompanyData()) 
       window.location.href = "./company_profile.html";
 }
@@ -133,14 +136,16 @@ function saveCompanyData() {
             password: passwordInput.value,
             vacancy: null
         };
+
         localStorage.setItem("companyLocal", JSON.stringify(companyLocal));
+
         return true;
     }
     return false;
 }
 
 
-//company_vacancies.html
+// ******* company_vacancies.html *******
 
 
 let registerVacancyButton = document.getElementById("registerVacancy");
@@ -153,12 +158,14 @@ function registerVacancy() {
     let companyLocal = localStorage.getItem("companyLocal");
     let companyObj = companyLocal ? JSON.parse(companyLocal) : null;
   
-    if (!nameVacancyInput || !skillsVacancyInput || !descriptionVacancyInput || !companyObj) {
-      alert("Erro: Informações incompletas");
+    if (!nameVacancyInput.value || !skillsVacancyInput.value ||
+       !descriptionVacancyInput.value || !companyObj) {
+
+      alert("Error: campo vazio");      
       return;
     }
   
-    let skills = check.parseSkillsInput(skillsVacancyInput.value);
+    let skills = check.parseSkillsInput(skillsVacancyInput);
   
     let now = new Date();
     let day = now.getDate().toString().padStart(2, '0');
@@ -176,13 +183,14 @@ function registerVacancy() {
   
     companyObj.vacancy = JSON.parse(JSON.stringify(vacancyPosting));
     localStorage.setItem("companyLocal", JSON.stringify(companyObj));
+
     window.location.href = "./company_profile.html";
   }
   
   registerVacancyButton?.addEventListener("click", registerVacancy);
   
 
-//company_profile.html
+// ******* company_profile.html *******
 
 
 function generateGraph() {
@@ -208,53 +216,71 @@ function generateGraph() {
       chart.render();
 }
 
-generateGraph();
-
 function generateTable() {
-    let tbody = document.querySelector("tbody");
-    let row = document.querySelector("tbody tr");
-    let table = document.querySelector("table")
+  let tbody = document.querySelector("tbody");
+  let table = document.querySelector("table");
 
-    let c0 = document.createElement('td');
-    let c1 = document.createElement('td');
-    let c2 = document.createElement('td');
-    let c3 = document.createElement('td');
-    let c4 = document.createElement('td');
+  let company = localStorage.getItem("companyLocal");
+  let candidate = localStorage.getItem("candidateLocal");
 
-    let company = localStorage.getItem("companyLocal");
+  if (!company || !candidate)
+    return;
+
+  let compObj = JSON.parse(company);
+  let candiObj = JSON.parse(candidate);
+
+  if (!compObj.vacancy)
+    return;
+
+  if (!compObj.vacancy.skills || !candiObj.skills)
+    return;
+
+  let c0 = createTableCell(compObj.vacancy.name);
+  let c1 = createTableCell("x");
+  let c2 = createTableCell("Engenheiro de software");
+  let c3 = createTableCell(candiObj.skills.join(", "));
+  let c4 = createTableCell(calculateMatchPercentage(compObj.vacancy.skills,
+     candiObj.skills));
+
+  let row = generateTableRow([c0, c1, c2, c3, c4]);
+
+  if (tbody) {
     
-    if (company) 
-        var compObj = JSON.parse(company);
-    
-    
-    if (compObj.vacancy) {
+    tbody.appendChild(row);
 
-        var candidate = localStorage.getItem("candidateLocal");
-        if (candidate) {
-
-            var candiObj = JSON.parse(candidate)
-            if (compObj.vacancy.skills && candiObj.skills) 
-                var matchingSkills = compObj.vacancy.skills.
-                filter((skill: string) => candiObj.skills.includes(skill));
-        }
-    }
-
-    var matchPercentage = (matchingSkills.length / compObj.vacancy.skills.length) * 100
-    c0.innerText = compObj.vacancy.name;
-    c1.innerText = "x";
-    c2.innerText = "Engenheiro de software";
-    c3.innerText = candiObj.skills;
-    c4.innerHTML = `${matchPercentage.toFixed(2).toString()}%`;
-
-    row?.appendChild(c0);
-    row?.appendChild(c1);
-    row?.appendChild(c2);
-    row?.appendChild(c3);
-    row?.appendChild(c4);
-    if (row && tbody) {
-        tbody?.appendChild(row);
-        table?.appendChild(tbody);
-    }
+    if (table)
+      table.appendChild(tbody);
+  }
 }
+
+function createTableCell(text: string): HTMLTableCellElement {
+  let cell = document.createElement('td');
+
+  cell.innerText = text;
+
+  return cell;
+}
+
+function generateTableRow(cells: HTMLTableCellElement[]): HTMLTableRowElement {
+  let row = document.createElement('tr');
+
+  cells.forEach((cell) => {
+
+    row.appendChild(cell);
+  });
+
+  return row;
+}
+
+function calculateMatchPercentage(vacancySkills: string[], candidateSkills: string[]): string {
+
+  let matchingSkills = vacancySkills.filter((skill: string) => candidateSkills.includes(skill));
+
+  let matchPercentage = (matchingSkills.length / vacancySkills.length) * 100;
+  
+  return `${matchPercentage.toFixed(2)}%`;
+}
+
+generateGraph();
 
 generateTable();
