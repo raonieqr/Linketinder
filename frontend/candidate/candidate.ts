@@ -10,6 +10,11 @@ const btnRegisterC = document.getElementById("register-c");
 const btnShowProfileC = document.getElementById("show-profile-c");
 const btnExitModal = document.getElementById("exitModal");
 
+function getInput(id: string): HTMLInputElement | null {
+  return document.getElementById(id) as HTMLInputElement | null;
+}
+
+
 function redirectToCandidateRegistration() {
   window.location.href = "./candidate_registration.html";
 }
@@ -37,8 +42,8 @@ if (btnExitModal)
 
 function handleSignInClick() {
   let candCheck: any = localStorage.getItem("candidateLocal");
-  let userName: HTMLInputElement = document.getElementById("userName") as HTMLInputElement;
-  let userPass: HTMLInputElement = document.getElementById("userPass") as HTMLInputElement;
+  let userName: HTMLInputElement = getInput("userName") as HTMLInputElement;
+  let userPass: HTMLInputElement = getInput("userPass") as HTMLInputElement;
 
   if (!candCheck || !userName || !userPass) {
     alert("Error: campo vazio");
@@ -77,10 +82,6 @@ function redirectToCandidateProfile() {
 
 if (btnRegister) {
   btnRegister.addEventListener("click", handleRegisterButtonClick);
-}
-
-function getInput(id: string): HTMLInputElement | null {
-  return document.getElementById(id) as HTMLInputElement | null;
 }
 
 function validateInputFields(): boolean {
@@ -170,6 +171,7 @@ function saveCandidateData(): boolean {
 function updateVacancy() {
   const companyLocal = localStorage.getItem("companyLocal");
   const candidateLocal = localStorage.getItem("candidateLocal");
+  const parentDiv = document.querySelector(".grid");
 
   if (!companyLocal || !candidateLocal)
     return;
@@ -177,14 +179,14 @@ function updateVacancy() {
   const compObj = JSON.parse(companyLocal);
   const candiObj = JSON.parse(candidateLocal);
 
-  if (!compObj.vacancy || !compObj.vacancy.skills || !candiObj.skills)
+  if (!compObj.vacancy || !compObj.vacancy.skills || !candiObj.skills) {
     return;
+  }
 
   const matchingSkills = compObj.vacancy.skills.filter((skill: string) =>
     candiObj.skills.includes(skill)
   );
 
-  const parentDiv = document.querySelector(".grid");
 
   if (parentDiv) {
     var matchPercentage: number = (matchingSkills.length / compObj.vacancy.skills.length) * 100
