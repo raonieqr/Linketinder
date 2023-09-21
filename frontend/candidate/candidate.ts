@@ -1,29 +1,39 @@
 import { VacancyPosting, Candidate, VacancyApplication } from "../module";
 import * as check from "../validations";
 //intro_candidate.html
-let btnRegisterC: HTMLElement | null = document.getElementById("register-c");
-let btnShowProfileC: HTMLElement | null = document.getElementById("show-profile-c");
+const modal = document.getElementById("modal");
+const behindModal = document.getElementById("behind-modal");
+const btnRegisterC = document.getElementById("register-c");
+const btnShowProfileC = document.getElementById("show-profile-c");
+const btnExitModal = document.getElementById("exitModal");
 
-btnRegisterC?.addEventListener("click", function (): void {
+function redirectToCandidateRegistration() {
   window.location.href = "./candidate_registration.html";
-});
+}
 
-let modal: HTMLElement | null = document.getElementById("modal");
-let behindModal: HTMLElement | null = document.getElementById("behind-modal");
-
-btnShowProfileC?.addEventListener("click", function (): void {
+function showModal() {
   if (modal) modal.style.display = "flex";
-  if (behindModal) {
-    behindModal.classList.add("modalBlur");
-  }
-});
 
-let btnExitModal: HTMLElement | null = document.getElementById("exitModal");
+  if (behindModal) behindModal.classList.add("modalBlur");
+}
 
-btnExitModal?.addEventListener("click", function (): void {
+function hideModal() {
   if (modal) modal.style.display = "none";
+
   if (behindModal) behindModal.classList.remove("modalBlur");
-});
+}
+
+if (btnRegisterC) {
+  btnRegisterC.addEventListener("click", redirectToCandidateRegistration);
+}
+
+if (btnShowProfileC) {
+  btnShowProfileC.addEventListener("click", showModal);
+}
+
+if (btnExitModal) {
+  btnExitModal.addEventListener("click", hideModal);
+}
 
 let btnsigIn = document.getElementById("sigIn");
 btnsigIn?.addEventListener("click", function (): void {
