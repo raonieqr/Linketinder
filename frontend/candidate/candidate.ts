@@ -29,10 +29,10 @@ function hideModal() {
 if (btnRegisterC)
   btnRegisterC.addEventListener("click", redirectToCandidateRegistration);
 
-if (btnShowProfileC) 
+if (btnShowProfileC)
   btnShowProfileC.addEventListener("click", showModal);
 
-if (btnExitModal) 
+if (btnExitModal)
   btnExitModal.addEventListener("click", hideModal);
 
 function handleSignInClick() {
@@ -57,7 +57,7 @@ function handleSignInClick() {
 
 const btnSignIn = document.getElementById("sigIn");
 
-if (btnSignIn) 
+if (btnSignIn)
   btnSignIn.addEventListener("click", handleSignInClick);
 
 
@@ -102,7 +102,7 @@ function validateInputFields(): boolean {
   ) {
 
     alert("Error: Nenhum campo pode estar vazio");
-    
+
     return false;
   }
 
@@ -219,7 +219,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 });
- 
+
 
 // ********* candidate_profile *********
 
@@ -234,10 +234,10 @@ function generateTable() {
   let c2: HTMLTableCellElement = document.createElement('td');
 
   let company: string | null = localStorage.getItem("companyLocal");
-  
-  if (company) 
+
+  if (company)
       var compObj = JSON.parse(company);
-  
+
   if (compObj.vacancy) {
 
     c0.innerText = compObj.vacancy.name;
@@ -247,7 +247,7 @@ function generateTable() {
     row?.appendChild(c0);
     row?.appendChild(c1);
     row?.appendChild(c2);
-    
+
     if (row && tbody) {
         tbody?.appendChild(row);
         table?.appendChild(tbody);

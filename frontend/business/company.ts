@@ -32,7 +32,7 @@ function hideModal() {
   let modalElement = document.getElementById("modal");
   let behindModalElement = document.getElementById("behind-modal");
 
-  if (modalElement) 
+  if (modalElement)
     modalElement.style.display = "none";
 
   if (behindModalElement)
@@ -62,7 +62,7 @@ function handleSignInClick(){
 
 const btnSignIn = document.getElementById("sigIn");
 
-if (btnSignIn) 
+if (btnSignIn)
   btnSignIn.addEventListener("click", handleSignInClick);
 
 
@@ -73,7 +73,7 @@ let btnRegister = document.getElementById("register");
 
 function handleRegisterClick(): void {
 
-    if (saveCompanyData()) 
+    if (saveCompanyData())
       window.location.href = "./company_profile.html";
 }
 
@@ -89,7 +89,7 @@ function validateInputFields() {
     let stateInput = check.getInput("state") as HTMLInputElement;
     let cepInput = check.getInput("cep") as HTMLInputElement;
     let passwordInput = check.getInput("password") as HTMLInputElement;
-    
+
     if (check.isEmpty(nameInput) || check.isEmpty(emailInput) ||
         check.isEmpty(skillsInput) || check.isEmpty(countryInput) ||
         check.isEmpty(cnpjInput) || check.isEmpty(stateInput) ||
@@ -154,24 +154,24 @@ function registerVacancy() {
     let nameVacancyInput = check.getInput("nameVacancy") as HTMLInputElement;
     let skillsVacancyInput = check.getInput("skillsVacancy") as HTMLInputElement;
     let descriptionVacancyInput = check.getInput("descriptionVacancy") as HTMLInputElement;
-  
+
     let companyLocal = localStorage.getItem("companyLocal");
     let companyObj = companyLocal ? JSON.parse(companyLocal) : null;
-  
+
     if (!nameVacancyInput.value || !skillsVacancyInput.value ||
        !descriptionVacancyInput.value || !companyObj) {
 
-      alert("Error: campo vazio");      
+      alert("Error: campo vazio");
       return;
     }
-  
+
     let skills = check.parseSkillsInput(skillsVacancyInput);
-  
+
     let now = new Date();
     let day = now.getDate().toString().padStart(2, '0');
     let month = (now.getMonth() + 1).toString().padStart(2, '0');
     let year = now.getFullYear();
-  
+
     const vacancyPosting: VacancyPosting = {
       company: companyObj,
       name: nameVacancyInput.value,
@@ -180,15 +180,15 @@ function registerVacancy() {
       skills: Array.from(skills).join()
       .toLowerCase().trim().split(/[;, ]+/)
     };
-  
+
     companyObj.vacancy = JSON.parse(JSON.stringify(vacancyPosting));
     localStorage.setItem("companyLocal", JSON.stringify(companyObj));
 
     window.location.href = "./company_profile.html";
   }
-  
+
   registerVacancyButton?.addEventListener("click", registerVacancy);
-  
+
 
 // ******* company_profile.html *******
 
@@ -210,9 +210,9 @@ function generateGraph() {
         },
         colors: ['#457350'],
       };
-    
+
       var chart = new ApexCharts(document.querySelector("#chart"), options);
-    
+
       chart.render();
 }
 
@@ -245,7 +245,7 @@ function generateTable() {
   let row = generateTableRow([c0, c1, c2, c3, c4]);
 
   if (tbody) {
-    
+
     tbody.appendChild(row);
 
     if (table)
@@ -277,7 +277,7 @@ function calculateMatchPercentage(vacancySkills: string[], candidateSkills: stri
   let matchingSkills = vacancySkills.filter((skill: string) => candidateSkills.includes(skill));
 
   let matchPercentage = (matchingSkills.length / vacancySkills.length) * 100;
-  
+
   return `${matchPercentage.toFixed(2)}%`;
 }
 

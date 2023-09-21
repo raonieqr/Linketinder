@@ -99,4 +99,3 @@ export function isLoginValid(Obj: any, username: string, password: string
 export function getInput(id: string): HTMLInputElement | null {
     return document.getElementById(id) as HTMLInputElement | null;
   }
-  
