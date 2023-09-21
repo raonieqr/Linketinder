@@ -6,6 +6,7 @@ import linketinder.model.entities.MatchVacancy
 import linketinder.model.entities.Vacancy
 
 class InputValidator {
+
     static String ensureUniqueEmail(ArrayList<?> objects, String email) {
 
         boolean exists = true

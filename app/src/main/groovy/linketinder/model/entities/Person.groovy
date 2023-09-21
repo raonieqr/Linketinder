@@ -3,9 +3,12 @@ package linketinder.model.entities
 import linketinder.service.PersonService
 
 class Person implements PersonService{
+
     String name
     String email
+
     Person(String name, String email) {
+
         this.name = name
         this.email = email
     }

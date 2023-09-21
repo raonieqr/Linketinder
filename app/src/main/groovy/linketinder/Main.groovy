@@ -26,11 +26,12 @@ class Main {
         DBHandler dbHandler = DBHandler.getInstance()
 
         try {
+
             int idCompany = IDGenerator.getNextCompanyID()
             int idCandidate = IDGenerator.getNextCandidateID()
             int idVacancy = IDGenerator.getNextVacancyID()
             int idMatch = IDGenerator.getNextMatchID()
-            int option
+            int option = 0
 
             CandidateImpl candidateImpl = new CandidateImpl()
             CompanyImpl companyImpl = new CompanyImpl()
@@ -42,9 +43,6 @@ class Main {
             ArrayList<Vacancy> vacancies = new ArrayList<>()
 
             println("Bem vindo ao LinkeTinder")
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader
-                    (System.in))
 
             while (option != 8) {
 

@@ -1,5 +1,7 @@
 package linketinder.model.dao.impl
 
+import groovy.sql.GroovyRowResult
+import groovy.sql.Sql
 import linketinder.db.DBHandler
 import linketinder.model.dao.VacancyDAO
 import linketinder.model.entities.Company
@@ -7,20 +9,24 @@ import linketinder.model.entities.Vacancy
 
 class VacancyImpl implements VacancyDAO{
 
-    def dbHandler = DBHandler.getInstance()
-    def sql = dbHandler.getSql()
+    DBHandler dbHandler = DBHandler.getInstance()
+    Sql sql = dbHandler.getSql()
 
     @Override
-    void getAllVacancy(ArrayList<Vacancy> vacancies, ArrayList<Company> companies) {
-        def viewAllVancacy = sql.rows("""
+    void getAllVacancy(ArrayList<Vacancy> vacancies,
+                       ArrayList<Company> companies) {
+
+        List<GroovyRowResult> viewAllVancacy = sql.rows("""
             SELECT * FROM roles
         """)
 
         if (viewAllVancacy != null) {
 
             viewAllVancacy.each {vacancy ->
+
                 int id = vacancy.id as int
-                def viewAllSkill = sql.rows("""
+
+                List<GroovyRowResult> viewAllSkill = sql.rows("""
                     SELECT
                         skills.description
                     FROM
@@ -37,12 +43,22 @@ class VacancyImpl implements VacancyDAO{
 
                 companies.each { company ->
                     if (company.getId() == vacancy.id_company as int) {
-                        comp = new Company(company.id as int, company.name as String, company.email as String, company.cnpj as String, company.country as String, company.description as String, company.state as String, company.cep as int)
+
+                        comp = new Company(company.id as int, company
+                                .name as String, company.email as String,
+                                company.cnpj as String, company
+                                .country as String, company
+                                .description as String, company
+                                .state as String, company.cep as int)
                     }
                 }
 
                 if (comp != null && comp) {
-                    vacancies.add(new Vacancy(vacancy.id as int, vacancy.name as String, vacancy.description as String, comp, viewAllSkill.description as ArrayList<String>))
+
+                    vacancies.add(new Vacancy(vacancy.id as int,
+                            vacancy.name as String, vacancy
+                            .description as String, comp, viewAllSkill
+                            .description as ArrayList<String>))
                 }
             }
         }
@@ -50,6 +66,7 @@ class VacancyImpl implements VacancyDAO{
 
     @Override
     void insertVacancy(Vacancy vacancy) {
+
         sql.executeInsert("""
             INSERT INTO roles (NAME, DESCRIPTION, ID_COMPANY,
             DATE)
@@ -58,22 +75,25 @@ class VacancyImpl implements VacancyDAO{
         """)
 
         vacancy.getSkills().each { skill ->
-            def containsSkill = sql.firstRow("""
+
+            GroovyRowResult containsSkill = sql.firstRow("""
                 SELECT id, COUNT(*)
                 FROM skills
                 WHERE description = $skill
                 GROUP BY id
             """)
 
-            def idSkill
+            int idSkill
 
             if (containsSkill != null && containsSkill.count > 0) {
-                idSkill = containsSkill.id
+                idSkill = containsSkill.id as int
             } else {
-                def result = sql.firstRow("""
-                                INSERT INTO skills (DESCRIPTION) VALUES ($skill) RETURNING id
-                            """)
-                idSkill = result.id
+                def result = sql
+                    .firstRow("""
+                        INSERT INTO skills (DESCRIPTION) VALUES (
+                        $skill) RETURNING id
+                     """)
+                idSkill = result.id as int
             }
 
             sql.executeInsert("""

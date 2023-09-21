@@ -8,30 +8,33 @@ import linketinder.model.entities.Company
 import linketinder.model.entities.Vacancy
 
 class DatabaseRefresh {
+
         CompanyImpl companyImpl
         VacancyImpl vacancyImpl
         CandidateImpl candidateImpl
 
         DatabaseRefresh(CompanyImpl companyImpl, VacancyImpl vacancyImpl,
                         CandidateImpl candidateImpl) {
+
             this.companyImpl = companyImpl
             this.vacancyImpl = vacancyImpl
             this.candidateImpl = candidateImpl
         }
 
         void updateCompanies(ArrayList<Company> companies) {
-            companies.clear()
             companyImpl.getAllCompanies(companies)
         }
 
-        void updateVacancies(ArrayList<Vacancy> vacancies, ArrayList<Company> companies) {
-            vacancies.clear()
+        void updateVacancies(ArrayList<Vacancy> vacancies,
+                             ArrayList<Company> companies) {
+
             vacancyImpl.getAllVacancy(vacancies, companies)
         }
 
-        void updateCandidates(ArrayList<Candidate> candidates, ArrayList<Vacancy> vacancies) {
-            candidates.clear()
-            candidateImpl.getAllCandidates(candidates, vacancies)
+        void updateCandidates(ArrayList<Candidate> candidates,
+                              ArrayList<Vacancy> vacancies) {
+
+           candidateImpl.getAllCandidates(candidates, vacancies)
         }
 
     static void updateDataFromDatabase(

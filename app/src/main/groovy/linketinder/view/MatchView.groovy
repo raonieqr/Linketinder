@@ -10,7 +10,8 @@ class MatchView {
     }
 
     static void displayAlreadyLiked() {
-        println("Você só pode curtir vagas que não foram curtidas anteriormente.")
+        println("Você só pode curtir vagas que " +
+                "não foram curtidas anteriormente.")
     }
 
     static void displayVacancyLiked() {
@@ -21,9 +22,13 @@ class MatchView {
         boolean isMatch = false
 
         candidate.getMatchVacancies().each { match ->
+
             if (match.companyLiked) {
+
                 print("Vaga: " + match.getVacancy().getName() + ", ")
+
                 match.getVacancy().getCompany().showInfo()
+
                 isMatch = true
             }
         }
@@ -34,11 +39,15 @@ class MatchView {
     }
 
     static void displayCompanyMatches(Company company) {
+
         if (company.getMatchVacancies().isEmpty())
             println("A sua empresa ainda não deu match")
         else {
+
             company.getMatchVacancies().each { match ->
+
                 print("Vaga: " + match.getVacancy().getName() + ", ")
+
                 match.getCandidate().showInfo()
             }
         }
