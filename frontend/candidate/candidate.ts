@@ -1,6 +1,9 @@
 import { VacancyPosting, Candidate, VacancyApplication } from "../module";
 import * as check from "../validations";
+
 //intro_candidate.html
+
+
 const modal = document.getElementById("modal");
 const behindModal = document.getElementById("behind-modal");
 const btnRegisterC = document.getElementById("register-c");
@@ -23,35 +26,40 @@ function hideModal() {
   if (behindModal) behindModal.classList.remove("modalBlur");
 }
 
-if (btnRegisterC) {
+if (btnRegisterC)
   btnRegisterC.addEventListener("click", redirectToCandidateRegistration);
-}
 
-if (btnShowProfileC) {
+if (btnShowProfileC) 
   btnShowProfileC.addEventListener("click", showModal);
-}
 
-if (btnExitModal) {
+if (btnExitModal) 
   btnExitModal.addEventListener("click", hideModal);
-}
 
-let btnsigIn = document.getElementById("sigIn");
-btnsigIn?.addEventListener("click", function (): void {
-  let candCheck: string | null = localStorage.getItem("candidateLocal");
+function handleSignInClick() {
+  let candCheck: any = localStorage.getItem("candidateLocal");
   let userName: HTMLInputElement = document.getElementById("userName") as HTMLInputElement;
   let userPass: HTMLInputElement = document.getElementById("userPass") as HTMLInputElement;
 
-  if (candCheck) {
-    var candObj = JSON.parse(candCheck);
-    if (candObj && userName && userPass) {
-      if (check.isLoginValid(candObj, userName.value, userPass.value)) {
-        window.location.href = "./candidate_profile.html";
-        return;
-      }
-    }
+  if (!candCheck || !userName || !userPass) {
+    alert("Error: campo vazio");
+    return;
   }
-  alert("Error: login ou senha inválido");
-});
+
+    const candObj = JSON.parse(candCheck);
+
+  if (!check.isLoginValid(candObj, userName.value, userPass.value)) {
+    alert("Error: login ou senha inválido");
+    return;
+  }
+
+  window.location.href = "./candidate_profile.html";
+}
+
+const btnSignIn = document.getElementById("sigIn");
+
+if (btnSignIn) 
+  btnSignIn.addEventListener("click", handleSignInClick);
+
 
 //candidate_registration.html
 let btnRegister: HTMLElement | null = document.getElementById("register");
