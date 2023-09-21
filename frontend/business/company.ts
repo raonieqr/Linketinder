@@ -21,26 +21,22 @@ function showModal() {
   let modalElement = document.getElementById("modal");
   let behindModalElement = document.getElementById("behind-modal");
 
-  if (modalElement) {
+  if (modalElement)
     modalElement.style.display = "flex";
-  }
 
-  if (behindModalElement) {
+  if (behindModalElement)
     behindModalElement.classList.add("modalBlur");
-  }
 }
 
 function hideModal() {
   let modalElement = document.getElementById("modal");
   let behindModalElement = document.getElementById("behind-modal");
 
-  if (modalElement) {
+  if (modalElement) 
     modalElement.style.display = "none";
-  }
 
-  if (behindModalElement) {
+  if (behindModalElement)
     behindModalElement.classList.remove("modalBlur");
-  }
 }
 
 function handleSignInClick(){
@@ -74,9 +70,8 @@ if (btnSignIn)
 let btnRegister = document.getElementById("register");
 
 function handleRegisterClick(): void {
-    if (saveCompanyData()) {
+    if (saveCompanyData()) 
       window.location.href = "./company_profile.html";
-    }
 }
 
 btnRegister?.addEventListener("click", handleRegisterClick);
@@ -148,39 +143,44 @@ function saveCompanyData() {
 //company_vacancies.html
 
 
-let registerVacancy = document.getElementById("registerVacancy");
-registerVacancy?.addEventListener("click", function() {
+let registerVacancyButton = document.getElementById("registerVacancy");
 
-    let nameVacancy = check.getInput("nameVacancy") as HTMLInputElement;
-    let skillsVacancy = check.getInput("skillsVacancy") as HTMLInputElement;
-    let descriptionVacancy = check.getInput("descriptionVacancy") as HTMLInputElement;
-    
-    let company = localStorage.getItem('companyLocal');
-    let companyObj = null;
-    if (company)
-        companyObj = JSON.parse(company);
-    
-    let skills = check.parseSkillsInput(skillsVacancy.value)
-
+function registerVacancy() {
+    let nameVacancyInput = check.getInput("nameVacancy") as HTMLInputElement;
+    let skillsVacancyInput = check.getInput("skillsVacancy") as HTMLInputElement;
+    let descriptionVacancyInput = check.getInput("descriptionVacancy") as HTMLInputElement;
+  
+    let companyLocal = localStorage.getItem("companyLocal");
+    let companyObj = companyLocal ? JSON.parse(companyLocal) : null;
+  
+    if (!nameVacancyInput || !skillsVacancyInput || !descriptionVacancyInput || !companyObj) {
+      alert("Erro: Informações incompletas");
+      return;
+    }
+  
+    let skills = check.parseSkillsInput(skillsVacancyInput.value);
+  
     let now = new Date();
-
     let day = now.getDate().toString().padStart(2, '0');
     let month = (now.getMonth() + 1).toString().padStart(2, '0');
     let year = now.getFullYear();
-    
+  
     const vacancyPosting: VacancyPosting = {
-        company: companyObj,
-        name: nameVacancy?.value,
-        description: descriptionVacancy?.value,
-        date: `${day}/${month}/${year}`,
-        skills: Array.from(skills).join().toLowerCase().trim().split(/[;, ]+/)
+      company: companyObj,
+      name: nameVacancyInput.value,
+      description: descriptionVacancyInput.value,
+      date: `${day}/${month}/${year}`,
+      skills: Array.from(skills).join()
+      .toLowerCase().trim().split(/[;, ]+/)
     };
+  
     companyObj.vacancy = JSON.parse(JSON.stringify(vacancyPosting));
-    window.location.href = "./company_profile.html";
-    localStorage.removeItem('companyLocal');
     localStorage.setItem("companyLocal", JSON.stringify(companyObj));
-});
-
+    window.location.href = "./company_profile.html";
+  }
+  
+  registerVacancyButton?.addEventListener("click", registerVacancy);
+  
 
 //company_profile.html
 
@@ -232,9 +232,10 @@ function generateTable() {
         var candidate = localStorage.getItem("candidateLocal");
         if (candidate) {
 
-        var candiObj = JSON.parse(candidate)
-        if (compObj.vacancy.skills && candiObj.skills) 
-            var matchingSkills = compObj.vacancy.skills.filter((skill: string) => candiObj.skills.includes(skill));
+            var candiObj = JSON.parse(candidate)
+            if (compObj.vacancy.skills && candiObj.skills) 
+                var matchingSkills = compObj.vacancy.skills.
+                filter((skill: string) => candiObj.skills.includes(skill));
         }
     }
 
