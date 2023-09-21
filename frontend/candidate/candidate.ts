@@ -10,11 +10,6 @@ const btnRegisterC = document.getElementById("register-c");
 const btnShowProfileC = document.getElementById("show-profile-c");
 const btnExitModal = document.getElementById("exitModal");
 
-function getInput(id: string): HTMLInputElement | null {
-  return document.getElementById(id) as HTMLInputElement | null;
-}
-
-
 function redirectToCandidateRegistration() {
   window.location.href = "./candidate_registration.html";
 }
@@ -42,8 +37,8 @@ if (btnExitModal)
 
 function handleSignInClick() {
   let candCheck: any = localStorage.getItem("candidateLocal");
-  let userName: HTMLInputElement = getInput("userName") as HTMLInputElement;
-  let userPass: HTMLInputElement = getInput("userPass") as HTMLInputElement;
+  let userName: HTMLInputElement = check.getInput("userName") as HTMLInputElement;
+  let userPass: HTMLInputElement = check.getInput("userPass") as HTMLInputElement;
 
   if (!candCheck || !userName || !userPass) {
     alert("Error: campo vazio");
@@ -86,14 +81,14 @@ if (btnRegister) {
 
 function validateInputFields(): boolean {
 
-  const nameInput = getInput("name");
-  const emailInput = getInput("email");
-  const skillsInput = getInput("skills");
-  const ageInput = getInput("age");
-  const cpfInput = getInput("cpf");
-  const cepInput = getInput("cep");
-  const passwordInput = getInput("password");
-  const descriptionInput = getInput("description");
+  const nameInput = check.getInput("name");
+  const emailInput = check.getInput("email");
+  const skillsInput = check.getInput("skills");
+  const ageInput = check.getInput("age");
+  const cpfInput = check.getInput("cpf");
+  const cepInput = check.getInput("cep");
+  const passwordInput = check.getInput("password");
+  const descriptionInput = check.getInput("description");
 
   if (
     check.isEmpty(nameInput) ||
@@ -105,7 +100,9 @@ function validateInputFields(): boolean {
     check.isEmpty(passwordInput) ||
     check.isEmpty(descriptionInput)
   ) {
+
     alert("Error: Nenhum campo pode estar vazio");
+    
     return false;
   }
 
@@ -117,19 +114,23 @@ function validateInputFields(): boolean {
     check.validateDescription(descriptionInput) &&
     check.validateEmail(emailInput);
 
+    if (!check.validatePasswordLength(passwordInput))
+      return false;
+
   return isSuccessful;
 }
 
 function saveCandidateData(): boolean {
   if (validateInputFields()) {
-    const nameInput = getInput("name");
-    const emailInput = getInput("email");
-    const skillsInput = getInput("skills");
-    const ageInput = getInput("age");
-    const cpfInput = getInput("cpf");
-    const cepInput = getInput("cep");
-    const passwordInput = getInput("password");
-    const descriptionInput = getInput("description");
+
+    const nameInput = check.getInput("name");
+    const emailInput = check.getInput("email");
+    const skillsInput = check.getInput("skills");
+    const ageInput = check.getInput("age");
+    const cpfInput = check.getInput("cpf");
+    const cepInput = check.getInput("cep");
+    const passwordInput = check.getInput("password");
+    const descriptionInput = check.getInput("description");
 
     const skills = check.parseSkillsInput(skillsInput);
 
@@ -159,6 +160,7 @@ function saveCandidateData(): boolean {
     };
 
     localStorage.setItem("candidateLocal", JSON.stringify(candidateLocal));
+
     return true;
   }
   return false;
@@ -174,14 +176,17 @@ function updateVacancy() {
   const parentDiv = document.querySelector(".grid");
 
   if (!companyLocal || !candidateLocal)
+  {
+    if (parentDiv)
+      parentDiv.innerHTML = `<h2>Sem vaga</h2>`
     return;
+  }
 
   const compObj = JSON.parse(companyLocal);
   const candiObj = JSON.parse(candidateLocal);
 
-  if (!compObj.vacancy || !compObj.vacancy.skills || !candiObj.skills) {
+  if (!compObj.vacancy || !compObj.vacancy.skills || !candiObj.skills)
     return;
-  }
 
   const matchingSkills = compObj.vacancy.skills.filter((skill: string) =>
     candiObj.skills.includes(skill)

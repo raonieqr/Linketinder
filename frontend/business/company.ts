@@ -1,150 +1,131 @@
 import { VacancyPosting, Company } from "../module";
 import ApexCharts from 'apexcharts';
+import * as check from "../validations";
 
 //intro_company.html
-let btnRegisterC = document.getElementById("register-comp");
-let btnShowProfileC = document.getElementById("show-prof-comp");
-
-btnRegisterC?.addEventListener("click", function(): void {
-    window.location.href = "./company_registration.html";
-});
 
 
-let modal = document.getElementById("modal");
-let behindModal = document.getElementById("behind-modal");
+let registerCompanyButton = document.getElementById("register-comp");
+let showProfileCompanyButton = document.getElementById("show-prof-comp");
+let exitModalButton = document.getElementById("exitModal");
 
-btnShowProfileC?.addEventListener("click", function(): void {
-    if (modal)
-        modal.style.display = "flex";
-    if (behindModal)
-        behindModal.classList.add("modalBlur");
-});
+registerCompanyButton?.addEventListener("click", redirectToCompanyRegistration);
+showProfileCompanyButton?.addEventListener("click", showModal);
+exitModalButton?.addEventListener("click", hideModal);
 
-let btnExitModal = document.getElementById("exitModal");
+function redirectToCompanyRegistration() {
+  window.location.href = "./company_registration.html";
+}
 
-btnExitModal?.addEventListener("click", function (): void {
-    if (modal)
-        modal.style.display = "none";
-    if (behindModal)
-        behindModal.classList.remove("modalBlur");
-});
+function showModal() {
+  let modalElement = document.getElementById("modal");
+  let behindModalElement = document.getElementById("behind-modal");
 
-let btnsigIn = document.getElementById("sigIn");
-btnsigIn?.addEventListener("click", function(): void {
+  if (modalElement) {
+    modalElement.style.display = "flex";
+  }
+
+  if (behindModalElement) {
+    behindModalElement.classList.add("modalBlur");
+  }
+}
+
+function hideModal() {
+  let modalElement = document.getElementById("modal");
+  let behindModalElement = document.getElementById("behind-modal");
+
+  if (modalElement) {
+    modalElement.style.display = "none";
+  }
+
+  if (behindModalElement) {
+    behindModalElement.classList.remove("modalBlur");
+  }
+}
+
+function handleSignInClick(){
     let compCheck = localStorage.getItem("companyLocal");
-    let compName = document.getElementById("companyUser") as HTMLInputElement;
-    let compPass = document.getElementById("companyPass") as HTMLInputElement;
+    let compName = check.getInput("companyUser") as HTMLInputElement;
+    let compPass = check.getInput("companyPass") as HTMLInputElement;
 
-    function isLoginValid(companyObj: any, username: string, password: string): boolean {
-        return companyObj.name === username && companyObj.password === password;
-    }
+  if (!compCheck || !compName || !compPass) {
+    alert("Error: campo vazio");
+    return;
+  }
+    const compObj = JSON.parse(compCheck);
 
-    if (compCheck) {
-        var compObj = JSON.parse(compCheck);
-        if (compObj && compName && compPass) {
-            if (isLoginValid(compObj,compName.value, compPass.value)) {
-                window.location.href = "./company_profile.html";
-                return;
-            }
-        }
-    }
+  if (!check.isLoginValid(compObj, compName.value, compPass.value)) {
     alert("Error: login ou senha inválido");
-});
+    return;
+  }
+  window.location.href = "./company_profile.html";
+
+}
+
+const btnSignIn = document.getElementById("sigIn");
+
+if (btnSignIn) 
+  btnSignIn.addEventListener("click", handleSignInClick);
 
 
 //company_registration.html 
+
+
 let btnRegister = document.getElementById("register");
 
-btnRegister?.addEventListener("click", function(): void {
-        if (checkInput())
-            window.location.href = "./company_profile.html";
-});
-
-
-function isDigit(input: string): boolean {
-    return /^\d+$/.test(input);
+function handleRegisterClick(): void {
+    if (saveCompanyData()) {
+      window.location.href = "./company_profile.html";
+    }
 }
 
-function isSpecialCharacter(input: string): boolean {
-    return /[/[0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(input);
-}
+btnRegister?.addEventListener("click", handleRegisterClick);
 
-function validationEmail(input: string) {
-    return /\S+@\w+\.\w{2,6}(\.\w{2})?/g.test(input);
-}
-  
-function checkInput() {
-    function showAlert(errorMsg: string) {
-        alert(errorMsg);
+function validateInputFields() {
+
+    let nameInput = check.getInput("name") as HTMLInputElement;
+    let emailInput = check.getInput("email") as HTMLInputElement;
+    let skillsInput = check.getInput("skills") as HTMLInputElement;
+    let countryInput = check.getInput("country") as HTMLInputElement;
+    let cnpjInput = check.getInput("cnpj") as HTMLInputElement;
+    let stateInput = check.getInput("state") as HTMLInputElement;
+    let cepInput = check.getInput("cep") as HTMLInputElement;
+    let passwordInput = check.getInput("password") as HTMLInputElement;
+    
+    if (check.isEmpty(nameInput) || check.isEmpty(emailInput) ||
+        check.isEmpty(skillsInput) || check.isEmpty(countryInput) ||
+        check.isEmpty(cnpjInput) || check.isEmpty(stateInput) ||
+        check.isEmpty(cepInput) || check.isEmpty(passwordInput)) {
+        alert("Error: Nenhum campo pode estar vazio");
         return false;
     }
 
-    function validateInput(input: any, nameVar: string) {
-        if (isSpecialCharacter(input.value) || isDigit(input.value)) {
-            return showAlert(`Error: ${nameVar} inválido`);
-        }
-        return input.value;
-    }
+    const isSuccessful = check.validateInput(nameInput, "nome") &&
+            check.validateInput(countryInput, "país") &&
+            check.validateInput(stateInput, "estado") &&
+            check.validateCnpj(cnpjInput) &&
+            check.validateCep(cepInput) &&
+            check.validateEmail(emailInput);
 
-    function validateCnpj(input: any) {
-        if (!isDigit(input.value) || input.value.length !== 14) {
-            return showAlert("Error: cnpj inválido");
-        }
-        return input.value;
-    }
+    if (!check.validatePasswordLength(passwordInput))
+        return false;
 
-    function validateCep(input: any) {
-        if (!isDigit(input.value) || input.value.length !== 8) {
-            return showAlert("Error: cep inválido");
-        }
-        return input.value;
-    }
+    return isSuccessful;
 
-    function validateEmail(input: any) {
-        if (isDigit(input.value) || !validationEmail(input.value)) {
-            return showAlert("Error: email inválido");
-        }
-        return input.value;
-    }
+}
 
-    let nameInput = document.getElementById("name") as HTMLInputElement;
-    let emailInput = document.getElementById("email") as HTMLInputElement;
-    let skillsInput = document.getElementById("skills") as HTMLInputElement;
-    let countryInput = document.getElementById("country") as HTMLInputElement;
-    let cnpjInput = document.getElementById("cnpj") as HTMLInputElement;
-    let stateInput = document.getElementById("state") as HTMLInputElement;
-    let cepInput = document.getElementById("cep") as HTMLInputElement;
-    let passwordInput = document.getElementById("password") as HTMLInputElement;
+function saveCompanyData() {
+    if (validateInputFields()) {
+        let nameInput = check.getInput("name") as HTMLInputElement;
+        let emailInput = check.getInput("email") as HTMLInputElement;
+        let skillsInput = check.getInput("skills") as HTMLInputElement;
+        let countryInput = check.getInput("country") as HTMLInputElement;
+        let cnpjInput = check.getInput("cnpj") as HTMLInputElement;
+        let stateInput = check.getInput("state") as HTMLInputElement;
+        let cepInput = check.getInput("cep") as HTMLInputElement;
+        let passwordInput = check.getInput("password") as HTMLInputElement;
 
-    function isEmpty(inputElement: any) {
-        return inputElement.value.trim() === "";
-    }
-    
-    if (isEmpty(nameInput) || isEmpty(emailInput) || isEmpty(skillsInput) || isEmpty(countryInput) ||
-        isEmpty(cnpjInput) || isEmpty(stateInput) || isEmpty(cepInput) || isEmpty(passwordInput)) {
-        showAlert("Error: Nenhum campo pode estar vazio");
-    }
-
-    const isSuccessful = validateInput(nameInput, "nome") &&
-                         validateInput(countryInput, "país") &&
-                         validateInput(stateInput, "estado") &&
-                         validateCnpj(cnpjInput) &&
-                         validateCep(cepInput) &&
-                         validateEmail(emailInput);
-
-    if (isSuccessful) {
-        if (passwordInput && passwordInput.value.length < 8) {
-            showAlert("Error: senha muito curta");
-            return false;
-        }
-
-        let skills: Set<string[]> = new Set();
-        if (skillsInput && skillsInput.value) {
-            if (skillsInput.value.match(","))
-                skills.add(skillsInput.value.split(","));
-            else
-                skills.add(skillsInput.value.split(" "));
-        }
+        let skills = check.parseSkillsInput(skillsInput)
 
         const companyLocal: Company = {
             name: nameInput.value,
@@ -163,27 +144,23 @@ function checkInput() {
     return false;
 }
 
+
 //company_vacancies.html
+
+
 let registerVacancy = document.getElementById("registerVacancy");
 registerVacancy?.addEventListener("click", function() {
 
-    let nameVacancy = document.getElementById("nameVacancy") as HTMLInputElement;
-    let skillsVacancy = document.getElementById("skillsVacancy") as HTMLInputElement;
-    let descriptionVacancy = document.getElementById("descriptionVacancy") as HTMLInputElement;
+    let nameVacancy = check.getInput("nameVacancy") as HTMLInputElement;
+    let skillsVacancy = check.getInput("skillsVacancy") as HTMLInputElement;
+    let descriptionVacancy = check.getInput("descriptionVacancy") as HTMLInputElement;
     
     let company = localStorage.getItem('companyLocal');
     let companyObj = null;
     if (company)
         companyObj = JSON.parse(company);
     
-    
-    let skills: Set<string[]> = new Set();
-    if (skillsVacancy && skillsVacancy.value) {
-        if (skillsVacancy.value.match(","))
-            skills.add(skillsVacancy.value.split(","));
-        else
-            skills.add(skillsVacancy.value.split(" "));
-    }
+    let skills = check.parseSkillsInput(skillsVacancy.value)
 
     let now = new Date();
 
@@ -204,7 +181,10 @@ registerVacancy?.addEventListener("click", function() {
     localStorage.setItem("companyLocal", JSON.stringify(companyObj));
 });
 
+
 //company_profile.html
+
+
 function generateGraph() {
 
     var options = {

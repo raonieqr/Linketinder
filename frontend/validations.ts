@@ -69,6 +69,13 @@ export function validatePasswordLength(passwordInput: any) {
     return true;
 }
 
+export function validateCnpj(input: any) {
+    if (!isDigit(input.value) || input.value.length !== 14) {
+        return showAlert("Error: cnpj inválido");
+    }
+    return input.value;
+}
+
 export function parseSkillsInput(skillsInput: any) {
     const skillsSet = new Set();
 
@@ -88,3 +95,8 @@ export function isLoginValid(Obj: any, username: string, password: string
 ): boolean {
     return Obj.name === username && Obj.password === password;
 }
+
+export function getInput(id: string): HTMLInputElement | null {
+    return document.getElementById(id) as HTMLInputElement | null;
+  }
+  
