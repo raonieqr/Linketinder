@@ -1,7 +1,7 @@
 import { VacancyPosting, Candidate, VacancyApplication } from "../module";
 import * as check from "../validations";
 
-//intro_candidate.html
+// ********* intro_candidate.html *********
 
 
 const modal = document.getElementById("modal");
@@ -61,7 +61,8 @@ if (btnSignIn)
   btnSignIn.addEventListener("click", handleSignInClick);
 
 
-//candidate_registration.html
+// ********* candidate_registration.html *********
+
 
 const btnRegister = document.getElementById("register");
 
@@ -163,30 +164,30 @@ function saveCandidateData(): boolean {
 }
 
 
-// candidate_vacancies
+// ********* candidate_vacancies *********
+
+
 function updateVacancy() {
-  let company: string | null = localStorage.getItem("companyLocal");
-  
-  if (company) 
-    var compObj = JSON.parse(company);
-  
-  
-  if (compObj.vacancy) {
+  const companyLocal = localStorage.getItem("companyLocal");
+  const candidateLocal = localStorage.getItem("candidateLocal");
 
-    var candidate: string | null = localStorage.getItem("candidateLocal");
-    if (candidate) {
+  if (!companyLocal || !candidateLocal)
+    return;
 
-      var candiObj = JSON.parse(candidate)
-      if (compObj.vacancy.skills && candiObj.skills) 
-        var matchingSkills = compObj.vacancy.skills.filter((skill: string) => candiObj.skills.includes(skill));
-    }
-  }
+  const compObj = JSON.parse(companyLocal);
+  const candiObj = JSON.parse(candidateLocal);
 
-  let parentDiv: Element | null = document.querySelector(".grid");
+  if (!compObj.vacancy || !compObj.vacancy.skills || !candiObj.skills)
+    return;
+
+  const matchingSkills = compObj.vacancy.skills.filter((skill: string) =>
+    candiObj.skills.includes(skill)
+  );
+
+  const parentDiv = document.querySelector(".grid");
 
   if (parentDiv) {
     var matchPercentage: number = (matchingSkills.length / compObj.vacancy.skills.length) * 100
-
     parentDiv.innerHTML = ` <div id="vacancies">
       <div class="vacancies-detail">
         <div class="title">
@@ -203,12 +204,18 @@ function updateVacancy() {
 updateVacancy();
 
 document.addEventListener('DOMContentLoaded', function() {
-  let vacancyLink: HTMLElement | null = document.getElementById("vacancyLinkacancyLink");
-  vacancyLink?.addEventListener('click', function() {    
-    updateVacancy();
-     
-  });
+  let vacancyLink: HTMLElement | null = document.getElementById("vacancyLink");
+
+  if (vacancyLink) {
+    vacancyLink.addEventListener('click', function() {
+      updateVacancy();
+    });
+  }
 });
+ 
+
+// ********* candidate_profile *********
+
 
 function generateTable() {
   let tbody: HTMLTableSectionElement | null = document.querySelector("tbody");
