@@ -16,7 +16,7 @@ class Vacancy {
         this.description = description
         this.company = company
         this.skills = skills
-    }
+            }
 
     int getId() {
         return id
@@ -60,12 +60,13 @@ class Vacancy {
 
     @Override
     public String toString() {
-        return "Vacancy{" +
-                "id=" + id +
+        return 'Vacancy{' +
+                'id=' + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", company=" + company.showInfo() +
-                ", skills=" + skills +
-                '}';
+                ', company=' + company.showInfo() +
+                ', skills=' + skills +
+                '}'
     }
+
 }

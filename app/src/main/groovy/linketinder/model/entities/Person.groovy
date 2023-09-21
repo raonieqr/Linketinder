@@ -2,19 +2,18 @@ package linketinder.model.entities
 
 import linketinder.service.PersonService
 
-class Person implements PersonService{
+class Person implements PersonService {
 
     String name
     String email
 
     Person(String name, String email) {
-
         this.name = name
         this.email = email
     }
 
     String getName() {
-       return name
+        return name
     }
 
     void setName(String name) {
@@ -22,7 +21,7 @@ class Person implements PersonService{
     }
 
     String getEmail() {
-       return email
+        return email
     }
 
     void setEmail(String email) {
@@ -30,5 +29,6 @@ class Person implements PersonService{
     }
 
     @Override
-    void showInfo() {}
+    void showInfo() { }
+
 }

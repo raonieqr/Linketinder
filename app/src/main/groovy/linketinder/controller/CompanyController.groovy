@@ -11,7 +11,6 @@ import linketinder.view.CompanyView
 class CompanyController {
 
     static void listCompanies(ArrayList<Company> companies) {
-
         CompanyView.showCompanies(companies)
     }
 
@@ -20,20 +19,18 @@ class CompanyController {
 
         companies.add(company)
         companyImpl.insertCompany(company)
-    }
+                           }
 
     static void processCompanyMatches(Candidate candidate,
                             ArrayList<Candidate> candidates, Company company,
                             MatchVacancyImpl matchVacancyImpl) {
 
         if (candidate != null) {
-
             MatchVacancy matchVacancy =
                     MatchValidator.findMatchVacancyForCandidate(candidate,
                             candidates)
 
             if (matchVacancy != null) {
-
                 company.getMatchVacancies()
                         .find {
                             it.getId() == matchVacancy
@@ -43,5 +40,6 @@ class CompanyController {
                 matchVacancyImpl.updateLikedCompany(matchVacancy)
             }
         }
-    }
+                            }
+
 }

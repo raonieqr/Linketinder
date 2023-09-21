@@ -9,33 +9,33 @@ import linketinder.model.entities.Vacancy
 
 class DatabaseRefresh {
 
-        CompanyImpl companyImpl
-        VacancyImpl vacancyImpl
-        CandidateImpl candidateImpl
+    CompanyImpl companyImpl
+    VacancyImpl vacancyImpl
+    CandidateImpl candidateImpl
 
-        DatabaseRefresh(CompanyImpl companyImpl, VacancyImpl vacancyImpl,
+    DatabaseRefresh(CompanyImpl companyImpl, VacancyImpl vacancyImpl,
                         CandidateImpl candidateImpl) {
 
-            this.companyImpl = companyImpl
-            this.vacancyImpl = vacancyImpl
-            this.candidateImpl = candidateImpl
-        }
+        this.companyImpl = companyImpl
+        this.vacancyImpl = vacancyImpl
+        this.candidateImpl = candidateImpl
+                        }
 
-        void updateCompanies(ArrayList<Company> companies) {
-            companyImpl.getAllCompanies(companies)
-        }
+    void updateCompanies(ArrayList<Company> companies) {
+        companyImpl.getAllCompanies(companies)
+    }
 
-        void updateVacancies(ArrayList<Vacancy> vacancies,
+    void updateVacancies(ArrayList<Vacancy> vacancies,
                              ArrayList<Company> companies) {
 
-            vacancyImpl.getAllVacancy(vacancies, companies)
-        }
+        vacancyImpl.getAllVacancy(vacancies, companies)
+                             }
 
-        void updateCandidates(ArrayList<Candidate> candidates,
+    void updateCandidates(ArrayList<Candidate> candidates,
                               ArrayList<Vacancy> vacancies) {
 
-           candidateImpl.getAllCandidates(candidates, vacancies)
-        }
+        candidateImpl.getAllCandidates(candidates, vacancies)
+                              }
 
     static void updateDataFromDatabase(
             ArrayList<Company> companies, ArrayList<Vacancy> vacancies,
@@ -50,5 +50,6 @@ class DatabaseRefresh {
         updater.updateCandidates(candidates, vacancies)
 
         Company.getMatch(candidates, companies)
-    }
+            }
+
 }

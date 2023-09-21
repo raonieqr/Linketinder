@@ -10,5 +10,6 @@ class VacancyController {
 
         vacancies.add(vacancy)
         vacancyImpl.insertVacancy(vacancy)
-    }
+                           }
+
 }

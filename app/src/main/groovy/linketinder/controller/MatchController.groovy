@@ -13,16 +13,18 @@ class MatchController {
     static void listAvailableVacancies(Candidate candidate, ArrayList<Vacancy> vacancies,
                                        MatchVacancyImpl matchVacancyImpl,
                                        int idMatch) {
-        if (vacancies.isEmpty())
+        if (vacancies.isEmpty()) {
             VacancyView.displayNoVacancies()
+        }
         else {
-            ArrayList<Integer> printedVacancyIds = new ArrayList<>()
+            ArrayList<Integer> printedVacancyIds = []
             Set<Integer> idsLiked = candidate.getMatchVacancies().findAll { it.getCompanyLiked() }
 
             displayUnlikedVacancies(candidate, vacancies, printedVacancyIds)
 
-            if (idsLiked.size() == vacancies.size())
+            if (idsLiked.size() == vacancies.size()) {
                 MatchView.displayAllVacanciesLiked()
+            }
             else {
                 Vacancy selectedVacancy = likeVacancy(candidate, vacancies,
                         idsLiked, matchVacancyImpl)
@@ -35,7 +37,7 @@ class MatchController {
                 MatchView.displayVacancyLiked()
             }
         }
-    }
+                                       }
 
     static void displayUnlikedVacancies(Candidate candidate, ArrayList<Vacancy> vacancies,
                                         ArrayList<Integer> printedVacancyIds) {
@@ -54,7 +56,7 @@ class MatchController {
                 printedVacancyIds.add(vacancy.getId())
             }
         }
-    }
+                                        }
 
     static Vacancy likeVacancy(Candidate candidate, ArrayList<Vacancy> vacancies,
                             Set<Integer> idsLiked, MatchVacancyImpl matchVacancyImpl) {
@@ -73,7 +75,6 @@ class MatchController {
         }
 
         return selectedVacancy
-    }
-
+                            }
 
 }

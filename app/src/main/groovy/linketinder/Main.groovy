@@ -21,12 +21,11 @@ import linketinder.view.MatchView
 import linketinder.view.VacancyView
 
 class Main {
-    static void main(String[] args) {
 
+    static void main(String[] args) {
         DBHandler dbHandler = DBHandler.getInstance()
 
         try {
-
             int idCompany = IDGenerator.getNextCompanyID()
             int idCandidate = IDGenerator.getNextCandidateID()
             int idVacancy = IDGenerator.getNextVacancyID()
@@ -38,14 +37,13 @@ class Main {
             VacancyImpl vacancyImpl = new VacancyImpl()
             MatchVacancyImpl matchVacancyImpl = new MatchVacancyImpl()
 
-            ArrayList<Candidate> candidates = new ArrayList<>()
-            ArrayList<Company> companies = new ArrayList<>()
-            ArrayList<Vacancy> vacancies = new ArrayList<>()
+            ArrayList<Candidate> candidates = []
+            ArrayList<Company> companies = []
+            ArrayList<Vacancy> vacancies = []
 
-            println("Bem vindo ao LinkeTinder")
+            println('Bem vindo ao LinkeTinder')
 
             while (option != 8) {
-
                 DatabaseRefresh updater = new DatabaseRefresh(companyImpl,
                         vacancyImpl, candidateImpl)
 
@@ -57,7 +55,6 @@ class Main {
                 option = InputValidator.displayMenuAndGetOption()
 
                 switch (option) {
-
                     case 1:
                         CompanyController.listCompanies(companies)
                         break
@@ -73,7 +70,7 @@ class Main {
                         CandidateController
                                 .addCandidate(candidates, candidate, candidateImpl)
 
-                        println("Cadastrado com sucesso")
+                        println('Cadastrado com sucesso')
 
                         break
 
@@ -84,7 +81,7 @@ class Main {
                         CompanyController
                                 .addCompany(companies, company, companyImpl)
 
-                        println("Cadastrado com sucesso")
+                        println('Cadastrado com sucesso')
 
                         break
 
@@ -97,14 +94,14 @@ class Main {
                         VacancyController.addVacancy(vacancy, vacancies,
                                 vacancyImpl)
 
-                        println("Vaga criada com sucesso!")
+                        println('Vaga criada com sucesso!')
 
                         break
 
                     case 6:
                         int choose = InputValidator.getUserTypeChoice()
 
-                        switch (choose){
+                        switch (choose) {
                             case 1:
                                 Company company =  InputValidator
                                         .findCompanyByID(companies)
@@ -112,11 +109,12 @@ class Main {
                                 Candidate candidate = CompanyView
                                         .processCompanyMatches(company, candidates)
 
-                                if (candidate != null)
+                                if (candidate != null) {
                                     CompanyController.processCompanyMatches(candidate,
+                                }
                                     candidates, company,matchVacancyImpl)
 
-                                println("Match realizado!")
+                                println('Match realizado!')
 
                                 break
 
@@ -127,7 +125,7 @@ class Main {
                                 MatchController.listAvailableVacancies(candidate,
                                         vacancies, matchVacancyImpl, ++idMatch)
 
-                                println("Vaga curtida!")
+                                println('Vaga curtida!')
 
                                 break
                         }
@@ -156,7 +154,6 @@ class Main {
                         }
 
                         break
-
                 }
             }
         }
@@ -167,4 +164,5 @@ class Main {
             dbHandler.close()
         }
     }
+
 }

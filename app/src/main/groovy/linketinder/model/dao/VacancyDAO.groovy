@@ -9,4 +9,5 @@ interface VacancyDAO {
                        ArrayList<Company> companies)
 
     void insertVacancy(Vacancy vacancy)
+
 }

@@ -6,26 +6,24 @@ import linketinder.model.entities.Company
 class MatchView {
 
     static void displayAllVacanciesLiked() {
-        println("Você já curtiu todas as vagas disponíveis.")
+        println('Você já curtiu todas as vagas disponíveis.')
     }
 
     static void displayAlreadyLiked() {
-        println("Você só pode curtir vagas que " +
-                "não foram curtidas anteriormente.")
+        println('Você só pode curtir vagas que ' +
+                'não foram curtidas anteriormente.')
     }
 
     static void displayVacancyLiked() {
-        println("Vaga curtida!")
+        println('Vaga curtida!')
     }
 
     static void displayCandidateMatches(Candidate candidate) {
         boolean isMatch = false
 
         candidate.getMatchVacancies().each { match ->
-
             if (match.companyLiked) {
-
-                print("Vaga: " + match.getVacancy().getName() + ", ")
+                print('Vaga: ' + match.getVacancy().getName() + ', ')
 
                 match.getVacancy().getCompany().showInfo()
 
@@ -34,19 +32,17 @@ class MatchView {
         }
 
         if (!isMatch) {
-            println("Ainda não houve match")
+            println('Ainda não houve match')
         }
     }
 
     static void displayCompanyMatches(Company company) {
-
-        if (company.getMatchVacancies().isEmpty())
-            println("A sua empresa ainda não deu match")
+        if (company.getMatchVacancies().isEmpty()) {
+            println('A sua empresa ainda não deu match')
+        }
         else {
-
             company.getMatchVacancies().each { match ->
-
-                print("Vaga: " + match.getVacancy().getName() + ", ")
+                print('Vaga: ' + match.getVacancy().getName() + ', ')
 
                 match.getCandidate().showInfo()
             }

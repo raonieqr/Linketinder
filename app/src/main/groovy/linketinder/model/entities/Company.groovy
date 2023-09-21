@@ -8,7 +8,7 @@ class Company extends Person {
     String state
     String country
     int cep
-    ArrayList<MatchVacancy> matchVacancies = new ArrayList<>();
+    ArrayList<MatchVacancy> matchVacancies = []
 
     Company(int id, String name, String email, String cnpj, String country,
             String description, String state,
@@ -21,7 +21,7 @@ class Company extends Person {
         this.description = description
         this.state = state
         this.cep = cep
-    }
+            }
 
     int getId() {
         return id
@@ -82,18 +82,18 @@ class Company extends Person {
     static void getMatch(ArrayList<Candidate> candidates,
                          ArrayList<Company> companies) {
 
-        candidates.each {it ->
-
-            it.getMatchVacancies().each {mv ->
+        candidates.each { it ->
+            it.getMatchVacancies().each { mv ->
                  {
-                    companies.each {cp ->
-                    if (mv.getVacancy().getCompany().getId() == cp.getId())
+                companies.each { cp ->
+                    if (mv.getVacancy().getCompany().getId() == cp.getId()) {
                         cp.getMatchVacancies().add(mv)
                     }
                 }
+                 }
             }
         }
-    }
+                         }
 
     @Override
     void showInfo() {
@@ -104,6 +104,6 @@ class Company extends Person {
         println("Estado: $state")
         println("CEP: $cep")
         println("Descrição: $description")
-
     }
+
 }

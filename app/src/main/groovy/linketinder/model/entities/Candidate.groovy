@@ -3,7 +3,7 @@ package linketinder.model.entities
 class Candidate extends Person {
 
     ArrayList<String> skills
-    ArrayList<MatchVacancy> matchVacancies = new ArrayList<>();
+    ArrayList<MatchVacancy> matchVacancies = []
     int id
     int age
     int cep
@@ -23,7 +23,7 @@ class Candidate extends Person {
         this.description = description
         this.cpf = cpf
         this.cep = cep
-    }
+              }
 
     int getId() {
         return id
@@ -83,8 +83,7 @@ class Candidate extends Person {
 
     @Override
     void showInfo() {
-
-        String skill = skills.join(", ")
+        String skill = skills.join(', ')
 
         println("Nome: $name")
         println("Email: $super.email")
@@ -94,4 +93,5 @@ class Candidate extends Person {
         println("Descrição: $description")
         println("Competências: $skill")
     }
+
 }

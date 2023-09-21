@@ -5,12 +5,13 @@ import groovy.sql.Sql
 import linketinder.db.DBHandler
 
 class IDGenerator {
+
     static int getNextCompanyID() {
         DBHandler dbHandler = DBHandler.getInstance()
 
         Sql sql = dbHandler.getSql()
 
-        GroovyRowResult result = sql.firstRow("SELECT max(id) FROM companies")
+        GroovyRowResult result = sql.firstRow('SELECT max(id) FROM companies')
 
         return result.max == null ? 0 : result.max
     }
@@ -20,7 +21,7 @@ class IDGenerator {
 
         Sql sql = dbHandler.getSql()
 
-        GroovyRowResult result = sql.firstRow("SELECT max(id) FROM candidates")
+        GroovyRowResult result = sql.firstRow('SELECT max(id) FROM candidates')
 
         return result.max == null ? 0 : result.max
     }
@@ -30,7 +31,7 @@ class IDGenerator {
 
         Sql sql = dbHandler.getSql()
 
-        GroovyRowResult result = sql.firstRow("SELECT max(id) FROM roles")
+        GroovyRowResult result = sql.firstRow('SELECT max(id) FROM roles')
 
         return result.max == null ? 0 : result.max
     }
@@ -40,8 +41,9 @@ class IDGenerator {
 
         Sql sql = dbHandler.getSql()
 
-        GroovyRowResult result = sql.firstRow("SELECT max(id) FROM role_matching")
-        
+        GroovyRowResult result = sql.firstRow('SELECT max(id) FROM role_matching')
+
         return result.max == null ? 0 : result.max
     }
+
 }

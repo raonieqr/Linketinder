@@ -9,4 +9,5 @@ interface MatchVacancyDAO {
     void updateLikedCompany(MatchVacancy matchVacancy)
 
     void insertCandidateLiked(Candidate candidate, Vacancy vacancy)
+
 }

@@ -11,13 +11,12 @@ class MatchValidator {
         boolean isCandidate = false
 
         while (!isCandidate) {
-
             if (idsCandidates.isEmpty()) {
-                println("Não há candidatos")
+                println('Não há candidatos')
                 break
             }
 
-             candidate = InputValidator.findCandidateByID(candidates)
+            candidate = InputValidator.findCandidateByID(candidates)
 
             if (idsCandidates.contains(candidate.getId())) {
                 isCandidate = true
@@ -25,12 +24,13 @@ class MatchValidator {
         }
 
         return candidate
-    }
+                                           }
 
     static MatchVacancy findMatchVacancyForCandidate(Candidate candidate,
                                             ArrayList<Candidate> candidates) {
 
         return InputValidator.findMatchVacancyByID(candidate
                 .getMatchVacancies(), candidates)
-    }
+                                            }
+
 }

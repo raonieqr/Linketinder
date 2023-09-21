@@ -7,9 +7,7 @@ class MatchVacancy {
     Candidate candidate
     boolean companyLiked
 
-
     MatchVacancy(int id, Vacancy vacancy, Candidate candidate) {
-
         this.id = id
         this.vacancy = vacancy
         this.candidate = candidate
@@ -54,11 +52,12 @@ class MatchVacancy {
 
     @Override
     public String toString() {
-        return "MatchVacancy{" +
-                "id=" + id +
-                ", vacancy=" + vacancy.getName() +
-                ", candidate=" + candidate.getName() +
-                ", companyLiked=" + companyLiked +
-                '}';
+        return 'MatchVacancy{' +
+                'id=' + id +
+                ', vacancy=' + vacancy.getName() +
+                ', candidate=' + candidate.getName() +
+                ', companyLiked=' + companyLiked +
+                '}'
     }
+
 }
