@@ -1,20 +1,30 @@
 package linketinder.model.dao.impl
 
+import groovy.sql.GroovyRowResult
+import groovy.sql.Sql
 import linketinder.db.DBHandler
 import linketinder.model.dao.CompanyDAO
 import linketinder.model.entities.Company
 
 class CompanyImpl implements CompanyDAO{
-    def dbHandler = DBHandler.getInstance()
-    def sql = dbHandler.getSql()
+
+    DBHandler dbHandler = DBHandler.getInstance()
+    Sql sql = dbHandler.getSql()
 
     @Override
     void getAllCompanies(ArrayList<Company> companies) {
+
         try {
-            def viewAllCompanies = sql.rows("SELECT * FROM companies")
+
+            List<GroovyRowResult> viewAllCompanies = sql
+                    .rows("SELECT * FROM companies")
+
             if (!viewAllCompanies.isEmpty()) {
+
                 viewAllCompanies.each {companie ->
+
                     if (companie.name != null)
+
                         companies.add(new Company(companie.id as int,
                             companie.name as String, companie.email as String,
                             companie.cnpj as String, companie.country as String,
@@ -32,7 +42,9 @@ class CompanyImpl implements CompanyDAO{
 
     @Override
     void insertCompany(Company company) {
+
         try {
+
             sql.executeInsert("""
                 INSERT INTO companies (NAME, CEP, CNPJ, STATE, 
                 DESCRIPTION, EMAIL, COUNTRY, PASSWORD) 

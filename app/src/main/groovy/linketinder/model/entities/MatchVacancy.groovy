@@ -1,6 +1,7 @@
 package linketinder.model.entities
 
 class MatchVacancy {
+
     int id
     Vacancy vacancy
     Candidate candidate
@@ -8,6 +9,7 @@ class MatchVacancy {
 
 
     MatchVacancy(int id, Vacancy vacancy, Candidate candidate) {
+
         this.id = id
         this.vacancy = vacancy
         this.candidate = candidate
@@ -50,14 +52,12 @@ class MatchVacancy {
         return candidateLiked
     }
 
-
-
     @Override
     public String toString() {
         return "MatchVacancy{" +
                 "id=" + id +
-                ", vacancy=" + vacancy.toString() +
-                ", candidate=" + candidate.showInfo() +
+                ", vacancy=" + vacancy.getName() +
+                ", candidate=" + candidate.getName() +
                 ", companyLiked=" + companyLiked +
                 '}';
     }

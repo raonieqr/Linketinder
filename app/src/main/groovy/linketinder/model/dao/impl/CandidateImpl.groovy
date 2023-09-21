@@ -1,5 +1,7 @@
 package linketinder.model.dao.impl
 
+import groovy.sql.GroovyRowResult
+import groovy.sql.Sql
 import linketinder.db.DBHandler
 import linketinder.model.dao.CandidateDAO
 import linketinder.model.entities.Candidate
@@ -7,96 +9,116 @@ import linketinder.model.entities.MatchVacancy
 import linketinder.model.entities.Vacancy
 
 class CandidateImpl implements  CandidateDAO {
-    def dbHandler = DBHandler.getInstance()
-    def sql = dbHandler.getSql()
+    DBHandler dbHandler = DBHandler.getInstance()
+    Sql sql = dbHandler.getSql()
 
-    @Override
     void getAllCandidates(ArrayList<Candidate> candidates,
                           ArrayList<Vacancy> vacancies) {
-        try {
 
-            def viewAllCandidates =
-                    sql.rows("SELECT * FROM candidates")
-            if (viewAllCandidates) {
-                viewAllCandidates.each { candidate ->
-                    def viewCandidateSkill = sql.rows("""
-                        SELECT DISTINCT skills.description AS skill
-                        FROM candidates
-                        JOIN candidate_skills ON $candidate.id = 
-                        candidate_skills.id_candidate
-                        JOIN skills ON candidate_skills.id_skill = skills.id
-                    """)
+        List<GroovyRowResult> viewAllCandidates = sql
+                .rows("SELECT * FROM candidates")
 
-                    Candidate candi = new Candidate(candidate.id as int,
-                            candidate.name as String, candidate.email as
-                            String, viewCandidateSkill.skill as ArrayList<String>,
-                            candidate.age as int, candidate.state as String,
-                            candidate.description as String, candidate.
-                            cpf as String, candidate.cep as int)
+        if (viewAllCandidates) {
 
-                    // TODO: gerar outro metodo, e retornar a lista
+            viewAllCandidates.each { candidate ->
 
-                    def getMatchCandidate = sql.rows("""
-                        SELECT rm.id, rm.id_role, rm.id_candidate, rm.companymatched
-                        FROM role_matching AS rm
-                        JOIN roles on rm.id_role = roles.id
-                        WHERE id_candidate = ${candidate.id}
-                    """)
+                Candidate candi = createCandidateFromRow(candidate)
 
-                    getMatchCandidate.each {row ->
-                        vacancies.each {vacancy ->
-                            if (vacancy.getId() == row.id_role) {
-                                MatchVacancy match = new MatchVacancy
-                                        (row.id as int, vacancy,
-                                                candi)
-                                match.setCompanyLiked(row
-                                        .companymatched as boolean)
-                                candi.getMatchVacancies().add(match)
-                            }
-                        }
-                    }
-                    candidates.add(candi)
-                }
+                populateCandidateMatches(candi, vacancies)
+
+                candidates.add(candi)
             }
         }
-        catch (Exception e) {
-            e.printStackTrace()
+    }
+
+    Candidate createCandidateFromRow(GroovyRowResult candidateRow) {
+
+        List<GroovyRowResult> viewCandidateSkill = sql.rows("""
+            SELECT DISTINCT skills.description AS skill
+            FROM candidates
+            JOIN candidate_skills ON ${candidateRow
+                .id} = candidate_skills.id_candidate
+            JOIN skills ON candidate_skills.id_skill = skills.id
+        """)
+
+        return new Candidate(
+                candidateRow.id as int,
+                candidateRow.name as String,
+                candidateRow.email as String,
+                viewCandidateSkill.skill as ArrayList<String>,
+                candidateRow.age as int,
+                candidateRow.state as String,
+                candidateRow.description as String,
+                candidateRow.cpf as String,
+                candidateRow.cep as int
+        )
+    }
+
+    void populateCandidateMatches(Candidate candidate,
+                                  ArrayList<Vacancy> vacancies) {
+
+        List<GroovyRowResult> getMatchCandidate = sql.rows("""
+            SELECT rm.id, rm.id_role, rm.id_candidate, rm.companymatched
+            FROM role_matching AS rm
+            JOIN roles on rm.id_role = roles.id
+            WHERE id_candidate = ${candidate.getId()}
+        """)
+
+        getMatchCandidate.each { row ->
+
+            vacancies.each { vacancy ->
+
+                if (vacancy.getId() == row.id_role) {
+
+                    MatchVacancy match = new MatchVacancy(
+                            row.id as int, vacancy, candidate
+                    )
+
+                    match.setCompanyLiked(row.companymatched as boolean)
+
+                    candidate.getMatchVacancies().add(match)
+                }
+            }
         }
     }
 
     @Override
     void insertCandidate(Candidate candidate) {
+
         try {
 
             int idCandidate = candidate.getId()
 
             sql.executeInsert("""
-                INSERT INTO candidates (NAME, CEP, CPF, STATE, AGE, DESCRIPTION, EMAIL, PASSWORD) 
+                INSERT INTO candidates (NAME, CEP, CPF, STATE,
+                AGE, DESCRIPTION, EMAIL, PASSWORD) 
                 VALUES (${candidate.getName()}, ${candidate.getCep()},
                 ${candidate.getCpf()}, ${candidate.getState()}, 
                 ${candidate.getAge()}, ${candidate.getDescription()},
                 ${candidate.getEmail()}, 'batatinha')
             """)
 
-            // TODO: evitar utilizar muito o def
             candidate.getSkills().each { skill ->
-                def containsSkill = sql.firstRow("""
+
+                GroovyRowResult containsSkill = sql.firstRow("""
                     SELECT id, COUNT(*)
                     FROM skills 
                     WHERE description = $skill
                     GROUP BY id
                 """)
 
-                def idSkill
+                int idSkill
 
-                // TODO: criar a classe skills
                 if (containsSkill != null && containsSkill.count > 0)
-                    idSkill = containsSkill.id
+                    idSkill = containsSkill.id as int
                 else {
-                    def result = sql.firstRow("""
-                       INSERT INTO skills (DESCRIPTION) VALUES ($skill) RETURNING id
+
+                    GroovyRowResult result = sql.firstRow("""
+                       INSERT INTO skills (DESCRIPTION) VALUES (
+                        $skill) RETURNING id
                     """)
-                    idSkill = result.id
+                    idSkill = result.id as int
+
                 }
 
                 sql.executeInsert("""

@@ -1,13 +1,16 @@
 package linketinder.model.entities
 
 class Vacancy {
+
     int id
     String name
     String description
     Company company
     ArrayList<String> skills
 
-    Vacancy(int id, String name, String description, Company company, ArrayList<String> skills) {
+    Vacancy(int id, String name, String description, Company company,
+            ArrayList<String> skills) {
+
         this.id = id
         this.name = name
         this.description = description
@@ -54,7 +57,6 @@ class Vacancy {
     void setSkills(ArrayList<String> skills) {
         this.skills = skills
     }
-
 
     @Override
     public String toString() {

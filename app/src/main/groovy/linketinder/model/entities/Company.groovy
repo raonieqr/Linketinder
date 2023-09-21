@@ -1,7 +1,8 @@
 package linketinder.model.entities
 
 class Company extends Person {
-    int id;
+
+    int id
     String cnpj
     String description
     String state
@@ -12,6 +13,7 @@ class Company extends Person {
     Company(int id, String name, String email, String cnpj, String country,
             String description, String state,
             int cep) {
+
         super(name, email)
         this.id = id
         this.cnpj = cnpj
@@ -79,7 +81,9 @@ class Company extends Person {
 
     static void getMatch(ArrayList<Candidate> candidates,
                          ArrayList<Company> companies) {
+
         candidates.each {it ->
+
             it.getMatchVacancies().each {mv ->
                  {
                     companies.each {cp ->
@@ -93,7 +97,13 @@ class Company extends Person {
 
     @Override
     void showInfo() {
-        println("name: $name, email: $email, cnpj: $cnpj, pais: $country, " +
-                "estado: $state, cep: $cep, descrição: $description")
+        println("Nome: $name")
+        println("Email: $email")
+        println("CNPJ: $cnpj")
+        println("País: $country")
+        println("Estado: $state")
+        println("CEP: $cep")
+        println("Descrição: $description")
+
     }
 }

@@ -1,19 +1,20 @@
 package linketinder.model.entities
 
 class Candidate extends Person {
-    int id;
-    //  TODO: criar a classe de skill futuramente
+
     ArrayList<String> skills
+    ArrayList<MatchVacancy> matchVacancies = new ArrayList<>();
+    int id
     int age
+    int cep
     String state
     String description
     String cpf
-    int cep
-    ArrayList<MatchVacancy> matchVacancies = new ArrayList<>();
 
     Candidate(int id, String name, String email, ArrayList<String> skills =
             ["Python", "Java", "Spring Framework", "Angular", "C"],
               int age, String state, String description, String cpf, int cep) {
+
         super(name, email)
         this.id = id
         this.skills = skills
@@ -82,8 +83,15 @@ class Candidate extends Person {
 
     @Override
     void showInfo() {
-        def skill = skills.join(", ")
-        println("name: $name, email: $super.email, cpf: $cpf, estado: $state," +
-                " cep: $cep, descrição: $description, competências: $skill ")
+
+        String skill = skills.join(", ")
+
+        println("Nome: $name")
+        println("Email: $super.email")
+        println("CPF: $cpf")
+        println("Estado: $state")
+        println("CEP: $cep")
+        println("Descrição: $description")
+        println("Competências: $skill")
     }
 }
