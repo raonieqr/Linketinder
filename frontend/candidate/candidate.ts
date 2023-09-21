@@ -62,64 +62,108 @@ if (btnSignIn)
 
 
 //candidate_registration.html
-let btnRegister: HTMLElement | null = document.getElementById("register");
 
-btnRegister?.addEventListener("click", function (): void {
-  if (checkInput()) {
-    window.location.href = "./candidate_profile.html";
+const btnRegister = document.getElementById("register");
+
+function handleRegisterButtonClick() {
+  if (saveCandidateData())
+    redirectToCandidateProfile();
+}
+
+function redirectToCandidateProfile() {
+  window.location.href = "./candidate_profile.html";
+}
+
+if (btnRegister) {
+  btnRegister.addEventListener("click", handleRegisterButtonClick);
+}
+
+function getInput(id: string): HTMLInputElement | null {
+  return document.getElementById(id) as HTMLInputElement | null;
+}
+
+function validateInputFields(): boolean {
+
+  const nameInput = getInput("name");
+  const emailInput = getInput("email");
+  const skillsInput = getInput("skills");
+  const ageInput = getInput("age");
+  const cpfInput = getInput("cpf");
+  const cepInput = getInput("cep");
+  const passwordInput = getInput("password");
+  const descriptionInput = getInput("description");
+
+  if (
+    check.isEmpty(nameInput) ||
+    check.isEmpty(emailInput) ||
+    check.isEmpty(skillsInput) ||
+    check.isEmpty(ageInput) ||
+    check.isEmpty(cpfInput) ||
+    check.isEmpty(cepInput) ||
+    check.isEmpty(passwordInput) ||
+    check.isEmpty(descriptionInput)
+  ) {
+    alert("Error: Nenhum campo pode estar vazio");
+    return false;
   }
 
-});
+  const isSuccessful =
+    check.validateInput(nameInput, "nome") &&
+    check.validateCpf(cpfInput) &&
+    check.validateAge(ageInput) &&
+    check.validateCep(cepInput) &&
+    check.validateDescription(descriptionInput) &&
+    check.validateEmail(emailInput);
 
-function checkInput(): boolean {
+  return isSuccessful;
+}
 
-  let nameInput: HTMLInputElement = document.getElementById("name") as HTMLInputElement;
-  let emailInput: HTMLInputElement = document.getElementById("email") as HTMLInputElement;
-  let skillsInput: HTMLInputElement = document.getElementById("skills") as HTMLInputElement;
-  let ageInput: HTMLInputElement = document.getElementById("age") as HTMLInputElement;
-  let cpfInput: HTMLInputElement = document.getElementById("cpf") as HTMLInputElement;
-  let cepInput: HTMLInputElement = document.getElementById("cep") as HTMLInputElement;
-  let passwordInput: HTMLInputElement = document.getElementById("password") as HTMLInputElement;
-  let descriptionInput: HTMLInputElement = document.getElementById("description") as HTMLInputElement;
+function saveCandidateData(): boolean {
+  if (validateInputFields()) {
+    const nameInput = getInput("name");
+    const emailInput = getInput("email");
+    const skillsInput = getInput("skills");
+    const ageInput = getInput("age");
+    const cpfInput = getInput("cpf");
+    const cepInput = getInput("cep");
+    const passwordInput = getInput("password");
+    const descriptionInput = getInput("description");
 
-  if (check.isEmpty(nameInput) || check.isEmpty(emailInput) ||
-      check.isEmpty(skillsInput) || check.isEmpty(ageInput) ||
-      check.isEmpty(cpfInput) || check.isEmpty(cepInput) ||
-      check.isEmpty(passwordInput) || check.isEmpty(descriptionInput)) {
-        check.showAlert("Error: Nenhum campo pode estar vazio");
-  }
+    const skills = check.parseSkillsInput(skillsInput);
 
-  const isSuccessful = check.validateInput(nameInput, "nome") &&
-                       check.validateCpf(cpfInput) &&
-                       check.validateAge(ageInput) &&
-                       check.validateCep(cepInput) &&
-                       check.validateDescription(descriptionInput) &&
-                       check.validateEmail(emailInput);
+    if (
+      !nameInput || !emailInput || !skillsInput ||
+      !ageInput || !cpfInput || !cepInput ||
+      !passwordInput || !descriptionInput
+    ) {
+      alert("Error: campo vazio");
+      return false;
+    }
 
-  if (isSuccessful) {
+    const candidateLocal: Candidate = {
+      name: nameInput.value,
+      age: parseInt(ageInput.value, 10),
+      email: emailInput.value,
+      skills: Array.from(skills)
+        .join()
+        .toLowerCase()
+        .trim()
+        .split(/[;, ]+/),
+      description: descriptionInput.value,
+      cpf: cpfInput.value,
+      cep: parseInt(cepInput.value, 10),
+      password: passwordInput.value,
+      applications: null,
+    };
 
-      if (!check.validatePasswordLength(passwordInput))
-          return false;
-      let skills = check.parseSkillsInput(skillsInput)
-
-      const candidateLocal: Candidate = {
-          name: nameInput.value,
-          age: Number.parseInt(ageInput.value),
-          email: emailInput.value,
-          skills: Array.from(skills).join().toLowerCase().trim().split(/[;, ]+/),
-          description: descriptionInput.value,
-          cpf: cpfInput.value,
-          cep: Number.parseInt(cepInput.value),
-          password: passwordInput.value,
-          applications: null
-      };
-      localStorage.setItem("candidateLocal", JSON.stringify(candidateLocal));
-      return true;
+    localStorage.setItem("candidateLocal", JSON.stringify(candidateLocal));
+    return true;
   }
   return false;
 }
 
 
+// candidate_vacancies
 function updateVacancy() {
   let company: string | null = localStorage.getItem("companyLocal");
   
