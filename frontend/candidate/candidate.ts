@@ -176,11 +176,7 @@ function updateVacancy() {
   const parentDiv = document.querySelector(".grid");
 
   if (!companyLocal || !candidateLocal)
-  {
-    if (parentDiv)
-      parentDiv.innerHTML = `<h2>Sem vaga</h2>`
     return;
-  }
 
   const compObj = JSON.parse(companyLocal);
   const candiObj = JSON.parse(candidateLocal);
