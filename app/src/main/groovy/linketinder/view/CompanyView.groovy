@@ -1,9 +1,7 @@
 package linketinder.view
 
-import linketinder.model.dao.impl.MatchVacancyImpl
 import linketinder.model.entities.Candidate
 import linketinder.model.entities.Company
-import linketinder.model.entities.MatchVacancy
 import linketinder.utils.InputValidator
 import linketinder.utils.MatchValidator
 
@@ -64,13 +62,17 @@ class CompanyView {
 
         else {
             comp.getMatchVacancies().each { match ->
+
                 if (!match.getCompanyLiked()) {
+
                     idsCandidates.add(match.getCandidate().getId())
+
                     println("Id da vaga: " + match.getId())
                     println("Id do candidato: " + match.getCandidate().getId())
                     println("Descrição: " + match.getCandidate().getDescription())
                     println("Skills:")
                     println(match.getCandidate().getSkills().join(", "))
+
                     println("------------------------------")
                 }
             }
@@ -78,4 +80,5 @@ class CompanyView {
 
         return MatchValidator.findMatchingCandidate(idsCandidates, candidates)
     }
+
 }

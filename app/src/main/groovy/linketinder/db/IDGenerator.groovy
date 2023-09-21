@@ -1,4 +1,4 @@
-package linketinder.model
+package linketinder.db
 
 import groovy.sql.GroovyRowResult
 import groovy.sql.Sql

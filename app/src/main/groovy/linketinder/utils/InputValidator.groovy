@@ -212,4 +212,40 @@ class InputValidator {
         }
         return Integer.parseInt(input)
     }
+
+    static int getUserTypeChoice() {
+
+        boolean validChoice = false
+        int choice = 0
+
+        while (!validChoice) {
+
+            choice = promptForIntegerInput("Você é empresa ou " +
+                    "candidato?\n" +
+                    "1 - Empresa\n" + "2 - Candidato\n")
+
+            if (choice == 1 || choice == 2)
+                validChoice = true
+            else
+                println("Opção inválida. Tente novamente")
+        }
+
+        return choice
+    }
+
+    static int displayMenuAndGetOption() {
+        println("1 - Listar empresas")
+        println("2 - Listar candidatos")
+        println("3 - Adicionar novo candidato")
+        println("4 - Adicionar nova empresa")
+        println("5 - Criar vaga para empresa")
+        println("6 - Curtir")
+        println("7 - Visualizar matches")
+        println("8 - Sair")
+
+        int input = promptForIntegerInput("Escolha um dos comandos: ")
+        return input
+    }
+
+
 }

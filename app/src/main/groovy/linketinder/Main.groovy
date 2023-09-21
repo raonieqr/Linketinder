@@ -1,19 +1,23 @@
+package linketinder
+
 import linketinder.controller.CandidateController
 import linketinder.controller.CompanyController
 import linketinder.controller.MatchController
 import linketinder.controller.VacancyController
 import linketinder.db.DBHandler
-import linketinder.model.IDGenerator
+import linketinder.db.DatabaseRefresh
+import linketinder.db.IDGenerator
 import linketinder.model.dao.impl.CandidateImpl
 import linketinder.model.dao.impl.CompanyImpl
 import linketinder.model.dao.impl.MatchVacancyImpl
 import linketinder.model.dao.impl.VacancyImpl
 import linketinder.model.entities.Candidate
 import linketinder.model.entities.Company
-import linketinder.model.entities.MatchVacancy
 import linketinder.model.entities.Vacancy
+import linketinder.utils.InputValidator
 import linketinder.view.CandidateView
 import linketinder.view.CompanyView
+import linketinder.view.MatchView
 import linketinder.view.VacancyView
 
 class Main {
@@ -41,156 +45,120 @@ class Main {
 
             BufferedReader reader = new BufferedReader(new InputStreamReader
                     (System.in))
+
             while (option != 8) {
 
-                companies.clear()
-                vacancies.clear()
-                candidates.clear()
+                DatabaseRefresh updater = new DatabaseRefresh(companyImpl,
+                        vacancyImpl, candidateImpl)
 
-                companyImpl.getAllCompanies(companies)
-                vacancyImpl.getAllVacancy(vacancies, companies)
-                candidateImpl.getAllCandidates(candidates, vacancies)
-
-                Company.getMatch(candidates, companies)
+                DatabaseRefresh.updateDataFromDatabase(companies, vacancies,
+                        candidates, updater)
 
                 // TODO: delete company and candidate
 
-                println("Escolha um dos comandos abaixo:")
-                println("1 - Listar empresas")
-                println("2 - Listar candidatos")
-                println("3 - Adicionar novo candidato")
-                println("4 - Adicionar nova empresa")
-                println("5 - Criar vaga para empresa");
-                println("6 - Curtir");
-                println("7 - Visualizar matches");
-                println("8 - Sair")
+                option = InputValidator.displayMenuAndGetOption()
 
-                String getInput = reader.readLine()
-                option = Integer.parseInt(getInput)
+                switch (option) {
 
-                if (option == 1)
-                    CompanyController.listCompanies(companies)
+                    case 1:
+                        CompanyController.listCompanies(companies)
+                        break
 
-                else if (option == 2)
-                    CandidateController.listCandidates(candidates)
+                    case 2:
+                        CandidateController.listCandidates(candidates)
+                        break
 
-                else if (option == 3) {
+                    case 3:
+                        Candidate candidate = CandidateView
+                                .createCandidate(++idCandidate, candidates)
 
-                    Candidate candidate = CandidateView
-                            .createCandidate(++idCandidate, candidates)
+                        CandidateController
+                                .addCandidate(candidates, candidate, candidateImpl)
 
-                    CandidateController
-                            .addCandidate(candidates, candidate, candidateImpl)
+                        println("Cadastrado com sucesso")
 
-                    println("Cadastrado com sucesso")
-                }
-                else if (option == 4) {
+                        break
 
-                    Company company = CompanyView
-                            .createCompany(++idCompany, companies)
+                    case 4:
+                        Company company = CompanyView
+                                .createCompany(++idCompany, companies)
 
-                    CompanyController
-                            .addCompany(companies, company, companyImpl)
+                        CompanyController
+                                .addCompany(companies, company, companyImpl)
 
-                    println("Cadastrado com sucesso")
-                }
-                else if(option == 5) {
-                    Company company =  checkCompanyID(companies)
+                        println("Cadastrado com sucesso")
 
-                    Vacancy vacancy = VacancyView.createVacancy(++idVacancy,
-                            company)
+                        break
 
-                    VacancyController.addVacancy(vacancy, vacancies,
-                            vacancyImpl)
+                    case 5:
+                        Company company =  InputValidator.findCompanyByID(companies)
 
-                    println("Vaga criada com sucesso!")
-                }
-                else if (option == 6) {
-                    String choose
-                    boolean checkChoose = true
+                        Vacancy vacancy = VacancyView.createVacancy(++idVacancy,
+                                company)
 
-                    while(checkChoose) {
-                       choose = getUserInput("Você é empresa ou candidato?\n" +
-                               "1 - Empresa\n" + "2 - Candidato\n")
-                        if (!choose.matches("^[1-2]\$"))
-                            println("Error: opção inválida. Tente novamente")
-                        else
-                            checkChoose = false
-                    }
+                        VacancyController.addVacancy(vacancy, vacancies,
+                                vacancyImpl)
 
-                    switch (choose){
-                        case "1":
-                            Company company =  checkCompanyID(companies)
+                        println("Vaga criada com sucesso!")
 
-                            Candidate candidate = CompanyView
-                                    .processCompanyMatches(company, candidates)
+                        break
 
-                            if (candidate != null)
-                                CompanyController.processCompanyMatches(candidate,
-                                candidates, company,matchVacancyImpl)
+                    case 6:
+                        int choose = InputValidator.getUserTypeChoice()
 
-                            println("Match realizado!")
+                        switch (choose){
+                            case 1:
+                                Company company =  InputValidator
+                                        .findCompanyByID(companies)
 
-                            break
+                                Candidate candidate = CompanyView
+                                        .processCompanyMatches(company, candidates)
 
-                        case "2":
-                            Candidate candidate = checkCandidateID(candidates)
+                                if (candidate != null)
+                                    CompanyController.processCompanyMatches(candidate,
+                                    candidates, company,matchVacancyImpl)
 
-                            MatchController.listAvailableVacancies(candidate,
-                                    vacancies, matchVacancyImpl, ++idMatch)
+                                println("Match realizado!")
 
-                            println("Vaga curtida!")
+                                break
 
-                    }
-                }
-                else if (option == 7) {
-                    String choose
-                    boolean checkChoose = true
+                            case 2:
+                                Candidate candidate = InputValidator
+                                        .findCandidateByID(candidates)
 
-                    while(checkChoose) {
-                        choose = getUserInput("Você é empresa ou candidato?\n" +
-                                "1 - Empresa\n" + "2 - Candidato\n")
+                                MatchController.listAvailableVacancies(candidate,
+                                        vacancies, matchVacancyImpl, ++idMatch)
 
-                        if (!choose.matches("^[1-2]\$"))
-                            println("Error: opção inválida. Tente novamente")
-                        else
-                            checkChoose = false
-                    }
+                                println("Vaga curtida!")
 
-                    switch (choose) {
-                        case "1":
-                            Company company = checkCompanyID(companies)
+                                break
+                        }
 
-                            if (company.getMatchVacancies().isEmpty())
-                                println("A sua empresa ainda não deu match")
-                            else
-                                company.getMatchVacancies().
-                                        each {matches ->
-                                            print("Vaga: " + matches.
-                                                    getVacancy().
-                                                    getName() + ", ")
-                                            matches.getCandidate().showInfo()
-                                        }
-                            break
+                        break
 
-                        case "2":
-                            Candidate candi = checkCandidateID(candidates)
-                            boolean isMatch = false
+                    case 7:
+                        int choose = InputValidator.getUserTypeChoice()
 
-                            candi.getMatchVacancies().each {match ->
-                                if (match.companyLiked) {
-                                    print("Vaga: " + match.
-                                            getVacancy().
-                                            getName() + ", ")
-                                    match.getVacancy().getCompany().showInfo()
-                                    isMatch = true
-                                }
-                            }
+                        switch (choose) {
+                            case 1:
+                                Company company = InputValidator
+                                        .findCompanyByID(companies)
 
-                            if (!isMatch)
-                                println("Ainda não houve match")
-                            break
-                    }
+                                MatchView.displayCompanyMatches(company)
+
+                                break
+
+                            case 2:
+                                Candidate candidate = InputValidator
+                                        .findCandidateByID(candidates)
+
+                                MatchView.displayCandidateMatches(candidate)
+
+                                break
+                        }
+
+                        break
+
                 }
             }
         }
@@ -200,72 +168,5 @@ class Main {
         finally {
             dbHandler.close()
         }
-    }
-
-        static Candidate checkCandidateID(ArrayList<Candidate> candidates) {
-        int index
-        Candidate candi
-
-        boolean idFind = true
-        while (idFind) {
-            index = getUserInputInt("Digite o id do candidato: ")
-            candidates.each { candidate ->
-                if (candidate.getId() == index) {
-                    candi = candidate
-                    idFind = false
-                }
-            }
-            if (candi == null)
-                println("Error: Candidato não encontrado. Tente " +
-                        "novamente")
-        }
-        return candi
-    }
-
-    static Company checkCompanyID(ArrayList<Company> companies) {
-        int index
-        Company comp
-
-        boolean idFind = true
-        while (idFind) {
-            index = getUserInputInt("Digite o id da sua empresa: ")
-            companies.each { companie ->
-                if (companie.getId() == index) {
-                    comp = companie
-                    idFind = false
-                }
-            }
-            if (comp == null)
-                println("Error: Empresa não encontrada. Tente " +
-                        "novamente")
-        }
-        return comp
-    }
-
-    static String getUserInput(String prompt) {
-        BufferedReader reader = new BufferedReader(new InputStreamReader
-                (System.in))
-        print(prompt)
-        def input = reader.readLine()
-        while (input.trim().isEmpty()) {
-            println("Error: O campo não pode estar vazio. Tente novamente.")
-            print(prompt)
-            input = reader.readLine()
-        }
-        return input
-    }
-
-    static int getUserInputInt(String prompt) {
-        BufferedReader reader = new BufferedReader(new InputStreamReader
-                (System.in))
-        print(prompt)
-        def input = reader.readLine()
-        while (!input.isInteger()) {
-            println("Error: Entrada inválida. " +
-                    "Tente novamente.")
-            print(prompt)
-            input = reader.readLine()
-        }
-        return Integer.parseInt(input)
     }
 }
