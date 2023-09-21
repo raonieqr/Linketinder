@@ -242,7 +242,8 @@ class InputValidator {
         println("5 - Criar vaga para empresa")
         println("6 - Curtir")
         println("7 - Visualizar matches")
-        println("8 - Sair")
+        println("8 - Deletar")
+        println("9 - Sair")
 
         int input = promptForIntegerInput("Escolha um dos comandos: ")
         return input

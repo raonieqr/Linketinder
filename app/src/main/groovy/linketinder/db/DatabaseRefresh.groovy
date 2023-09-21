@@ -1,8 +1,8 @@
 package linketinder.db
 
-import linketinder.model.dao.impl.CandidateImpl
-import linketinder.model.dao.impl.CompanyImpl
-import linketinder.model.dao.impl.VacancyImpl
+import linketinder.dao.impl.CandidateImpl
+import linketinder.dao.impl.CompanyImpl
+import linketinder.dao.impl.VacancyImpl
 import linketinder.model.entities.Candidate
 import linketinder.model.entities.Company
 import linketinder.model.entities.Vacancy

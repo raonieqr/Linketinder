@@ -1,10 +1,11 @@
-package linketinder.model.dao.impl
+package linketinder.dao.impl
 
 import groovy.sql.GroovyRowResult
 import groovy.sql.Sql
+import linketinder.dao.CandidateDAO
 import linketinder.db.DBHandler
-import linketinder.model.dao.CandidateDAO
 import linketinder.model.entities.Candidate
+import linketinder.model.entities.Company
 import linketinder.model.entities.MatchVacancy
 import linketinder.model.entities.Vacancy
 
@@ -12,6 +13,7 @@ class CandidateImpl implements  CandidateDAO {
     DBHandler dbHandler = DBHandler.getInstance()
     Sql sql = dbHandler.getSql()
 
+    @Override
     void getAllCandidates(ArrayList<Candidate> candidates,
                           ArrayList<Vacancy> vacancies) {
 
@@ -130,5 +132,12 @@ class CandidateImpl implements  CandidateDAO {
         catch (Exception e) {
             e.printStackTrace()
         }
+    }
+
+    @Override
+    void deleteCandidate(Candidate candidate) {
+        sql.executeInsert("""
+            DELETE FROM candidates WHERE id = ${candidate.getId()}
+        """)
     }
 }

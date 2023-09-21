@@ -1,8 +1,8 @@
-package linketinder.model.dao.impl
+package linketinder.dao.impl
 
 import groovy.sql.Sql
+import linketinder.dao.MatchVacancyDAO
 import linketinder.db.DBHandler
-import linketinder.model.dao.MatchVacancyDAO
 import linketinder.model.entities.Candidate
 import linketinder.model.entities.MatchVacancy
 import linketinder.model.entities.Vacancy

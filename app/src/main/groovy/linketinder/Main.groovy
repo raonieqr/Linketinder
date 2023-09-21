@@ -7,10 +7,10 @@ import linketinder.controller.VacancyController
 import linketinder.db.DBHandler
 import linketinder.db.DatabaseRefresh
 import linketinder.db.IDGenerator
-import linketinder.model.dao.impl.CandidateImpl
-import linketinder.model.dao.impl.CompanyImpl
-import linketinder.model.dao.impl.MatchVacancyImpl
-import linketinder.model.dao.impl.VacancyImpl
+import linketinder.dao.impl.CandidateImpl
+import linketinder.dao.impl.CompanyImpl
+import linketinder.dao.impl.MatchVacancyImpl
+import linketinder.dao.impl.VacancyImpl
 import linketinder.model.entities.Candidate
 import linketinder.model.entities.Company
 import linketinder.model.entities.Vacancy
@@ -44,15 +44,13 @@ class Main {
 
             println("Bem vindo ao LinkeTinder")
 
-            while (option != 8) {
+            while (option != 9) {
 
                 DatabaseRefresh updater = new DatabaseRefresh(companyImpl,
                         vacancyImpl, candidateImpl)
 
                 DatabaseRefresh.updateDataFromDatabase(companies, vacancies,
                         candidates, updater)
-
-                // TODO: delete company and candidate
 
                 option = InputValidator.displayMenuAndGetOption()
 
@@ -157,6 +155,35 @@ class Main {
 
                         break
 
+                    case 8:
+                        int choose = InputValidator.getUserTypeChoice()
+
+                        switch (choose) {
+                            case 1:
+                                CompanyController.listCompanies(companies)
+
+                                Company company = CompanyView
+                                        .getCompanyToDeleteByID(companies)
+
+                                CompanyController
+                                        .executeCompanyDeletion(company)
+
+                                println("Empresa ${company.getName()} deletada")
+
+                                break
+                            case 2:
+                                CandidateController.listCandidates(candidates)
+
+                                Candidate candidate = CandidateView
+                                        .getCandidateToDeleteByID(candidates)
+
+                                CandidateController
+                                        .executeCandidateDeletion(candidate)
+
+                                println("Candidato ${candidate.getName()} " +
+                                        "deletado")
+                                break
+                        }
                 }
             }
         }

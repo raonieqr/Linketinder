@@ -1,4 +1,4 @@
-package linketinder.model.dao
+package linketinder.dao
 
 import linketinder.model.entities.Candidate
 import linketinder.model.entities.MatchVacancy

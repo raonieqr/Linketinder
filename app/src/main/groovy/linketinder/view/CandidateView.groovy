@@ -1,6 +1,7 @@
 package linketinder.view
 
 import linketinder.model.entities.Candidate
+import linketinder.model.entities.Company
 import linketinder.utils.InputValidator
 
 class CandidateView {
@@ -11,6 +12,8 @@ class CandidateView {
             println("Não há candidatos cadastrados")
         else {
             candidates.each { candidate ->
+                println("ID: " + candidate.getId())
+
                 candidate.showInfo()
 
                 println("-----------------------------------" +
@@ -51,6 +54,13 @@ class CandidateView {
 
         return new Candidate(idCandidate, name, email, skillsList, age,
                 state, description, cpf, cep)
+    }
+
+    static Candidate getCandidateToDeleteByID(ArrayList<Candidate> candidates) {
+
+        println("Siga os comandos abaixo para deletar")
+
+        return InputValidator.findCandidateByID(candidates)
     }
 
 }

@@ -1,7 +1,7 @@
 package linketinder.controller
 
-import linketinder.model.dao.impl.CompanyImpl
-import linketinder.model.dao.impl.MatchVacancyImpl
+import linketinder.dao.impl.CompanyImpl
+import linketinder.dao.impl.MatchVacancyImpl
 import linketinder.model.entities.Candidate
 import linketinder.model.entities.Company
 import linketinder.model.entities.MatchVacancy
@@ -44,4 +44,11 @@ class CompanyController {
             }
         }
     }
+
+    static void executeCompanyDeletion(Company company) {
+        CompanyImpl companyImpl = new CompanyImpl()
+
+        companyImpl.deleteCompany(company)
+    }
+
 }

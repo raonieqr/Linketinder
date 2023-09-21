@@ -1,6 +1,6 @@
 package linketinder.controller
 
-import linketinder.model.dao.impl.MatchVacancyImpl
+import linketinder.dao.impl.MatchVacancyImpl
 import linketinder.model.entities.Candidate
 import linketinder.model.entities.MatchVacancy
 import linketinder.model.entities.Vacancy
@@ -10,7 +10,7 @@ import linketinder.view.VacancyView
 
 class MatchController {
 
-    static void listAvailableVacancies(Candidate candidate, ArrayList<Vacancy> vacancies,
+static void listAvailableVacancies(Candidate candidate, ArrayList<Vacancy> vacancies,
                                        MatchVacancyImpl matchVacancyImpl,
                                        int idMatch) {
         if (vacancies.isEmpty())
@@ -32,7 +32,6 @@ class MatchController {
                 matchVacancyImpl.insertCandidateLiked(candidate, selectedVacancy)
 
                 candidate.getMatchVacancies().add(match)
-                MatchView.displayVacancyLiked()
             }
         }
     }

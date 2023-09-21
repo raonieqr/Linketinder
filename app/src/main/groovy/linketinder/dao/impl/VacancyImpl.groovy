@@ -1,9 +1,9 @@
-package linketinder.model.dao.impl
+package linketinder.dao.impl
 
 import groovy.sql.GroovyRowResult
 import groovy.sql.Sql
+import linketinder.dao.VacancyDAO
 import linketinder.db.DBHandler
-import linketinder.model.dao.VacancyDAO
 import linketinder.model.entities.Company
 import linketinder.model.entities.Vacancy
 

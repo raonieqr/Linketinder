@@ -14,10 +14,6 @@ class MatchView {
                 "não foram curtidas anteriormente.")
     }
 
-    static void displayVacancyLiked() {
-        println("Vaga curtida!")
-    }
-
     static void displayCandidateMatches(Candidate candidate) {
         boolean isMatch = false
 
@@ -30,6 +26,9 @@ class MatchView {
                 match.getVacancy().getCompany().showInfo()
 
                 isMatch = true
+
+                println("-------------------------------------------")
+
             }
         }
 
@@ -45,10 +44,14 @@ class MatchView {
         else {
 
             company.getMatchVacancies().each { match ->
+                if (match.getCompanyLiked()) {
+                    print("Vaga: " + match.getVacancy().getName() + ", ")
 
-                print("Vaga: " + match.getVacancy().getName() + ", ")
+                    match.getCandidate().showInfo()
 
-                match.getCandidate().showInfo()
+                    println("-------------------------------------------")
+                }
+
             }
         }
     }

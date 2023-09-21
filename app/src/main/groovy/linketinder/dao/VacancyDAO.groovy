@@ -1,4 +1,4 @@
-package linketinder.model.dao
+package linketinder.dao
 
 import linketinder.model.entities.Company
 import linketinder.model.entities.Vacancy

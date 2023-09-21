@@ -1,6 +1,6 @@
 package linketinder.controller
 
-import linketinder.model.dao.impl.VacancyImpl
+import linketinder.dao.impl.VacancyImpl
 import linketinder.model.entities.Vacancy
 
 class VacancyController {

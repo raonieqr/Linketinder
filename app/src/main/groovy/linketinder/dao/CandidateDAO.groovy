@@ -1,6 +1,7 @@
-package linketinder.model.dao
+package linketinder.dao
 
 import linketinder.model.entities.Candidate
+import linketinder.model.entities.Company
 import linketinder.model.entities.Vacancy
 
 interface CandidateDAO {
@@ -9,5 +10,7 @@ interface CandidateDAO {
                           ArrayList<Vacancy> vacancies)
 
     void insertCandidate(Candidate candidate)
+
+    void deleteCandidate(Candidate candidate)
 
 }

@@ -1,9 +1,9 @@
-package linketinder.model.dao.impl
+package linketinder.dao.impl
 
 import groovy.sql.GroovyRowResult
 import groovy.sql.Sql
+import linketinder.dao.CompanyDAO
 import linketinder.db.DBHandler
-import linketinder.model.dao.CompanyDAO
 import linketinder.model.entities.Company
 
 class CompanyImpl implements CompanyDAO{
@@ -57,5 +57,12 @@ class CompanyImpl implements CompanyDAO{
         catch (Exception e) {
             e.printStackTrace()
         }
+    }
+
+    @Override
+    void deleteCompany(Company company) {
+        sql.executeInsert("""
+            DELETE FROM companies WHERE id = ${company.getId()}
+        """)
     }
 }

@@ -13,6 +13,8 @@ class CompanyView {
             println("Não há empresas registradas")
         else
             companies.each {companie ->
+                println("ID: " + companie.getId())
+
                 companie.showInfo()
 
                 println("-------------------------------------" +
@@ -79,6 +81,13 @@ class CompanyView {
         }
 
         return MatchValidator.findMatchingCandidate(idsCandidates, candidates)
+    }
+
+    static Company getCompanyToDeleteByID(ArrayList<Company> companies) {
+
+        println("Siga os comandos abaixo para deletar")
+
+        return InputValidator.findCompanyByID(companies)
     }
 
 }
