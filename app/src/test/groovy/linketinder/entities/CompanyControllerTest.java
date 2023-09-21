@@ -1,21 +1,21 @@
-//package linketinder.entities;
+// package linketinder.entities;
 //
-//import linketinder.controller.CompanyController;
-//import linketinder.model.entities.Company;
-//import org.junit.After;
-//import org.junit.Before;
-//import org.junit.Test;
-//import org.junit.jupiter.api.BeforeAll;
+// import linketinder.controller.CompanyController;
+// import linketinder.model.entities.Company;
+// import org.junit.After;
+// import org.junit.Before;
+// import org.junit.Test;
+// import org.junit.jupiter.api.BeforeAll;
 //
-//import java.io.ByteArrayOutputStream;
-//import java.io.PrintStream;
-//import java.util.ArrayList;
+// import java.io.ByteArrayOutputStream;
+// import java.io.PrintStream;
+// import java.util.ArrayList;
 //
-//import static org.junit.Assert.assertEquals;
+// import static org.junit.Assert.assertEquals;
 //
-//class CompanyControllerTest {
-//	private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-//	private final PrintStream originalOut = System.out;
+// class CompanyControllerTest {
+//	private final ByteArrayOutputStream outContent = new
+//ByteArrayOutputStream(); 	private final PrintStream originalOut = System.out;
 //	ArrayList<Company> companies;
 //
 //	@BeforeAll
@@ -41,9 +41,9 @@
 //		CompanyController.listCompanies(companies);
 //
 //		String expectedOutput = "Company Name: Company 1\n" +
-//				"--------------------------------------------\n" +
-//				"Company Name: Company 2\n" +
+//				"--------------------------------------------\n"
+//+ 				"Company Name: Company 2\n" +
 //				"--------------------------------------------\n";
 //		assertEquals(expectedOutput, outContent.toString());
 //	}
-//}
+// }
