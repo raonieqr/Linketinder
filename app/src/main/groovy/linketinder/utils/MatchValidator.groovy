@@ -27,7 +27,7 @@ class MatchValidator {
         return candidate
     }
 
-    static MatchVacancy findMatchVacancyForCandidate(Candidate candidate,
+static MatchVacancy findMatchVacancyForCandidate(Candidate candidate,
                                             ArrayList<Candidate> candidates) {
 
         return InputValidator.findMatchVacancyByID(candidate

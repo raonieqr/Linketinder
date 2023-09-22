@@ -59,29 +59,22 @@ class CompanyView {
 
         ArrayList<Integer> idsCandidates = new ArrayList<>()
 
-        if (comp.getMatchVacancies().isEmpty())
-            println("Ainda não há candidatos")
+        comp.getMatchVacancies().each { match ->
 
-        else {
-            comp.getMatchVacancies().each { match ->
+            if (!match.getCompanyLiked()) {
 
-                if (!match.getCompanyLiked()) {
+                idsCandidates.add(match.getCandidate().getId())
 
-                    idsCandidates.add(match.getCandidate().getId())
+                println("Id da vaga: " + match.getId())
+                println("Id do candidato: " + match.getCandidate().getId())
+                println("Descrição: " + match.getCandidate().getDescription())
+                println("Skills:")
+                println(match.getCandidate().getSkills().join(", "))
 
-                    println("Id da vaga: " + match.getId())
-                    println("Id do candidato: " + match.getCandidate().getId())
-                    println("Descrição: " + match.getCandidate().getDescription())
-                    println("Skills:")
-                    println(match.getCandidate().getSkills().join(", "))
-
-                    println("------------------------------")
-                }
+                println("------------------------------")
             }
-
-//            if (idsCandidates.isEmpty())
-//                println("Você já curtiu todos os candidatos!")
         }
+
 
         return MatchValidator.findMatchingCandidate(idsCandidates, candidates)
     }

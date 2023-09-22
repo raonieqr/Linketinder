@@ -39,22 +39,26 @@ class MatchView {
 
     static void displayCompanyMatches(Company company) {
 
-        if (company.getMatchVacancies().isEmpty())
-            println("A sua empresa ainda não deu match")
-        else {
-            company.getMatchVacancies().each { match ->
+        boolean isMatch = false
 
-                if (match.getCompanyLiked()) {
+        company.getMatchVacancies().each { match ->
 
-                    print("Vaga: " + match.getVacancy().getName() + ", ")
+            if (match.getCompanyLiked()) {
 
-                    match.getCandidate().showInfo()
+                println("Vaga: " + match.getVacancy().getName())
 
-                    println("-------------------------------------------")
-                }
+                match.getCandidate().showInfo()
 
+                isMatch = true
+
+                println("-------------------------------------------")
             }
+
         }
+
+        if (!isMatch)
+            println("Ainda não houve match")
+
     }
 
     static boolean displayUnlikedVacancies(boolean  containsVacancie,
