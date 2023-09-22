@@ -33,9 +33,8 @@ class MatchView {
             }
         }
 
-        if (!isMatch) {
+        if (!isMatch)
             println("Ainda não houve match")
-        }
     }
 
     static void displayCompanyMatches(Company company) {
@@ -44,7 +43,9 @@ class MatchView {
             println("A sua empresa ainda não deu match")
         else {
             company.getMatchVacancies().each { match ->
+
                 if (match.getCompanyLiked()) {
+
                     print("Vaga: " + match.getVacancy().getName() + ", ")
 
                     match.getCandidate().showInfo()
@@ -56,7 +57,27 @@ class MatchView {
         }
     }
 
+    static boolean displayUnlikedVacancies(boolean  containsVacancie,
+                                           ArrayList<Integer> printedVacancyIds,
+                                           Vacancy vacancy,
+                                           boolean allVacanciesLiked) {
 
+        if (!containsVacancie && !printedVacancyIds.contains(vacancy.getId())) {
+
+            allVacanciesLiked = false
+
+            printedVacancyIds.add(vacancy.getId())
+            println("Id da vaga: " + vacancy.getId())
+            println("Titulo: " + vacancy.getName())
+            println("Descrição: " + vacancy.getDescription())
+            println("Skills:")
+            println(vacancy.getSkills().join(", "))
+
+            println("------------------------------")
+        }
+
+        return allVacanciesLiked
+    }
 
     static showLikedMsg(){
         println("Vaga curtida!")
