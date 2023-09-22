@@ -24,11 +24,11 @@ class MatchVacancyImpl implements MatchVacancyDAO{
     }
 
     @Override
-    void insertCandidateLiked(Candidate candidate, Vacancy vacancy) {
+    void insertCandidateLiked(Candidate candidate, int idVacancy) {
 
         sql.executeInsert("""
             INSERT INTO role_matching (ID_CANDIDATE, ID_ROLE)
-            VALUES (${candidate.getId()}, ${vacancy.getId()})
+            VALUES (${candidate.getId()}, ${idVacancy})
         """)
     }
 }

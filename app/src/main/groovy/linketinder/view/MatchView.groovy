@@ -2,6 +2,7 @@ package linketinder.view
 
 import linketinder.model.entities.Candidate
 import linketinder.model.entities.Company
+import linketinder.model.entities.Vacancy
 
 class MatchView {
 
@@ -42,7 +43,6 @@ class MatchView {
         if (company.getMatchVacancies().isEmpty())
             println("A sua empresa ainda não deu match")
         else {
-
             company.getMatchVacancies().each { match ->
                 if (match.getCompanyLiked()) {
                     print("Vaga: " + match.getVacancy().getName() + ", ")
@@ -54,6 +54,12 @@ class MatchView {
 
             }
         }
+    }
+
+
+
+    static showLikedMsg(){
+        println("Vaga curtida!")
     }
 
 }

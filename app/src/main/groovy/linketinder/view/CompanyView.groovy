@@ -78,6 +78,9 @@ class CompanyView {
                     println("------------------------------")
                 }
             }
+
+//            if (idsCandidates.isEmpty())
+//                println("Você já curtiu todos os candidatos!")
         }
 
         return MatchValidator.findMatchingCandidate(idsCandidates, candidates)

@@ -22,7 +22,7 @@ class CompanyController {
         companyImpl.insertCompany(company)
     }
 
-    static void processCompanyMatches(Candidate candidate,
+static void processCompanyMatches(Candidate candidate,
                             ArrayList<Candidate> candidates, Company company,
                             MatchVacancyImpl matchVacancyImpl) {
 

@@ -110,11 +110,14 @@ class Main {
                                 Candidate candidate = CompanyView
                                         .processCompanyMatches(company, candidates)
 
-                                if (candidate != null)
-                                    CompanyController.processCompanyMatches(candidate,
-                                    candidates, company,matchVacancyImpl)
+                                if (candidate != null){
+                                    CompanyController
+                                            .processCompanyMatches(candidate,
+                                            candidates, company,matchVacancyImpl)
 
-                                println("Match realizado!")
+                                    println("Match realizado!")
+                                }
+
 
                                 break
 
@@ -124,8 +127,6 @@ class Main {
 
                                 MatchController.listAvailableVacancies(candidate,
                                         vacancies, matchVacancyImpl, ++idMatch)
-
-                                println("Vaga curtida!")
 
                                 break
                         }

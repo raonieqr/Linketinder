@@ -13,66 +13,100 @@ class MatchController {
 static void listAvailableVacancies(Candidate candidate, ArrayList<Vacancy> vacancies,
                                        MatchVacancyImpl matchVacancyImpl,
                                        int idMatch) {
+    ArrayList<Integer> printedVacancyIds = new ArrayList<>()
+    boolean allVacanciesLiked = true
+    Set<Integer> idsLiked =  new HashSet<>()
+
         if (vacancies.isEmpty())
             VacancyView.displayNoVacancies()
         else {
-            ArrayList<Integer> printedVacancyIds = new ArrayList<>()
-            Set<Integer> idsLiked = candidate.getMatchVacancies().findAll { it.getCompanyLiked() }
 
-            displayUnlikedVacancies(candidate, vacancies, printedVacancyIds)
+            vacancies.each { vacancie ->
+                boolean containsVacancie = false
 
-            if (idsLiked.size() == vacancies.size())
-                MatchView.displayAllVacanciesLiked()
-            else {
-                Vacancy selectedVacancy = likeVacancy(candidate, vacancies,
-                        idsLiked, matchVacancyImpl)
-
-                MatchVacancy match = new MatchVacancy(idMatch, selectedVacancy, candidate)
-
-                matchVacancyImpl.insertCandidateLiked(candidate, selectedVacancy)
-
-                candidate.getMatchVacancies().add(match)
-            }
-        }
-    }
-
-    static void displayUnlikedVacancies(Candidate candidate, ArrayList<Vacancy> vacancies,
-                                        ArrayList<Integer> printedVacancyIds) {
-        vacancies.each { vacancy ->
-            boolean containsVacancy = false
-
-            candidate.getMatchVacancies().each { matchingVacancy ->
-                if (matchingVacancy.getVacancy().getId() == vacancy.getId()) {
-                    containsVacancy = true
-                    return
+                candidate.getMatchVacancies().each { matchingVacancy ->
+                    if (matchingVacancy.getVacancy().
+                            getId() == vacancie.getId()) {
+                        idsLiked.add(vacancie.getId())
+                        containsVacancie = true
+                        return
+                    }
                 }
-            }
 
-            if (!containsVacancy && !printedVacancyIds.contains(vacancy.getId())) {
-                VacancyView.displayVacancy(vacancy)
-                printedVacancyIds.add(vacancy.getId())
+                allVacanciesLiked = displayUnlikedVacancies(containsVacancie,
+                        printedVacancyIds, vacancie, allVacanciesLiked)
+
             }
         }
+
+        println(allVacanciesLiked)
+
+        if (allVacanciesLiked)
+            MatchView.displayAllVacanciesLiked()
+        else {
+                MatchVacancy match = likeVacancy(candidate, vacancies,
+                        idsLiked, idMatch)
+                if (match != null) {
+                    matchVacancyImpl
+                            .insertCandidateLiked(candidate,
+                                    match.getVacancy().getId())
+
+                    candidate.getMatchVacancies().add(match)
+
+                    MatchView.showLikedMsg()
+                }
+        }
+
     }
 
-    static Vacancy likeVacancy(Candidate candidate, ArrayList<Vacancy> vacancies,
-                            Set<Integer> idsLiked, MatchVacancyImpl matchVacancyImpl) {
-        boolean containsNumber = true
-        Vacancy selectedVacancy = null
 
+    static MatchVacancy likeVacancy(Candidate candidate, ArrayList<Vacancy> vacancies,
+                            Set<Integer> idsLiked, int idMatch) {
+        boolean containsNumber = true
+
+        Vacancy vacancy
         while (containsNumber) {
             containsNumber = false
-            selectedVacancy = InputValidator
-                    .findVacancyByID(vacancies)
 
-            if (idsLiked.contains(selectedVacancy.getId())) {
-                containsNumber = true
-                MatchView.displayAlreadyLiked()
+            vacancy = InputValidator.findVacancyByID(vacancies)
+
+            for (Integer id : idsLiked) {
+
+                if (id == vacancy.getId()) {
+
+                    containsNumber = true
+
+                    MatchView.displayAlreadyLiked()
+
+                    break
+                }
             }
         }
+        if (vacancy != null && !containsNumber) {
 
-        return selectedVacancy
+            MatchVacancy match = new MatchVacancy(++idMatch, vacancy, candidate)
+
+            return match
+        }
+        return null
     }
 
+    static boolean displayUnlikedVacancies(boolean  containsVacancie,
+                                           ArrayList<Integer> printedVacancyIds,
+                                           Vacancy vacancy,
+                                           boolean allVacanciesLiked) {
 
+        if (!containsVacancie && !printedVacancyIds.contains(vacancy.getId())) {
+            allVacanciesLiked = false
+            printedVacancyIds.add(vacancy.getId())
+            println("Id da vaga: " + vacancy.getId())
+            println("Titulo: " + vacancy.getName())
+            println("Descrição: " + vacancy.getDescription())
+            println("Skills:")
+            println(vacancy.getSkills().join(", "))
+            println("------------------------------")
+        }
+
+        return allVacanciesLiked
+    }
 }
