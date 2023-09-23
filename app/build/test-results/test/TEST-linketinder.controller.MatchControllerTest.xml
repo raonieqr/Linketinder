@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="linketinder.controller.MatchControllerTest" tests="1" skipped="0" failures="1" errors="0" timestamp="2023-09-23T02:29:52" hostname="iMac.local" time="0.886">
+  <properties/>
+  <testcase name="testHandleCompanyMatchResults()" classname="linketinder.controller.MatchControllerTest" time="0.886">
+    <failure message="java.lang.NullPointerException: Cannot invoke method isInteger() on null object" type="java.lang.NullPointerException">java.lang.NullPointerException: Cannot invoke method isInteger() on null object
+	at org.codehaus.groovy.runtime.NullObject.invokeMethod(NullObject.java:91)
+	at org.codehaus.groovy.runtime.callsite.PogoMetaClassSite.call(PogoMetaClassSite.java:44)
+	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(CallSiteArray.java:47)
+	at org.codehaus.groovy.runtime.callsite.NullCallSite.call(NullCallSite.java:34)
+	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(CallSiteArray.java:47)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:125)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:130)
+	at linketinder.utils.InputValidator.promptForIntegerInput(InputValidator.groovy:207)
+	at linketinder.utils.InputValidator$promptForIntegerInput$0.callStatic(Unknown Source)
+	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallStatic(CallSiteArray.java:55)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callStatic(AbstractCallSite.java:217)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callStatic(AbstractCallSite.java:231)
+	at linketinder.utils.InputValidator.findMatchVacancyByID(InputValidator.groovy:87)
+	at linketinder.utils.InputValidator$findMatchVacancyByID.call(Unknown Source)
+	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(CallSiteArray.java:47)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:125)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:148)
+	at linketinder.utils.MatchValidator.findMatchVacancyForCandidate(MatchValidator.groovy:33)
+	at linketinder.utils.MatchValidator$findMatchVacancyForCandidate.call(Unknown Source)
+	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(CallSiteArray.java:47)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:125)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:148)
+	at linketinder.controller.MatchController.handleCompanyMatchResults(MatchController.groovy:77)
+	at linketinder.controller.MatchController$handleCompanyMatchResults.call(Unknown Source)
+	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(CallSiteArray.java:47)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:125)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:166)
+	at linketinder.controller.MatchControllerTest.testHandleCompanyMatchResults(MatchControllerTest.groovy:72)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+</failure>
+  </testcase>
+  <system-out><![CDATA[Digite o ID da vaga: ]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -2,9 +2,11 @@ package linketinder.controller
 
 import linketinder.dao.impl.MatchVacancyImpl
 import linketinder.model.entities.Candidate
+import linketinder.model.entities.Company
 import linketinder.model.entities.MatchVacancy
 import linketinder.model.entities.Vacancy
 import linketinder.utils.InputValidator
+import linketinder.utils.MatchValidator
 import linketinder.view.MatchView
 import linketinder.view.VacancyView
 
@@ -63,6 +65,29 @@ static void listAvailableVacancies(Candidate candidate, ArrayList<Vacancy> vacan
                 }
         }
 
+    }
+
+    static void handleCompanyMatchResults(Candidate candidate,
+                                      ArrayList<Candidate> candidates, Company company,
+                                      MatchVacancyImpl matchVacancyImpl) {
+
+        if (candidate != null) {
+
+            MatchVacancy matchVacancy =
+                    MatchValidator.findMatchVacancyForCandidate(candidate,
+                            candidates)
+
+            if (matchVacancy != null) {
+
+                company.getMatchVacancies()
+                        .find {
+                            it.getId() == matchVacancy
+                                    .getId()
+                        }?.setCompanyLiked(true)
+
+                matchVacancyImpl.updateLikedCompany(matchVacancy)
+            }
+        }
     }
 
 

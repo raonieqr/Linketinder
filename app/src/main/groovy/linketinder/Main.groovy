@@ -111,8 +111,8 @@ class Main {
                                         .processCompanyMatches(company, candidates)
 
                                 if (candidate != null){
-                                    CompanyController
-                                            .processCompanyMatches(candidate,
+                                    MatchController
+                                            .handleCompanyMatchResults(candidate,
                                             candidates, company,matchVacancyImpl)
 
                                     println("Match realizado!")
@@ -167,7 +167,8 @@ class Main {
                                         .getCompanyToDeleteByID(companies)
 
                                 CompanyController
-                                        .executeCompanyDeletion(company)
+                                        .executeCompanyDeletion(company,
+                                                companyImpl)
 
                                 println("Empresa ${company.getName()} deletada")
 

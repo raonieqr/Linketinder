@@ -22,31 +22,8 @@ class CompanyController {
         companyImpl.insertCompany(company)
     }
 
-static void processCompanyMatches(Candidate candidate,
-                            ArrayList<Candidate> candidates, Company company,
-                            MatchVacancyImpl matchVacancyImpl) {
-
-        if (candidate != null) {
-
-            MatchVacancy matchVacancy =
-                    MatchValidator.findMatchVacancyForCandidate(candidate,
-                            candidates)
-
-            if (matchVacancy != null) {
-
-                company.getMatchVacancies()
-                        .find {
-                            it.getId() == matchVacancy
-                                    .getId()
-                        }?.setCompanyLiked(true)
-
-                matchVacancyImpl.updateLikedCompany(matchVacancy)
-            }
-        }
-    }
-
-    static void executeCompanyDeletion(Company company) {
-        CompanyImpl companyImpl = new CompanyImpl()
+    static void executeCompanyDeletion(Company company,
+                                       CompanyImpl companyImpl) {
 
         companyImpl.deleteCompany(company)
     }

@@ -1,6 +1,6 @@
 package linketinder.controller;
 
-import linketinder.controller.CompanyController;
+import linketinder.dao.impl.CompanyImpl;
 import linketinder.model.entities.Company;
 
 import org.junit.jupiter.api.*;
@@ -8,6 +8,9 @@ import org.junit.jupiter.api.*;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -64,4 +67,36 @@ class CompanyControllerTest {
 
 		assertEquals(expectedOutput, outContent.toString());
 	}
+
+
+	@Test
+	public void testAddCompany() {
+		CompanyImpl companyImpl = mock(CompanyImpl.class);
+
+		Company company =new Company(2, "InovaTech", "info@inovatech.com", "12345678901234",
+				"US", "Company of Innovation", "CA", 98765432);
+
+		doNothing().when(companyImpl).insertCompany(any(Company.class));
+
+		CompanyController.addCompany(companies, company, companyImpl);
+
+		verify(companyImpl, times(1))
+				.insertCompany(company);
+	}
+
+	@Test
+	public void testExecuteCompanyDeletion() {
+		CompanyImpl companyImpl = mock(CompanyImpl.class);
+
+		Company company =new Company(2, "InovaTech", "info@inovatech.com", "12345678901234",
+				"US", "Company of Innovation", "CA", 98765432);
+
+		doNothing().when(companyImpl).deleteCompany(any(Company.class));
+
+		CompanyController.executeCompanyDeletion(company, companyImpl);
+
+		verify(companyImpl, times(1))
+				.deleteCompany(company);
+	}
+
 }
