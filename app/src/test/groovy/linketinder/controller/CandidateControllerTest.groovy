@@ -1,11 +1,13 @@
 package linketinder.controller
 
+import linketinder.dao.impl.CandidateImpl
 import linketinder.model.entities.Candidate
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
+import static org.mockito.Mockito.*
 import static org.junit.Assert.assertEquals
 
 class CandidateControllerTest {
@@ -42,7 +44,7 @@ class CandidateControllerTest {
     }
 
     @Test
-    public void testListCompanies() {
+    public void testListCandidates() {
         CandidateController.listCandidates(candidates);
 
         String expectedOutput = "ID: 1\n" +
@@ -65,5 +67,39 @@ class CandidateControllerTest {
         "---------------------------------------------------------------\n";
 
         assertEquals(expectedOutput, outContent.toString());
+    }
+
+    @Test
+    public void testAddCandidate() {
+        CandidateImpl candidateImpl = mock(CandidateImpl.class);
+
+        Candidate candidate = new Candidate(3, "Pedro Oliveira",
+                "pedro.oliveira@example.com", ["Java", "Spring Boot"],
+                28, "SP", "Desenvolvedor Full Stack",
+                "12378945600", 98765432);
+
+        doNothing().when(candidateImpl).insertCandidate(any(Candidate.class));
+
+        CandidateController.addCandidate(candidates, candidate, candidateImpl);
+
+        verify(candidateImpl, times(1))
+                .insertCandidate(candidate);
+    }
+
+    @Test
+    public void testExecuteCandidateDeletion() {
+        CandidateImpl candidateImpl = mock(CandidateImpl.class);
+
+        Candidate candidate = new Candidate(3, "Pedro Oliveira",
+                "pedro.oliveira@example.com", ["Java", "Spring Boot"],
+                28, "SP", "Desenvolvedor Full Stack",
+                "12378945600", 98765432);
+
+        doNothing().when(candidateImpl).deleteCandidate(any(Candidate.class));
+
+        CandidateController.executeCandidateDeletion(candidate, candidateImpl);
+
+        verify(candidateImpl, times(1))
+                .deleteCandidate(candidate);
     }
 }

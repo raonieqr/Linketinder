@@ -19,8 +19,8 @@ class CandidateController {
         candidateImpl.insertCandidate(candidate)
     }
 
-    static void executeCandidateDeletion(Candidate candidate) {
-        CandidateImpl candidateImpl = new CandidateImpl()
+    static void executeCandidateDeletion(Candidate candidate,
+                                         CandidateImpl candidateImpl) {
 
         candidateImpl.deleteCandidate(candidate)
     }

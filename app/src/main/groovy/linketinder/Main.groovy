@@ -179,7 +179,8 @@ class Main {
                                         .getCandidateToDeleteByID(candidates)
 
                                 CandidateController
-                                        .executeCandidateDeletion(candidate)
+                                        .executeCandidateDeletion(candidate,
+                                                candidateImpl)
 
                                 println("Candidato ${candidate.getName()} " +
                                         "deletado")
