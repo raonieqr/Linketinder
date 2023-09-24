@@ -43,7 +43,6 @@ static void listAvailableVacancies(Candidate candidate, ArrayList<Vacancy> vacan
                 allVacanciesLiked = MatchView
                         .displayUnlikedVacancies(containsVacancie,
                         printedVacancyIds, vacancie, allVacanciesLiked)
-
             }
         }
 

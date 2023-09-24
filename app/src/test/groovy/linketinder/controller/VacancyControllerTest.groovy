@@ -4,10 +4,10 @@ import linketinder.dao.impl.VacancyImpl
 import linketinder.model.entities.Company
 import linketinder.model.entities.Vacancy
 import org.junit.jupiter.api.*
-import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.times;
+import static org.junit.Assert.assertEquals
+import static org.mockito.ArgumentMatchers.any
+import static org.mockito.Mockito.*
+import static org.mockito.Mockito.times
 
 class VacancyControllerTest {
     static ArrayList<Vacancy> vacancies
