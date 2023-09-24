@@ -6,12 +6,11 @@ import linketinder.model.entities.Company
 import linketinder.model.entities.MatchVacancy
 import linketinder.model.entities.Vacancy
 import linketinder.utils.InputValidator
+import linketinder.view.MatchView
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
-import org.mockito.ArgumentMatchers
 import org.mockito.MockedStatic
-import org.mockito.Mockito
-import org.mockito.Spy
+
 
 import static org.mockito.ArgumentMatchers.any
 import static org.mockito.Mockito.*
@@ -63,7 +62,7 @@ class MatchControllerTest {
         Candidate candidate = new Candidate(3, "Pedro Oliveira",
                 "pedro.oliveira@example.com", ["Java", "Spring Boot"],
                 28, "SP", "Desenvolvedor Full Stack",
-                "12378945600", 98765432);
+                "12378945600", 98765432)
 
         Vacancy vacancy = new Vacancy(1, "Desenvolvedor Full Stack",
                 "Vaga para desenvolvedor Full Stack", company,
@@ -82,4 +81,103 @@ class MatchControllerTest {
 
         }
     }
+    @Test
+    public void testLikeVacancy() {
+        ArrayList<Vacancy> vacancies = new ArrayList<>()
+        Set<Integer> idsLiked = new HashSet<>()
+
+
+        Candidate candidate = new Candidate(3, "Pedro Oliveira",
+          "pedro.oliveira@example.com", ["Java", "Spring Boot"],
+          28, "SP", "Desenvolvedor Full Stack",
+          "12378945600", 98765432)
+
+        Company company = new Company(2, "InovaTech",
+          "info@inovatech.com", "12345678901234",
+          "US", "Company of Innovation",
+          "CA", 98765432)
+
+        Vacancy vacancy = new Vacancy(1, "Desenvolvedor Full Stack",
+          "Vaga para desenvolvedor Full Stack", company,
+          ["Java", "Spring Boot", "Angular", "SQL", "C#"])
+
+        MatchVacancy matchVacancy = new MatchVacancy(1, vacancy, candidate)
+
+        candidate.getMatchVacancies().add(matchVacancy)
+
+        vacancies.add(vacancy)
+
+        int idMatch = 1
+
+        try (MockedStatic<InputValidator> inputValidator = mockStatic(InputValidator.class)) {
+            inputValidator.when(() -> InputValidator.promptForIntegerInput(anyString()))
+              .thenReturn(1)
+
+            MockedStatic<MatchController> matchController = mockStatic(MatchController.class)
+            matchController.when(() -> MatchController
+              .likeVacancy(candidate, vacancies, idsLiked, idMatch))
+              .thenReturn(matchVacancy)
+
+
+            MatchVacancy match = MatchController
+              .likeVacancy(candidate, vacancies, idsLiked, idMatch)
+
+            assert match != null
+            assert match.candidate != null
+        }
+    }
+
+    @Test
+    public void testManageVacancyListAndLikes() {
+        MatchVacancyImpl matchVacancyImpl = mock(MatchVacancyImpl.class)
+
+
+        ArrayList<Vacancy> vacancies = new ArrayList<>()
+
+        Company company = new Company(2, "InovaTech",
+          "info@inovatech.com", "12345678901234",
+          "US", "Company of Innovation",
+          "CA", 98765432)
+
+        Vacancy vacancy = new Vacancy(1, "Desenvolvedor Full Stack",
+          "Vaga para desenvolvedor Full Stack", company,
+          ["Java", "Spring Boot", "Angular", "SQL", "C#"])
+
+        Candidate candidate = new Candidate(3, "Pedro Oliveira",
+          "pedro.oliveira@example.com", ["Java", "Spring Boot"],
+          28, "SP", "Desenvolvedor Full Stack",
+          "12378945600", 98765432)
+
+        int idMatch = 1
+
+        vacancies.add(vacancy)
+
+
+        ArrayList<Integer> printedVacancyIds = new ArrayList<>()
+        Set<Integer> idsLiked =  new HashSet<>()
+
+        boolean  allVacanciesLiked = true
+
+        try (MockedStatic<InputValidator> inputValidator = mockStatic(InputValidator.class)) {
+            inputValidator.when(() -> InputValidator
+              .promptForIntegerInput(anyString()))
+              .thenReturn(1)
+
+            allVacanciesLiked = MatchController.processVacancies(vacancies,
+              candidate,
+              idsLiked, printedVacancyIds)
+
+            if (allVacanciesLiked)
+                MatchView.displayAllVacanciesLiked()
+            else {
+                MatchVacancy match = MatchController.handleLikedVacancies(candidate,
+                  vacancies,
+                  idsLiked, idMatch)
+
+                MatchController.likedVacancies(match, matchVacancyImpl, candidate)
+            }
+        }
+
+    }
+
 }

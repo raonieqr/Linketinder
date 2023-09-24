@@ -122,6 +122,7 @@ static void manageVacancyListAndLikes(Candidate candidate, ArrayList<Vacancy> va
         boolean containsNumber = true
 
         Vacancy vacancy
+
         while (containsNumber) {
             containsNumber = false
 
@@ -141,7 +142,7 @@ static void manageVacancyListAndLikes(Candidate candidate, ArrayList<Vacancy> va
         }
         if (vacancy != null && !containsNumber) {
 
-            MatchVacancy match = new MatchVacancy(++idMatch, vacancy, candidate)
+            MatchVacancy match = new MatchVacancy(idMatch, vacancy, candidate)
 
             return match
         }
