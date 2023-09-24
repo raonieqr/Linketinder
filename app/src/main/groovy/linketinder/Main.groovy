@@ -111,13 +111,12 @@ class Main {
                                         .processCompanyMatches(company, candidates)
 
                                 if (candidate != null){
-                                    CompanyController
-                                            .processCompanyMatches(candidate,
+                                    MatchController
+                                            .handleCompanyMatchResults(candidate,
                                             candidates, company,matchVacancyImpl)
 
                                     println("Match realizado!")
                                 }
-
 
                                 break
 
@@ -125,7 +124,7 @@ class Main {
                                 Candidate candidate = InputValidator
                                         .findCandidateByID(candidates)
 
-                                MatchController.listAvailableVacancies(candidate,
+                                MatchController.manageVacancyListAndLikes(candidate,
                                         vacancies, matchVacancyImpl, ++idMatch)
 
                                 break
@@ -167,7 +166,8 @@ class Main {
                                         .getCompanyToDeleteByID(companies)
 
                                 CompanyController
-                                        .executeCompanyDeletion(company)
+                                        .executeCompanyDeletion(company,
+                                                companyImpl)
 
                                 println("Empresa ${company.getName()} deletada")
 
@@ -179,7 +179,8 @@ class Main {
                                         .getCandidateToDeleteByID(candidates)
 
                                 CandidateController
-                                        .executeCandidateDeletion(candidate)
+                                        .executeCandidateDeletion(candidate,
+                                                candidateImpl)
 
                                 println("Candidato ${candidate.getName()} " +
                                         "deletado")

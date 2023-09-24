@@ -5,7 +5,6 @@ import linketinder.dao.MatchVacancyDAO
 import linketinder.db.DBHandler
 import linketinder.model.entities.Candidate
 import linketinder.model.entities.MatchVacancy
-import linketinder.model.entities.Vacancy
 
 
 class MatchVacancyImpl implements MatchVacancyDAO{

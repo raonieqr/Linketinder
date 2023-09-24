@@ -1,9 +1,7 @@
 package linketinder.controller
 
 import linketinder.dao.impl.CandidateImpl
-import linketinder.dao.impl.CompanyImpl
 import linketinder.model.entities.Candidate
-import linketinder.model.entities.Company
 import linketinder.view.CandidateView
 
 class CandidateController {
@@ -17,11 +15,12 @@ class CandidateController {
                              Candidate candidate, CandidateImpl candidateImpl) {
 
         candidates.add(candidate)
+
         candidateImpl.insertCandidate(candidate)
     }
 
-    static void executeCandidateDeletion(Candidate candidate) {
-        CandidateImpl candidateImpl = new CandidateImpl()
+    static void executeCandidateDeletion(Candidate candidate,
+                                         CandidateImpl candidateImpl) {
 
         candidateImpl.deleteCandidate(candidate)
     }
