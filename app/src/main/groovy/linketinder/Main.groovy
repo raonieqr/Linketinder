@@ -124,7 +124,7 @@ class Main {
                                 Candidate candidate = InputValidator
                                         .findCandidateByID(candidates)
 
-                                MatchController.listAvailableVacancies(candidate,
+                                MatchController.manageVacancyListAndLikes(candidate,
                                         vacancies, matchVacancyImpl, ++idMatch)
 
                                 break
