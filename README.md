@@ -43,9 +43,25 @@ groovy src/Main.groovy
   - View Matches: Candidates and companies can now view their mutual matches. Candidates can see the vacancies that have been "liked" by companies, and companies can see the candidates that have expressed interest.
 - View Matches: Candidates and companies can now view their mutual matches. Candidates can see the vacancies that have been "liked" by companies, and companies can see the candidates that have expressed interest.
 - Database: Save application data
-- **NEW** Gradle:
+- Gradle:
   - Gradle was added to take care of dependency injections, testing and running the program.
     The commands can be used: gradle test to run the tests, gradle build to build the project and gradle run to run
+- **NEW** Delete:
+  - Now candidate or company can be deleted
+
+# CI/CD
+## Testing with GitHub Actions:
+
+- Automation: Test automation with GitHub Actions ensures that tests run automatically every time someone creates a PR. This eliminates the need for time-consuming and error-prone manual testing.
+
+- Rapid Feedback: Automated tests provide instant feedback to developers on the quality of the code they are contributing. This helps identify problems early.
+
+- Continuous Integration: Continuous integration with testing helps ensure that new or modified code does not break existing functionality.
+
+- Better Collaboration: When a PR is created, test results are displayed directly on the PR page. This helps reviewers understand the impact of changes and makes it easier to make informed decisions.
+
+- Quality Assurance: Running automated tests is a best practice to ensure software quality and reduce bugs and issues in production.
+  
 ## Contribution
 Contributions are welcome! If you encounter issues, bugs, or want to add new features, feel free to open a pull request.
 
