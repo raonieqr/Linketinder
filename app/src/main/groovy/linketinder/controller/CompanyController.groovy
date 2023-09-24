@@ -1,17 +1,12 @@
 package linketinder.controller
 
 import linketinder.dao.impl.CompanyImpl
-import linketinder.dao.impl.MatchVacancyImpl
-import linketinder.model.entities.Candidate
 import linketinder.model.entities.Company
-import linketinder.model.entities.MatchVacancy
-import linketinder.utils.MatchValidator
 import linketinder.view.CompanyView
 
 class CompanyController {
 
     static void listCompanies(ArrayList<Company> companies) {
-
         CompanyView.showCompanies(companies)
     }
 
@@ -20,12 +15,12 @@ class CompanyController {
 
         companies.add(company)
         companyImpl.insertCompany(company)
-    }
+                           }
 
     static void executeCompanyDeletion(Company company,
                                        CompanyImpl companyImpl) {
 
         companyImpl.deleteCompany(company)
-    }
+                                       }
 
 }

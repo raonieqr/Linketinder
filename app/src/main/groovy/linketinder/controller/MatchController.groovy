@@ -12,32 +12,33 @@ import linketinder.view.VacancyView
 
 class MatchController {
 
-static void manageVacancyListAndLikes(Candidate candidate, ArrayList<Vacancy> vacancies,
+    static void manageVacancyListAndLikes(Candidate candidate, ArrayList<Vacancy> vacancies,
                                        MatchVacancyImpl matchVacancyImpl,
                                        int idMatch) {
 
-    ArrayList<Integer> printedVacancyIds = new ArrayList<>()
-    Set<Integer> idsLiked =  new HashSet<>()
+        ArrayList<Integer> printedVacancyIds = []
+        Set<Integer> idsLiked =  new HashSet<>()
 
-    boolean  allVacanciesLiked = true
+        boolean  allVacanciesLiked = true
 
-        if (vacancies.isEmpty())
+        if (vacancies.isEmpty()) {
             VacancyView.displayNoVacancies()
-        else
+        }
+        else {
                 allVacanciesLiked = processVacancies(vacancies, candidate,
+        }
                         idsLiked, printedVacancyIds)
 
-
-        if (allVacanciesLiked)
+        if (allVacanciesLiked) {
             MatchView.displayAllVacanciesLiked()
+        }
         else {
-           MatchVacancy match =  handleLikedVacancies(candidate, vacancies,
+            MatchVacancy match =  handleLikedVacancies(candidate, vacancies,
                     idsLiked, idMatch)
 
             likedVacancies(match, matchVacancyImpl, candidate)
         }
-
-    }
+                                       }
 
     static boolean processVacancies(ArrayList<Vacancy> vacancies,
                                     Candidate candidate,
@@ -50,16 +51,14 @@ static void manageVacancyListAndLikes(Candidate candidate, ArrayList<Vacancy> va
             boolean containsVacancie = false
 
             candidate.getMatchVacancies().each { matchingVacancy ->
-
                 if (matchingVacancy.getVacancy().
                         getId() == vacancie.getId()) {
-
                     idsLiked.add(vacancie.getId())
 
                     containsVacancie = true
 
                     return
-                }
+                        }
             }
 
             allVacanciesLiked = MatchView
@@ -67,21 +66,19 @@ static void manageVacancyListAndLikes(Candidate candidate, ArrayList<Vacancy> va
                             printedVacancyIds, vacancie, allVacanciesLiked)
         }
         return allVacanciesLiked
-    }
+                                    }
 
     static MatchVacancy handleLikedVacancies(Candidate candidate,
                                      ArrayList<Vacancy> vacancies,
                                      Set<Integer> idsLiked, int idMatch) {
         return likeVacancy(candidate, vacancies,
                 idsLiked, idMatch)
-
-    }
+                                     }
 
     static void likedVacancies(MatchVacancy match,
                                MatchVacancyImpl matchVacancyImpl,
                                Candidate candidate) {
         if (match != null) {
-
             matchVacancyImpl
                     .insertCandidateLiked(candidate,
                             match.getVacancy().getId())
@@ -90,20 +87,18 @@ static void manageVacancyListAndLikes(Candidate candidate, ArrayList<Vacancy> va
 
             MatchView.showLikedMsg()
         }
-    }
+                               }
 
     static void handleCompanyMatchResults(Candidate candidate,
                                       ArrayList<Candidate> candidates, Company company,
                                       MatchVacancyImpl matchVacancyImpl) {
 
         if (candidate != null) {
-
             MatchVacancy matchVacancy =
                     MatchValidator.findMatchVacancyForCandidate(candidate,
                             candidates)
 
             if (matchVacancy != null) {
-
                 company.getMatchVacancies()
                         .find {
                             it.getId() == matchVacancy
@@ -113,8 +108,7 @@ static void manageVacancyListAndLikes(Candidate candidate, ArrayList<Vacancy> va
                 matchVacancyImpl.updateLikedCompany(matchVacancy)
             }
         }
-    }
-
+                                      }
 
     static MatchVacancy likeVacancy(Candidate candidate, ArrayList<Vacancy> vacancies,
                             Set<Integer> idsLiked, int idMatch) {
@@ -129,9 +123,7 @@ static void manageVacancyListAndLikes(Candidate candidate, ArrayList<Vacancy> va
             vacancy = InputValidator.findVacancyByID(vacancies)
 
             for (Integer id : idsLiked) {
-
                 if (id == vacancy.getId()) {
-
                     containsNumber = true
 
                     MatchView.displayAlreadyLiked()
@@ -141,12 +133,11 @@ static void manageVacancyListAndLikes(Candidate candidate, ArrayList<Vacancy> va
             }
         }
         if (vacancy != null && !containsNumber) {
-
             MatchVacancy match = new MatchVacancy(idMatch, vacancy, candidate)
 
             return match
         }
         return null
-    }
+                            }
 
 }

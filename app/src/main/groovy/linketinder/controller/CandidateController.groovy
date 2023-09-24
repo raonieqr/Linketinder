@@ -7,7 +7,6 @@ import linketinder.view.CandidateView
 class CandidateController {
 
     static void listCandidates(ArrayList<Candidate> candidates) {
-
         CandidateView.showCandidates(candidates)
     }
 
@@ -17,12 +16,12 @@ class CandidateController {
         candidates.add(candidate)
 
         candidateImpl.insertCandidate(candidate)
-    }
+                             }
 
     static void executeCandidateDeletion(Candidate candidate,
                                          CandidateImpl candidateImpl) {
 
         candidateImpl.deleteCandidate(candidate)
-    }
+                                         }
 
 }
