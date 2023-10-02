@@ -40,6 +40,7 @@ class Person implements PersonService{
                                   String email, ArrayList<String> skills,
                                   int age, String state, String description,
                                      String cpf, int cep){
+
         return EntityFactory.createCandidate(idCandidate, name, email, skills,
           age, state, description, cpf, cep)
     }
@@ -49,6 +50,7 @@ class Person implements PersonService{
                                         String email, String cnpj,
                                         String country, String description,
                                  String state, int cep) {
+
         return EntityFactory.createCompany(idCompany, name, email, cnpj,
           country, description, state, cep)
     }

@@ -1,6 +1,5 @@
 package linketinder.db
 
-
 import org.junit.jupiter.api.Test
 import static org.junit.jupiter.api.Assertions.*
 
@@ -16,7 +15,7 @@ public class DBConnectionTest {
 
 		assertThrows(Exception.class, () -> {
 			factory.createConnection("jdbc:postgresql://localhost/db2",
-					"user2", "password2");
+					"user2", "password2")
 		})
 
 		assertNotNull(dbHandler1)

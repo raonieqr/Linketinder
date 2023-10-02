@@ -55,7 +55,6 @@ class CandidateView {
         skillsList = skillsList.collect { it.toLowerCase() }
         skillsList = skillsList.collect { it.capitalize() }
 
-        println(skillsList)
 
         return candidate.createCandidateFactory(idCandidate, name, email,
           skillsList, age, state, description, cpf, cep)
