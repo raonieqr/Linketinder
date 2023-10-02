@@ -10,6 +10,8 @@ import linketinder.view.CompanyView
 
 class CompanyController {
 
+    // TODO: modificar para que o view chame o controller
+
     static void listCompanies(ArrayList<Company> companies) {
 
         CompanyView.showCompanies(companies)

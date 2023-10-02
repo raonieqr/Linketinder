@@ -4,13 +4,16 @@
  * This generated file contains a sample Groovy application project to get you started.
  * For more details on building Java & JVM projects, please refer to https://docs.gradle.org/8.3/userguide/building_java_projects.html in the Gradle documentation.
  */
-
 plugins {
     // Apply the groovy Plugin to add support for Groovy.
     id 'groovy'
 
     // Apply the application plugin to add support for building a CLI application in Java.
     id 'application'
+}
+
+run {
+    standardInput = System.in
 }
 
 repositories {
@@ -32,8 +35,6 @@ dependencies {
     testImplementation 'org.mockito:mockito-junit-jupiter:5.5.0'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
-
-
     // JDBC driver for postgresql
     implementation 'org.postgresql:postgresql:42.6.0'
 }
@@ -47,7 +48,7 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass = 'Main'
+    mainClass = 'linketinder.Main'
 }
 
 tasks.named('test') {

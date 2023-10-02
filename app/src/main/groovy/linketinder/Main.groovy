@@ -56,6 +56,9 @@ class Main {
 
                 switch (option) {
 
+                    // TODO: a view chama o controller e o controller chama o
+                    //  service
+                    
                     case 1:
                         CompanyController.listCompanies(companies)
                         break
