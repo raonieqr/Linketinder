@@ -2,8 +2,10 @@ package linketinder.view
 
 import linketinder.model.entities.Candidate
 import linketinder.model.entities.Company
+import linketinder.model.entities.Person
 import linketinder.utils.InputValidator
 import linketinder.utils.MatchValidator
+import org.checkerframework.checker.units.qual.C
 
 class CompanyView {
 
@@ -24,6 +26,7 @@ class CompanyView {
 
     static Company createCompany(int idCompany,
                                  ArrayList<Company> companies) {
+        Company company = new Company()
 
         String name = InputValidator.promptForUserInput("Nome: ")
         String email = InputValidator.promptForUserInput("E-mail: ")
@@ -50,8 +53,8 @@ class CompanyView {
 
         Integer cep = InputValidator.promptForIntegerInput("CEP: ")
 
-        return new Company(idCompany, name, email, cnpj, country,
-                description, state, cep)
+        return company.createCompanyFactory(idCompany, name, email, cnpj, country,
+          description, state, cep) as Company
     }
 
     static Candidate processCompanyMatches(Company comp,

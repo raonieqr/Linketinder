@@ -8,7 +8,11 @@ class Company extends Person {
     String state
     String country
     int cep
-    ArrayList<MatchVacancy> matchVacancies = new ArrayList<>();
+    ArrayList<MatchVacancy> matchVacancies = new ArrayList<>()
+
+    Company() {
+        super()
+    }
 
     Company(int id, String name, String email, String cnpj, String country,
             String description, String state,

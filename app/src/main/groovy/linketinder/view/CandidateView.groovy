@@ -2,6 +2,8 @@ package linketinder.view
 
 import linketinder.model.entities.Candidate
 import linketinder.model.entities.Company
+import linketinder.model.entities.EntityFactory
+import linketinder.model.entities.Person
 import linketinder.utils.InputValidator
 
 class CandidateView {
@@ -23,6 +25,7 @@ class CandidateView {
     }
 
     static Candidate createCandidate(int idCandidate, ArrayList<Candidate> candidates) {
+        Candidate candidate = new Candidate()
 
         String name = InputValidator.promptForUserInput("Nome: ")
         String email = InputValidator.promptForUserInput("E-mail: ")
@@ -52,8 +55,9 @@ class CandidateView {
         skillsList = skillsList.collect { it.toLowerCase() }
         skillsList = skillsList.collect { it.capitalize() }
 
-        return new Candidate(idCandidate, name, email, skillsList, age,
-                state, description, cpf, cep)
+
+        return candidate.createCandidateFactory(idCandidate, name, email,
+          skillsList, age, state, description, cpf, cep)
     }
 
     static Candidate getCandidateToDeleteByID(ArrayList<Candidate> candidates) {

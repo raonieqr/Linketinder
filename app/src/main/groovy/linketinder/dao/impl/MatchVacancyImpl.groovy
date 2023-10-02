@@ -9,8 +9,14 @@ import linketinder.model.entities.MatchVacancy
 
 class MatchVacancyImpl implements MatchVacancyDAO{
 
+    static final instance = new MatchVacancyImpl()
+
     DBHandler dbHandler = DBHandler.getInstance()
     Sql sql = dbHandler.getSql()
+
+    static MatchVacancyImpl getInstance() {
+        return instance
+    }
 
     @Override
     void updateLikedCompany(MatchVacancy matchVacancy) {

@@ -9,8 +9,14 @@ import linketinder.model.entities.Vacancy
 
 class VacancyImpl implements VacancyDAO{
 
+    static final VacancyImpl instance = new VacancyImpl()
+
     DBHandler dbHandler = DBHandler.getInstance()
     Sql sql = dbHandler.getSql()
+
+    static VacancyImpl getInstance() {
+        return instance
+    }
 
     @Override
     void getAllVacancy(ArrayList<Vacancy> vacancies,

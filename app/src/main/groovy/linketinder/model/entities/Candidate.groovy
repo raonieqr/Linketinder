@@ -11,6 +11,10 @@ class Candidate extends Person {
     String description
     String cpf
 
+    Candidate() {
+        super()
+    }
+
     Candidate(int id, String name, String email, ArrayList<String> skills =
             ["Python", "Java", "Spring Framework", "Angular", "C"],
               int age, String state, String description, String cpf, int cep) {
