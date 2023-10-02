@@ -1,7 +1,6 @@
 package linketinder.dao
 
 import linketinder.model.entities.Candidate
-import linketinder.model.entities.Company
 import linketinder.model.entities.Vacancy
 
 // TODO: package DAOInterface

@@ -5,7 +5,6 @@ import groovy.sql.Sql
 import linketinder.dao.CandidateDAO
 import linketinder.db.DBHandler
 import linketinder.model.entities.Candidate
-import linketinder.model.entities.Company
 import linketinder.model.entities.MatchVacancy
 import linketinder.model.entities.Vacancy
 
@@ -25,12 +24,10 @@ class CandidateImpl implements  CandidateDAO {
                           ArrayList<Vacancy> vacancies) {
 
         List<GroovyRowResult> viewAllCandidates = sql
-                .rows("SELECT * FROM candidates")
+                .rows('SELECT * FROM candidates')
 
         if (viewAllCandidates) {
-
             viewAllCandidates.each { candidate ->
-
                 Candidate candi = createCandidateFromRow(candidate)
 
                 populateCandidateMatches(candi, vacancies)
@@ -38,10 +35,9 @@ class CandidateImpl implements  CandidateDAO {
                 candidates.add(candi)
             }
         }
-    }
+                          }
 
     Candidate createCandidateFromRow(GroovyRowResult candidateRow) {
-
         List<GroovyRowResult> viewCandidateSkill = sql.rows("""
             SELECT DISTINCT skills.description AS skill
             FROM candidates
@@ -74,11 +70,8 @@ class CandidateImpl implements  CandidateDAO {
         """)
 
         getMatchCandidate.each { row ->
-
             vacancies.each { vacancy ->
-
                 if (vacancy.getId() == row.id_role) {
-
                     MatchVacancy match = new MatchVacancy(
                             row.id as int, vacancy, candidate
                     )
@@ -89,49 +82,45 @@ class CandidateImpl implements  CandidateDAO {
                 }
             }
         }
-    }
+                                  }
 
     @Override
     void insertCandidate(Candidate candidate) {
-
         try {
-
             int idCandidate = candidate.getId()
 
             sql.executeInsert("""
                 INSERT INTO candidates (NAME, CEP, CPF, STATE,
-                AGE, DESCRIPTION, EMAIL, PASSWORD) 
+                AGE, DESCRIPTION, EMAIL, PASSWORD)
                 VALUES (${candidate.getName()}, ${candidate.getCep()},
-                ${candidate.getCpf()}, ${candidate.getState()}, 
+                ${candidate.getCpf()}, ${candidate.getState()},
                 ${candidate.getAge()}, ${candidate.getDescription()},
                 ${candidate.getEmail()}, 'batatinha')
             """)
 
             candidate.getSkills().each { skill ->
-
                 GroovyRowResult containsSkill = sql.firstRow("""
                     SELECT id, COUNT(*)
-                    FROM skills 
+                    FROM skills
                     WHERE description = $skill
                     GROUP BY id
                 """)
 
                 int idSkill
 
-                if (containsSkill != null && containsSkill.count > 0)
+                if (containsSkill != null && containsSkill.count > 0) {
                     idSkill = containsSkill.id as int
+                }
                 else {
-
                     GroovyRowResult result = sql.firstRow("""
                        INSERT INTO skills (DESCRIPTION) VALUES (
                         $skill) RETURNING id
                     """)
                     idSkill = result.id as int
-
                 }
 
                 sql.executeInsert("""
-                    INSERT INTO candidate_skills (ID_CANDIDATE, ID_SKILL) 
+                    INSERT INTO candidate_skills (ID_CANDIDATE, ID_SKILL)
                     VALUES ($idCandidate, $idSkill)
                 """)
             }
@@ -147,4 +136,5 @@ class CandidateImpl implements  CandidateDAO {
             DELETE FROM candidates WHERE id = ${candidate.getId()}
         """)
     }
+
 }

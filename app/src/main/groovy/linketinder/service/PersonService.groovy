@@ -4,6 +4,7 @@ import linketinder.model.entities.Candidate
 import linketinder.model.entities.Company
 
 interface PersonService {
+
     void showInfo()
 
     Candidate createCandidateFactory(int idCandidate, String name,

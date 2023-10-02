@@ -2,13 +2,13 @@ package linketinder.model.entities
 
 import linketinder.service.PersonService
 
-class Person implements PersonService{
+class Person implements PersonService {
 
     String name
     String email
     EntityFactory entityFactory
 
-    Person() {}
+    Person() { }
 
     Person(String name, String email) {
         this.name = name
@@ -17,7 +17,7 @@ class Person implements PersonService{
     }
 
     String getName() {
-       return name
+        return name
     }
 
     void setName(String name) {
@@ -25,7 +25,7 @@ class Person implements PersonService{
     }
 
     String getEmail() {
-       return email
+        return email
     }
 
     void setEmail(String email) {
@@ -33,7 +33,7 @@ class Person implements PersonService{
     }
 
     @Override
-    void showInfo() {}
+    void showInfo() { }
 
     @Override
     Candidate createCandidateFactory(int idCandidate, String name,
@@ -43,7 +43,7 @@ class Person implements PersonService{
 
         return EntityFactory.createCandidate(idCandidate, name, email, skills,
           age, state, description, cpf, cep)
-    }
+                                     }
 
     @Override
     Company createCompanyFactory(int idCompany, String name,
@@ -53,5 +53,6 @@ class Person implements PersonService{
 
         return EntityFactory.createCompany(idCompany, name, email, cnpj,
           country, description, state, cep)
-    }
+                                 }
+
 }

@@ -7,7 +7,7 @@ import linketinder.db.DBHandler
 import linketinder.model.entities.Company
 import linketinder.model.entities.Vacancy
 
-class VacancyImpl implements VacancyDAO{
+class VacancyImpl implements VacancyDAO {
 
     static final VacancyImpl instance = new VacancyImpl()
 
@@ -22,14 +22,12 @@ class VacancyImpl implements VacancyDAO{
     void getAllVacancy(ArrayList<Vacancy> vacancies,
                        ArrayList<Company> companies) {
 
-        List<GroovyRowResult> viewAllVancacy = sql.rows("""
+        List<GroovyRowResult> viewAllVancacy = sql.rows('''
             SELECT * FROM roles
-        """)
+        ''')
 
         if (viewAllVancacy != null) {
-
-            viewAllVancacy.each {vacancy ->
-
+            viewAllVancacy.each { vacancy ->
                 int id = vacancy.id as int
 
                 List<GroovyRowResult> viewAllSkill = sql.rows("""
@@ -49,7 +47,6 @@ class VacancyImpl implements VacancyDAO{
 
                 companies.each { company ->
                     if (company.getId() == vacancy.id_company as int) {
-
                         comp = new Company(company.id as int, company
                                 .name as String, company.email as String,
                                 company.cnpj as String, company
@@ -60,7 +57,6 @@ class VacancyImpl implements VacancyDAO{
                 }
 
                 if (comp != null && comp) {
-
                     vacancies.add(new Vacancy(vacancy.id as int,
                             vacancy.name as String, vacancy
                             .description as String, comp, viewAllSkill
@@ -68,11 +64,10 @@ class VacancyImpl implements VacancyDAO{
                 }
             }
         }
-    }
+                       }
 
     @Override
     void insertVacancy(Vacancy vacancy) {
-
         sql.executeInsert("""
             INSERT INTO roles (NAME, DESCRIPTION, ID_COMPANY,
             DATE)
@@ -81,7 +76,6 @@ class VacancyImpl implements VacancyDAO{
         """)
 
         vacancy.getSkills().each { skill ->
-
             GroovyRowResult containsSkill = sql.firstRow("""
                 SELECT id, COUNT(*)
                 FROM skills
@@ -108,4 +102,5 @@ class VacancyImpl implements VacancyDAO{
             """)
         }
     }
+
 }
