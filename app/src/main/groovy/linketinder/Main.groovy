@@ -33,10 +33,10 @@ class Main {
             int idMatch = IDGenerator.getNextMatchID()
             int option = 0
 
-            CandidateImpl candidateImpl = new CandidateImpl()
-            CompanyImpl companyImpl = new CompanyImpl()
-            VacancyImpl vacancyImpl = new VacancyImpl()
-            MatchVacancyImpl matchVacancyImpl = new MatchVacancyImpl()
+            CandidateImpl candidateImpl = CandidateImpl.getInstance()
+            CompanyImpl companyImpl = CompanyImpl.getInstance()
+            VacancyImpl vacancyImpl = VacancyImpl.getInstance()
+            MatchVacancyImpl matchVacancyImpl = MatchVacancyImpl.getInstance()
 
             ArrayList<Candidate> candidates = new ArrayList<>()
             ArrayList<Company> companies = new ArrayList<>()

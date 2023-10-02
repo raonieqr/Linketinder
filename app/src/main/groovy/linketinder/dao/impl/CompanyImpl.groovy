@@ -7,9 +7,14 @@ import linketinder.db.DBHandler
 import linketinder.model.entities.Company
 
 class CompanyImpl implements CompanyDAO{
+    static final CompanyImpl instance = new CompanyImpl()
 
     DBHandler dbHandler = DBHandler.getInstance()
     Sql sql = dbHandler.getSql()
+
+    static CompanyImpl getInstance() {
+        return instance
+    }
 
     @Override
     void getAllCompanies(ArrayList<Company> companies) {

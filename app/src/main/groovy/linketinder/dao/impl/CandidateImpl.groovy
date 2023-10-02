@@ -10,8 +10,15 @@ import linketinder.model.entities.MatchVacancy
 import linketinder.model.entities.Vacancy
 
 class CandidateImpl implements  CandidateDAO {
+
+    static final CandidateImpl instance = new CandidateImpl()
+
     DBHandler dbHandler = DBHandler.getInstance()
     Sql sql = dbHandler.getSql()
+
+    static CandidateImpl getInstance() {
+        return instance
+    }
 
     @Override
     void getAllCandidates(ArrayList<Candidate> candidates,
