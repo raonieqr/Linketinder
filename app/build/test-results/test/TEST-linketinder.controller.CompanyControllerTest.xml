@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="linketinder.controller.CompanyControllerTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2023-10-02T13:21:55" hostname="iMac.local" time="0.051">
-  <properties/>
-  <testcase name="testListCompanies()" classname="linketinder.controller.CompanyControllerTest" time="0.009"/>
-  <testcase name="testExecuteCompanyDeletion()" classname="linketinder.controller.CompanyControllerTest" time="0.037"/>
-  <testcase name="testAddCompany()" classname="linketinder.controller.CompanyControllerTest" time="0.003"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

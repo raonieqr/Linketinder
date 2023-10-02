@@ -5,6 +5,10 @@ class DBHandler {
     private static DBHandler instance
     private Sql sql
 
+    DBHandler(String dbUrl, String dbUser, String dbPassword) {
+        sql = Sql.newInstance(dbUrl, dbUser, dbPassword)
+    }
+
     private DBHandler() {
         String dbUrl = "jdbc:postgresql://localhost/linketinder"
         String dbUser = "postgres"
@@ -15,9 +19,9 @@ class DBHandler {
     }
 
     static DBHandler getInstance() {
-        if (instance == null) {
+        if (instance == null)
             instance = new DBHandler()
-        }
+
         return instance
     }
 
