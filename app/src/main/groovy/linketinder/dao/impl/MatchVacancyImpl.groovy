@@ -6,8 +6,7 @@ import linketinder.db.DBHandler
 import linketinder.model.entities.Candidate
 import linketinder.model.entities.MatchVacancy
 
-
-class MatchVacancyImpl implements MatchVacancyDAO{
+class MatchVacancyImpl implements MatchVacancyDAO {
 
     static MatchVacancyImpl instance
 
@@ -15,14 +14,14 @@ class MatchVacancyImpl implements MatchVacancyDAO{
     Sql sql = dbHandler.getSql()
 
     static MatchVacancyImpl getInstance() {
-        if (instance == null)
+        if (instance == null) {
             instance = new MatchVacancyImpl()
+        }
         return instance
     }
 
     @Override
     void updateLikedCompany(MatchVacancy matchVacancy) {
-
         sql.executeInsert("""
             UPDATE role_matching
             SET companymatched = true
@@ -32,10 +31,10 @@ class MatchVacancyImpl implements MatchVacancyDAO{
 
     @Override
     void insertCandidateLiked(Candidate candidate, int idVacancy) {
-
         sql.executeInsert("""
             INSERT INTO role_matching (ID_CANDIDATE, ID_ROLE)
             VALUES (${candidate.getId()}, ${idVacancy})
         """)
     }
+
 }
