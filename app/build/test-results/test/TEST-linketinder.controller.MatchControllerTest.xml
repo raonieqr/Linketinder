@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="linketinder.controller.MatchControllerTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2023-10-03T16:53:36" hostname="iMac.local" time="0.235">
+  <properties/>
+  <testcase name="testHandleCompanyMatchResults()" classname="linketinder.controller.MatchControllerTest" time="0.161"/>
+  <testcase name="testManageVacancyListAndLikes()" classname="linketinder.controller.MatchControllerTest" time="0.034"/>
+  <testcase name="testLikeVacancy()" classname="linketinder.controller.MatchControllerTest" time="0.038"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

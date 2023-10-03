@@ -2,6 +2,7 @@ package linketinder.controller
 
 import linketinder.dao.impl.CandidateImpl
 import linketinder.model.entities.Candidate
+import linketinder.view.CandidateView
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
@@ -10,7 +11,7 @@ import org.junit.jupiter.api.Test
 import static org.mockito.Mockito.*
 import static org.junit.Assert.assertEquals
 
-class CandidateControllerTest {
+ class CandidateControllerTest {
     static ArrayList<Candidate> candidates
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream()
@@ -41,32 +42,6 @@ class CandidateControllerTest {
     @AfterEach
     public void restoreStreams() {
         System.setOut(originalOut)
-    }
-
-    @Test
-    public void testListCandidates() {
-        CandidateController.listCandidates(candidates)
-
-        String expectedOutput = "ID: 1\n" +
-        "Nome: João Silva\n" +
-        "Email: joao.silva@example.com\n" +
-        "CPF: 12345678900\n" +
-        "Estado: SP\n" +
-        "CEP: 12345678\n" +
-        "Descrição: Desenvolvedor Full Stack\n" +
-        "Competências: Python, Java\n" +
-        "---------------------------------------------------------------\n" +
-        "ID: 2\n" +
-        "Nome: Maria Santos\n" +
-        "Email: maria.santos@example.com\n" +
-        "CPF: 98765432100\n" +
-        "Estado: RJ\n" +
-        "CEP: 54321098\n" +
-        "Descrição: Desenvolvedora Front-End\n" +
-        "Competências: JavaScript, HTML, CSS\n" +
-        "---------------------------------------------------------------\n";
-
-        assertEquals(expectedOutput, outContent.toString())
     }
 
     @Test

@@ -22,15 +22,15 @@ static void manageVacancyListAndLikes(Candidate candidate, ArrayList<Vacancy> va
     boolean  allVacanciesLiked = true
 
         if (vacancies.isEmpty())
-            VacancyView.displayNoVacancies()
+            return
+//            VacancyView.displayNoVacancies()
         else
                 allVacanciesLiked = processVacancies(vacancies, candidate,
                         idsLiked, printedVacancyIds)
 
-
-        if (allVacanciesLiked)
-            MatchView.displayAllVacanciesLiked()
-        else {
+//        if (allVacanciesLiked)
+//            MatchView.displayAllVacanciesLiked()
+        if(!allVacanciesLiked) {
            MatchVacancy match =  handleLikedVacancies(candidate, vacancies,
                     idsLiked, idMatch)
 
@@ -62,10 +62,24 @@ static void manageVacancyListAndLikes(Candidate candidate, ArrayList<Vacancy> va
                 }
             }
 
-            allVacanciesLiked = MatchView
-                    .displayUnlikedVacancies(containsVacancie,
+            allVacanciesLiked = isUnlikedVacancies(containsVacancie,
                             printedVacancyIds, vacancie, allVacanciesLiked)
         }
+        return allVacanciesLiked
+    }
+
+    static boolean isUnlikedVacancies(boolean  containsVacancie,
+                                           ArrayList<Integer> printedVacancyIds,
+                                           Vacancy vacancy,
+                                           boolean allVacanciesLiked) {
+
+        if (!containsVacancie && !printedVacancyIds.contains(vacancy.getId())) {
+
+            allVacanciesLiked = false
+
+            printedVacancyIds.add(vacancy.getId())
+        }
+
         return allVacanciesLiked
     }
 
@@ -88,7 +102,7 @@ static void manageVacancyListAndLikes(Candidate candidate, ArrayList<Vacancy> va
 
             candidate.getMatchVacancies().add(match)
 
-            MatchView.showLikedMsg()
+//            MatchView.showLikedMsg()
         }
     }
 
@@ -134,7 +148,7 @@ static void manageVacancyListAndLikes(Candidate candidate, ArrayList<Vacancy> va
 
                     containsNumber = true
 
-                    MatchView.displayAlreadyLiked()
+//                    MatchView.displayAlreadyLiked()
 
                     break
                 }

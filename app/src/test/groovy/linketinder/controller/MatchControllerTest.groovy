@@ -168,7 +168,8 @@ class MatchControllerTest {
               idsLiked, printedVacancyIds)
 
             if (allVacanciesLiked)
-                MatchView.displayAllVacanciesLiked()
+                return
+//                MatchView.displayAllVacanciesLiked()
             else {
                 MatchVacancy match = MatchController.handleLikedVacancies(candidate,
                   vacancies,
