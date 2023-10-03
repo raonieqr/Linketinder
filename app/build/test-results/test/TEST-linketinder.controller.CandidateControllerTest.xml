@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="linketinder.controller.CandidateControllerTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2023-10-02T17:59:18" hostname="iMac.local" time="1.398">
-  <properties/>
-  <testcase name="testExecuteCandidateDeletion()" classname="linketinder.controller.CandidateControllerTest" time="1.298"/>
-  <testcase name="testListCandidates()" classname="linketinder.controller.CandidateControllerTest" time="0.089"/>
-  <testcase name="testAddCandidate()" classname="linketinder.controller.CandidateControllerTest" time="0.005"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

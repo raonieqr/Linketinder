@@ -2,14 +2,14 @@ package linketinder.db
 import groovy.sql.*
 
 class DBHandler {
-    private static DBHandler instance
-    private Sql sql
+    static DBHandler instance
+    Sql sql
 
-    DBHandler(String dbUrl, String dbUser, String dbPassword) {
-        sql = Sql.newInstance(dbUrl, dbUser, dbPassword)
+    DBHandler(Sql sql) {
+        this.sql = sql
     }
 
-    private DBHandler() {
+    DBHandler() {
         String dbUrl = "jdbc:postgresql://localhost/linketinder"
         String dbUser = "postgres"
         String dbPassword = ""

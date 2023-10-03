@@ -7,12 +7,14 @@ import linketinder.db.DBHandler
 import linketinder.model.entities.Company
 
 class CompanyImpl implements CompanyDAO{
-    static final CompanyImpl instance = new CompanyImpl()
+    static CompanyImpl instance
 
     DBHandler dbHandler = DBHandler.getInstance()
     Sql sql = dbHandler.getSql()
 
     static CompanyImpl getInstance() {
+        if (instance == null)
+            instance = new CompanyImpl()
         return instance
     }
 

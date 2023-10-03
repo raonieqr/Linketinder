@@ -1,11 +1,14 @@
 package linketinder.db
 
+import groovy.sql.Sql
+import linketinder.db.DBHandler
+
 class DBConnection {
 
-  private static DBConnection instance
-  private Map<String, DBHandler> connectionMap
+  static DBConnection instance
+  Map<String, DBHandler> connectionMap
 
-  private DBConnection() {
+  DBConnection() {
     connectionMap = [:]
   }
 
@@ -16,16 +19,13 @@ class DBConnection {
     return instance
   }
 
-  DBHandler createConnection(String databaseUrl, String username, String password) {
+  DBHandler createConnection(Sql sql, String databaseUrl, String username) {
     String key = "$databaseUrl:$username"
 
     if (!connectionMap.containsKey(key)) {
-
-      DBHandler dbHandler = new DBHandler(databaseUrl, username, password)
-
+      DBHandler dbHandler = new DBHandler(sql)
       connectionMap[key] = dbHandler
     }
     return connectionMap[key]
   }
 }
-
