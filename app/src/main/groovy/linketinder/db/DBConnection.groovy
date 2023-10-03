@@ -2,10 +2,10 @@ package linketinder.db
 
 class DBConnection {
 
-  private static DBConnection instance
-  private Map<String, DBHandler> connectionMap
+  static DBConnection instance
+  Map<String, DBHandler> connectionMap
 
-  private DBConnection() {
+  DBConnection() {
     connectionMap = [:]
   }
 

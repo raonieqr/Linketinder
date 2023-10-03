@@ -11,12 +11,14 @@ import linketinder.model.entities.Vacancy
 
 class CandidateImpl implements  CandidateDAO {
 
-    static final CandidateImpl instance = new CandidateImpl()
+    static CandidateImpl instance
 
     DBHandler dbHandler = DBHandler.getInstance()
     Sql sql = dbHandler.getSql()
 
     static CandidateImpl getInstance() {
+        if (instance == null)
+            instance = new CandidateImpl()
         return instance
     }
 
