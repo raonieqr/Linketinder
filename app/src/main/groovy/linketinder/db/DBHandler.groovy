@@ -5,8 +5,8 @@ class DBHandler {
     static DBHandler instance
     Sql sql
 
-    DBHandler(String dbUrl, String dbUser, String dbPassword) {
-        sql = Sql.newInstance(dbUrl, dbUser, dbPassword)
+    DBHandler(Sql sql) {
+        this.sql = sql
     }
 
     DBHandler() {
