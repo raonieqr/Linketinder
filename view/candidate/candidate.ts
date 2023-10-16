@@ -110,7 +110,7 @@ function validateInputFields(): boolean {
     check.validateInput(nameInput, "nome") &&
     check.validateCpf(cpfInput) &&
     check.validateAge(ageInput) &&
-    check.validateCep(cepInput) &&
+    pesquisacep(cepInput) &&
     check.validateDescription(descriptionInput) &&
     check.validateEmail(emailInput);
 
@@ -119,6 +119,80 @@ function validateInputFields(): boolean {
 
   return isSuccessful;
 }
+
+function limpa_formulário_cep(): void {
+  let neighborhoodInput: HTMLInputElement | null = document
+      .getElementById('neighborhood') as HTMLInputElement | null;
+  let cityInput: HTMLInputElement | null = document
+      .getElementById('city') as HTMLInputElement | null;
+
+  if (neighborhoodInput && cityInput) {
+    neighborhoodInput.value = "";
+    cityInput.value = "";
+  }
+}
+
+function meu_callback(content: { neighborhood: string, city: string }): void {
+  if (!("erro" in content)) {
+    let neighborhoodInput: HTMLInputElement | null = document
+        .getElementById('neighborhood') as HTMLInputElement | null;
+    let cityInput: HTMLInputElement | null = document
+        .getElementById('city') as HTMLInputElement | null;
+
+    if (neighborhoodInput && cityInput) {
+      neighborhoodInput.value = content.neighborhood;
+      cityInput.value = content.city;
+    }
+  }
+  else {
+    limpa_formulário_cep();
+    alert("CEP não encontrado.");
+  }
+}
+
+function pesquisacep(input: HTMLInputElement | null) {
+
+  if (input != null) {
+    let cep: string = input.value.replace(/\D/g, '');
+
+
+    if (cep != "") {
+
+      var validateCepRegex: RegExp = /^[0-9]{8}$/;
+
+      if (validateCepRegex.test(cep)) {
+
+        let neighborhoodInput: HTMLInputElement | null = document
+            .getElementById('neighborhood') as HTMLInputElement | null;
+        let cityInput: HTMLInputElement | null = document
+            .getElementById('city') as HTMLInputElement | null;
+
+        if (neighborhoodInput && cityInput) {
+          neighborhoodInput.value = "...";
+          cityInput.value = "...";
+        }
+
+        var script: HTMLScriptElement = document.createElement('script');
+
+        script.src = 'https://viacep.com.br/ws/' + cep + '/json/?callback=meu_callback';
+
+        document.body.appendChild(script);
+        return true;
+
+      } else {
+        limpa_formulário_cep();
+        alert("Formato de CEP inválido.");
+        return false;
+      }
+    }
+  }
+  else {
+    limpa_formulário_cep();
+    alert("Campo vazio");
+    return false;
+  }
+}
+
 
 function saveCandidateData(): boolean {
   if (validateInputFields()) {
