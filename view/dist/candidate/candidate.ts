@@ -139,6 +139,9 @@ function meu_callback(content: any): void {
     let cityInput: HTMLInputElement | null = document
         .getElementById('city') as HTMLInputElement | null;
 
+        console.log(content);
+
+
     if (neighborhoodInput && cityInput) {
       neighborhoodInput.value = content.bairro;
       cityInput.value = content.localidade;
@@ -167,9 +170,9 @@ async function pesquisacep() {
       if (response.ok) {
         const address = await response.json();
         meu_callback(address);
-      } 
-      else 
-        console.log('Error: API viaCep');
+      } else {
+        console.log('Error: Failed to fetch data from ViaCEP API');
+      }
     } catch (error) {
       console.error('Error:', error);
     }
