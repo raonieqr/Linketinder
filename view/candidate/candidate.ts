@@ -111,6 +111,7 @@ function validateInputFields(): boolean {
     check.validateInput(nameInput, "nome") &&
     check.validateCpf(cpfInput) &&
     check.validateAge(ageInput) &&
+    check.validateCep(cepInput) &&
     check.validateDescription(descriptionInput) &&
     check.validateEmail(emailInput);
 
@@ -120,7 +121,7 @@ function validateInputFields(): boolean {
   return isSuccessful;
 }
 
-function limpa_formulário_cep(): void {
+function clearAddressFields(): void {
   let neighborhoodInput: HTMLInputElement | null = document
       .getElementById('neighborhood') as HTMLInputElement | null;
   let cityInput: HTMLInputElement | null = document
@@ -132,8 +133,8 @@ function limpa_formulário_cep(): void {
   }
 }
 
-function meu_callback(content: any): void {
-  if (!("erro" in content)) {
+function processCEPData(content: any): void {
+  if (!content.hasOwnProperty('erro')) {
     let neighborhoodInput: HTMLInputElement | null = document
         .getElementById('neighborhood') as HTMLInputElement | null;
     let cityInput: HTMLInputElement | null = document
@@ -145,18 +146,18 @@ function meu_callback(content: any): void {
     }
   }
   else {
-    limpa_formulário_cep(); 
-    alert("CEP não encontrado.");
+    clearAddressFields(); 
+    alert("Error: CEP não encontrado.");
   }
 }
 
 const cepInput = check.getInput("cep");
   if (cepInput)
     cepInput?.addEventListener('focusout', () => 
-        pesquisacep()
-      );
+        lookupCEPAndProcessResponse()
+    );
 
-async function pesquisacep() {
+async function lookupCEPAndProcessResponse() {
   const cepInput = check.getInput("cep");
   if (cepInput) {
     var cep = cepInput.value;
@@ -166,12 +167,11 @@ async function pesquisacep() {
       const response = await fetch(url);
       if (response.ok) {
         const address = await response.json();
-        meu_callback(address);
+        processCEPData(address);
       } 
-      else 
-        console.log('Error: API viaCep');
     } catch (error) {
-      console.error('Error:', error);
+      clearAddressFields(); 
+      alert("Error: CEP não encontrado.");
     }
   }
 }
