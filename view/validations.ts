@@ -40,7 +40,7 @@ export function validateCep(input: any) {
     if (!isDigit(input.value) || input.value.length !== 8) {
         return showAlert("Error: cep inválido");
     }
-    return input.value;
+    return true;
 }
 
 export function validateEmail(input: any) {
