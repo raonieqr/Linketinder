@@ -84,7 +84,7 @@ var isValidCep = false;
 const cepInput = check.getInput("cep");
 if (cepInput) {
   cepInput.addEventListener('focusout', async () => {
-    isValidCep = await lookupCEPAndProcessResponse() && check.validateCep(cepInput);
+    isValidCep = await lookupCEPAndProcessResponse();
 
   });
 }
@@ -144,7 +144,7 @@ function clearAddressFields(): void {
   }
 }
 
-function processCEPData(content: any): void {
+function processCEPData(content: any) {
   if (!content.hasOwnProperty('erro')) {
     let neighborhoodInput: HTMLInputElement | null = document
         .getElementById('neighborhood') as HTMLInputElement | null;
@@ -154,33 +154,36 @@ function processCEPData(content: any): void {
     if (neighborhoodInput && cityInput) {
       neighborhoodInput.value = content.bairro;
       cityInput.value = content.localidade;
+      return true;
     }
   }
   else {
     clearAddressFields(); 
     alert("Error: CEP não encontrado.");
+    return false;
   }
 }
 
 
 async function lookupCEPAndProcessResponse() {
   const cepInput = check.getInput("cep");
-  if (cepInput) {
-    var cep = cepInput.value;
-    const url = 'https://viacep.com.br/ws/' + cep + '/json/';
-    
-    try {
-      const response = await fetch(url);
-      if (response.ok) {
-        const address = await response.json();
-        processCEPData(address);
-        return true;
-      } 
-    } catch (error) {
-      clearAddressFields(); 
-      alert("Error: CEP não encontrado.");
+  if (cepInput) 
+    if (check.validateCep(cepInput)){
+      var cep = cepInput.value;
+      const url = 'https://viacep.com.br/ws/' + cep + '/json/';
+      
+      try {
+        const response = await fetch(url);
+        if (response.ok) {
+          const address = await response.json();
+          if (processCEPData(address))
+            return true;
+        } 
+      } catch (error) {
+        clearAddressFields(); 
+        alert("Error: CEP não encontrado.");
+      }
     }
-  }
   return false;
 }
 

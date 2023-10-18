@@ -79,6 +79,8 @@ function handleRegisterClick(): void {
 
 btnRegister?.addEventListener("click", handleRegisterClick);
 
+var isValidCep = false;
+
 function validateInputFields() {
 
     let nameInput = check.getInput("name") as HTMLInputElement;
@@ -102,7 +104,7 @@ function validateInputFields() {
             check.validateInput(countryInput, "país") &&
             check.validateInput(stateInput, "estado") &&
             check.validateCnpj(cnpjInput) &&
-            check.validateCep(cepInput) &&
+            isValidCep &&
             check.validateEmail(emailInput);
 
     if (!check.validatePasswordLength(passwordInput))
@@ -111,6 +113,64 @@ function validateInputFields() {
     return isSuccessful;
 
 }
+
+const cepInput = check.getInput("cep");
+if (cepInput) {
+  cepInput.addEventListener('focusout', async () => {
+    isValidCep = await lookupCEPAndProcessResponse();
+
+  });
+}
+
+function clearAddressFields(): void {
+  let stateInput: HTMLInputElement | null = document
+      .getElementById('state') as HTMLInputElement | null;
+
+  if (stateInput) {
+    stateInput.value = "";
+  }
+}
+
+function processCEPData(content: any) {
+  if (!content.hasOwnProperty('erro')) {
+    let stateInput: HTMLInputElement | null = document
+        .getElementById('state') as HTMLInputElement | null;
+
+    if (stateInput) {
+      stateInput.value = content.localidade;
+      return true;
+    }
+  }
+  else {
+    clearAddressFields(); 
+    alert("Error: CEP não encontrado.");
+    return false;
+  }
+}
+
+
+async function lookupCEPAndProcessResponse() {
+  const cepInput = check.getInput("cep");
+  if (cepInput) 
+    if (check.validateCep(cepInput)){
+      var cep = cepInput.value;
+      const url = 'https://viacep.com.br/ws/' + cep + '/json/';
+      
+      try {
+        const response = await fetch(url);
+        if (response.ok) {
+          const address = await response.json();
+          if (processCEPData(address))
+            return true;
+        } 
+      } catch (error) {
+        clearAddressFields(); 
+        alert("Error: CEP não encontrado.");
+      }
+    }
+  return false;
+}
+
 
 function saveCompanyData() {
     if (validateInputFields()) {
