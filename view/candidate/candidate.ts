@@ -1,4 +1,5 @@
 import { VacancyPosting, Candidate, VacancyApplication } from "../module";
+import { lookupCEPAndProcessResponse } from "../cep_api";
 import * as check from "../validations";
 
 // ********* intro_candidate.html *********
@@ -84,11 +85,10 @@ var isValidCep = false;
 const cepInput = check.getInput("cep");
 if (cepInput) {
   cepInput.addEventListener('focusout', async () => {
-    isValidCep = await lookupCEPAndProcessResponse();
+    isValidCep = await lookupCEPAndProcessResponse(processCEPData);
 
   });
 }
-
 
 function validateInputFields(): boolean {
 
@@ -163,30 +163,6 @@ function processCEPData(content: any) {
     return false;
   }
 }
-
-
-async function lookupCEPAndProcessResponse() {
-  const cepInput = check.getInput("cep");
-  if (cepInput) 
-    if (check.validateCep(cepInput)){
-      var cep = cepInput.value;
-      const url = 'https://viacep.com.br/ws/' + cep + '/json/';
-      
-      try {
-        const response = await fetch(url);
-        if (response.ok) {
-          const address = await response.json();
-          if (processCEPData(address))
-            return true;
-        } 
-      } catch (error) {
-        clearAddressFields(); 
-        alert("Error: CEP não encontrado.");
-      }
-    }
-  return false;
-}
-
 
 function saveCandidateData(): boolean {
   if (validateInputFields()) {

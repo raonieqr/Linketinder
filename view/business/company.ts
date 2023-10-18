@@ -1,6 +1,7 @@
 import { VacancyPosting, Company } from "../module";
 import ApexCharts from 'apexcharts';
 import * as check from "../validations";
+import { lookupCEPAndProcessResponse } from "../cep_api";
 
 // ******* intro_company.html *******
 
@@ -117,7 +118,7 @@ function validateInputFields() {
 const cepInput = check.getInput("cep");
 if (cepInput) {
   cepInput.addEventListener('focusout', async () => {
-    isValidCep = await lookupCEPAndProcessResponse();
+    isValidCep = await lookupCEPAndProcessResponse(processCEPData);
 
   });
 }
@@ -147,30 +148,6 @@ function processCEPData(content: any) {
     return false;
   }
 }
-
-
-async function lookupCEPAndProcessResponse() {
-  const cepInput = check.getInput("cep");
-  if (cepInput) 
-    if (check.validateCep(cepInput)){
-      var cep = cepInput.value;
-      const url = 'https://viacep.com.br/ws/' + cep + '/json/';
-      
-      try {
-        const response = await fetch(url);
-        if (response.ok) {
-          const address = await response.json();
-          if (processCEPData(address))
-            return true;
-        } 
-      } catch (error) {
-        clearAddressFields(); 
-        alert("Error: CEP não encontrado.");
-      }
-    }
-  return false;
-}
-
 
 function saveCompanyData() {
     if (validateInputFields()) {
