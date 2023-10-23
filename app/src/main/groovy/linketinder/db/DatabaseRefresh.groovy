@@ -1,20 +1,20 @@
 package linketinder.db
 
-import linketinder.dao.impl.CandidateImpl
-import linketinder.dao.impl.CompanyImpl
-import linketinder.dao.impl.VacancyImpl
+import linketinder.dao.impl.CandidateDAOImpl
+import linketinder.dao.impl.CompanyDAOImpl
+import linketinder.dao.impl.VacancyDAOImpl
 import linketinder.model.entities.Candidate
 import linketinder.model.entities.Company
 import linketinder.model.entities.Vacancy
 
 class DatabaseRefresh {
 
-        CompanyImpl companyImpl
-        VacancyImpl vacancyImpl
-        CandidateImpl candidateImpl
+        CompanyDAOImpl companyImpl
+        VacancyDAOImpl vacancyImpl
+        CandidateDAOImpl candidateImpl
 
-        DatabaseRefresh(CompanyImpl companyImpl, VacancyImpl vacancyImpl,
-                        CandidateImpl candidateImpl) {
+        DatabaseRefresh(CompanyDAOImpl companyImpl, VacancyDAOImpl vacancyImpl,
+                        CandidateDAOImpl candidateImpl) {
 
             this.companyImpl = companyImpl
             this.vacancyImpl = vacancyImpl

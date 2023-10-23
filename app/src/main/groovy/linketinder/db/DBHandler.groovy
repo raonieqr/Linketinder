@@ -2,8 +2,8 @@ package linketinder.db
 import groovy.sql.*
 
 class DBHandler {
-    static DBHandler instance
-    Sql sql
+    private static DBHandler instance
+    private Sql sql
 
     DBHandler(Sql sql) {
         this.sql = sql

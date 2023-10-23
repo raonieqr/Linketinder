@@ -1,13 +1,12 @@
 package linketinder.controller
 
-import linketinder.dao.impl.VacancyImpl
+import linketinder.dao.impl.VacancyDAOImpl
 import linketinder.model.entities.Company
 import linketinder.model.entities.Vacancy
 import org.junit.jupiter.api.*
-import static org.junit.Assert.assertEquals
+
 import static org.mockito.ArgumentMatchers.any
 import static org.mockito.Mockito.*
-import static org.mockito.Mockito.times
 
 class VacancyControllerTest {
     static ArrayList<Vacancy> vacancies
@@ -19,7 +18,7 @@ class VacancyControllerTest {
 
     @Test
     public void testAddVacancy() {
-        VacancyImpl vacancyImpl = mock(VacancyImpl.class)
+        VacancyDAOImpl vacancyImpl = mock(VacancyDAOImpl.class)
 
         Company company = new Company(1, "TechCat","cat@tech.com",
                 "92839402183649",

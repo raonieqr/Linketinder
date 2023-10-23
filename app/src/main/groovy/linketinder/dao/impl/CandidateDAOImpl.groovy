@@ -5,20 +5,19 @@ import groovy.sql.Sql
 import linketinder.dao.CandidateDAO
 import linketinder.db.DBHandler
 import linketinder.model.entities.Candidate
-import linketinder.model.entities.Company
 import linketinder.model.entities.MatchVacancy
 import linketinder.model.entities.Vacancy
 
-class CandidateImpl implements  CandidateDAO {
+class CandidateDAOImpl implements  CandidateDAO {
 
-    static CandidateImpl instance
+    static CandidateDAOImpl instance
 
     DBHandler dbHandler = DBHandler.getInstance()
     Sql sql = dbHandler.getSql()
 
-    static CandidateImpl getInstance() {
+    static CandidateDAOImpl getInstance() {
         if (instance == null)
-            instance = new CandidateImpl()
+            instance = new CandidateDAOImpl()
         return instance
     }
 

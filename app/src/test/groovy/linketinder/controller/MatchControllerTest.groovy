@@ -1,12 +1,11 @@
 package linketinder.controller
 
-import linketinder.dao.impl.MatchVacancyImpl
+import linketinder.dao.impl.MatchVacancyDAOImpl
 import linketinder.model.entities.Candidate
 import linketinder.model.entities.Company
 import linketinder.model.entities.MatchVacancy
 import linketinder.model.entities.Vacancy
 import linketinder.utils.InputValidator
-import linketinder.view.MatchView
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.mockito.MockedStatic
@@ -52,7 +51,7 @@ class MatchControllerTest {
 
     @Test
     public void testHandleCompanyMatchResults() {
-        MatchVacancyImpl matchVacancyImpl = mock(MatchVacancyImpl.class)
+        MatchVacancyDAOImpl matchVacancyImpl = mock(MatchVacancyDAOImpl.class)
 
         Company company = new Company(2, "InovaTech",
                 "info@inovatech.com", "12345678901234",
@@ -129,7 +128,7 @@ class MatchControllerTest {
 
     @Test
     public void testManageVacancyListAndLikes() {
-        MatchVacancyImpl matchVacancyImpl = mock(MatchVacancyImpl.class)
+        MatchVacancyDAOImpl matchVacancyImpl = mock(MatchVacancyDAOImpl.class)
 
 
         ArrayList<Vacancy> vacancies = new ArrayList<>()

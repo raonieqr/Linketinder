@@ -5,8 +5,8 @@ import linketinder.db.DBHandler
 
 class DBConnection {
 
-  static DBConnection instance
-  Map<String, DBHandler> connectionMap
+  private static DBConnection instance
+  private Map<String, DBHandler> connectionMap
 
   DBConnection() {
     connectionMap = [:]

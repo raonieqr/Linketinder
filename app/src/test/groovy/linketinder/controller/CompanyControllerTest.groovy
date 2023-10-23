@@ -1,12 +1,9 @@
 package linketinder.controller
 
-import linketinder.dao.impl.CompanyImpl
+import linketinder.dao.impl.CompanyDAOImpl
 import linketinder.model.entities.Company
-import linketinder.view.CompanyView
 import org.junit.jupiter.api.*
 
-
-import static org.junit.Assert.assertEquals
 import static org.mockito.ArgumentMatchers.any
 import static org.mockito.Mockito.*
 
@@ -66,7 +63,7 @@ class CompanyControllerTest {
 
 	@Test
 	public void testAddCompany() {
-		CompanyImpl companyImpl = mock(CompanyImpl.class)
+		CompanyDAOImpl companyImpl = mock(CompanyDAOImpl.class)
 
 		Company company = new Company(2, "InovaTech", "info@inovatech.com",
 				"12345678901234",
@@ -82,7 +79,7 @@ class CompanyControllerTest {
 
 	@Test
 	public void testExecuteCompanyDeletion() {
-		CompanyImpl companyImpl = mock(CompanyImpl.class)
+		CompanyDAOImpl companyImpl = mock(CompanyDAOImpl.class)
 
 		Company company =new Company(2, "InovaTech", "info@inovatech.com", "12345678901234",
 				"US", "Company of Innovation", "CA", 98765432)

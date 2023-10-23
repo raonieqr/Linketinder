@@ -2,6 +2,7 @@ package linketinder.model.entities
 
 class Candidate extends Person {
 
+    //TODO criar a classe skill
     ArrayList<String> skills
     ArrayList<MatchVacancy> matchVacancies = new ArrayList<>();
     int id

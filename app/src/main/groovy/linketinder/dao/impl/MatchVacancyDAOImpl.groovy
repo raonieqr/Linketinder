@@ -7,16 +7,16 @@ import linketinder.model.entities.Candidate
 import linketinder.model.entities.MatchVacancy
 
 
-class MatchVacancyImpl implements MatchVacancyDAO{
+class MatchVacancyDAOImpl implements MatchVacancyDAO{
 
-    static MatchVacancyImpl instance
+    static MatchVacancyDAOImpl instance
 
     DBHandler dbHandler = DBHandler.getInstance()
     Sql sql = dbHandler.getSql()
 
-    static MatchVacancyImpl getInstance() {
+    static MatchVacancyDAOImpl getInstance() {
         if (instance == null)
-            instance = new MatchVacancyImpl()
+            instance = new MatchVacancyDAOImpl()
         return instance
     }
 

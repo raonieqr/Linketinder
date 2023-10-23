@@ -1,24 +1,14 @@
 package linketinder
 
-import linketinder.controller.CandidateController
-import linketinder.controller.CompanyController
-import linketinder.controller.MatchController
-import linketinder.controller.VacancyController
+
 import linketinder.db.DBHandler
 import linketinder.db.DatabaseRefresh
-import linketinder.db.IDGenerator
-import linketinder.dao.impl.CandidateImpl
-import linketinder.dao.impl.CompanyImpl
-import linketinder.dao.impl.MatchVacancyImpl
-import linketinder.dao.impl.VacancyImpl
+import linketinder.dao.impl.CandidateDAOImpl
+import linketinder.dao.impl.CompanyDAOImpl
+import linketinder.dao.impl.VacancyDAOImpl
 import linketinder.model.entities.Candidate
 import linketinder.model.entities.Company
 import linketinder.model.entities.Vacancy
-import linketinder.utils.InputValidator
-import linketinder.view.CandidateView
-import linketinder.view.CompanyView
-import linketinder.view.MatchView
-import linketinder.view.VacancyView
 
 class Main {
     static void main(String[] args) {
@@ -33,9 +23,9 @@ class Main {
 //            int idMatch = IDGenerator.getNextMatchID()
             int option = 0
 
-            CandidateImpl candidateImpl = CandidateImpl.getInstance()
-            CompanyImpl companyImpl = CompanyImpl.getInstance()
-            VacancyImpl vacancyImpl = VacancyImpl.getInstance()
+            CandidateDAOImpl candidateImpl = CandidateDAOImpl.getInstance()
+            CompanyDAOImpl companyImpl = CompanyDAOImpl.getInstance()
+            VacancyDAOImpl vacancyImpl = VacancyDAOImpl.getInstance()
 //            MatchVacancyImpl matchVacancyImpl = MatchVacancyImpl.getInstance()
 
             ArrayList<Candidate> candidates = new ArrayList<>()

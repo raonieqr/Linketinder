@@ -1,17 +1,15 @@
 package linketinder.controller
 
-import linketinder.dao.impl.CandidateImpl
+import linketinder.dao.impl.CandidateDAOImpl
 import linketinder.model.entities.Candidate
-import linketinder.view.CandidateView
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 import static org.mockito.Mockito.*
-import static org.junit.Assert.assertEquals
 
- class CandidateControllerTest {
+class CandidateControllerTest {
     static ArrayList<Candidate> candidates
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream()
@@ -46,7 +44,7 @@ import static org.junit.Assert.assertEquals
 
     @Test
     public void testAddCandidate() {
-        CandidateImpl candidateImpl = mock(CandidateImpl.class)
+        CandidateDAOImpl candidateImpl = mock(CandidateDAOImpl.class)
 
         Candidate candidate = new Candidate(3, "Pedro Oliveira",
                 "pedro.oliveira@example.com", ["Java", "Spring Boot"],
@@ -63,7 +61,7 @@ import static org.junit.Assert.assertEquals
 
     @Test
     public void testExecuteCandidateDeletion() {
-        CandidateImpl candidateImpl = mock(CandidateImpl.class)
+        CandidateDAOImpl candidateImpl = mock(CandidateDAOImpl.class)
 
         Candidate candidate = new Candidate(3, "Pedro Oliveira",
                 "pedro.oliveira@example.com", ["Java", "Spring Boot"],

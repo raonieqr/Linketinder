@@ -6,15 +6,15 @@ import linketinder.dao.CompanyDAO
 import linketinder.db.DBHandler
 import linketinder.model.entities.Company
 
-class CompanyImpl implements CompanyDAO{
-    static CompanyImpl instance
+class CompanyDAOImpl implements CompanyDAO{
+    static CompanyDAOImpl instance
 
     DBHandler dbHandler = DBHandler.getInstance()
     Sql sql = dbHandler.getSql()
 
-    static CompanyImpl getInstance() {
+    static CompanyDAOImpl getInstance() {
         if (instance == null)
-            instance = new CompanyImpl()
+            instance = new CompanyDAOImpl()
         return instance
     }
 

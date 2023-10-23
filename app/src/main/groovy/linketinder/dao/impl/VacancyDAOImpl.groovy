@@ -7,16 +7,16 @@ import linketinder.db.DBHandler
 import linketinder.model.entities.Company
 import linketinder.model.entities.Vacancy
 
-class VacancyImpl implements VacancyDAO{
+class VacancyDAOImpl implements VacancyDAO{
 
-    static VacancyImpl instance
+    static VacancyDAOImpl instance
 
     DBHandler dbHandler = DBHandler.getInstance()
     Sql sql = dbHandler.getSql()
 
-    static VacancyImpl getInstance() {
+    static VacancyDAOImpl getInstance() {
         if (instance == null)
-            instance = new VacancyImpl()
+            instance = new VacancyDAOImpl()
         return instance
     }
 

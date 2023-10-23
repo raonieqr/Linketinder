@@ -1,20 +1,18 @@
 package linketinder.controller
 
-import linketinder.dao.impl.MatchVacancyImpl
+import linketinder.dao.impl.MatchVacancyDAOImpl
 import linketinder.model.entities.Candidate
 import linketinder.model.entities.Company
 import linketinder.model.entities.MatchVacancy
 import linketinder.model.entities.Vacancy
 import linketinder.utils.InputValidator
 import linketinder.utils.MatchValidator
-import linketinder.view.MatchView
-import linketinder.view.VacancyView
 
 class MatchController {
 
 static void manageVacancyListAndLikes(Candidate candidate, ArrayList<Vacancy> vacancies,
-                                       MatchVacancyImpl matchVacancyImpl,
-                                       int idMatch) {
+                                      MatchVacancyDAOImpl matchVacancyImpl,
+                                      int idMatch) {
 
     ArrayList<Integer> printedVacancyIds = new ArrayList<>()
     Set<Integer> idsLiked =  new HashSet<>()
@@ -92,7 +90,7 @@ static void manageVacancyListAndLikes(Candidate candidate, ArrayList<Vacancy> va
     }
 
     static void likedVacancies(MatchVacancy match,
-                               MatchVacancyImpl matchVacancyImpl,
+                               MatchVacancyDAOImpl matchVacancyImpl,
                                Candidate candidate) {
         if (match != null) {
 
@@ -107,8 +105,8 @@ static void manageVacancyListAndLikes(Candidate candidate, ArrayList<Vacancy> va
     }
 
     static void handleCompanyMatchResults(Candidate candidate,
-                                      ArrayList<Candidate> candidates, Company company,
-                                      MatchVacancyImpl matchVacancyImpl) {
+                                          ArrayList<Candidate> candidates, Company company,
+                                          MatchVacancyDAOImpl matchVacancyImpl) {
 
         if (candidate != null) {
 
