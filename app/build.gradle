@@ -12,6 +12,8 @@ plugins {
     id 'application'
 }
 
+apply plugin: 'war'
+
 run {
     standardInput = System.in
 }
@@ -39,7 +41,7 @@ dependencies {
     implementation 'org.postgresql:postgresql:42.6.0'
 
     //Servlet
-    compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
+    compileOnly 'jakarta.servlet:jakarta.servlet-api:6.0.0'
 }
 
 // Apply a specific Java toolchain to ease working on different environments.

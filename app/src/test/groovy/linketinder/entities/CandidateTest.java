@@ -16,7 +16,7 @@ class CandidateTest {
 		expectedSkills.add("C");
 
 		Candidate candidate = new Candidate(1, "Beto", "beto@gmail.com", expectedSkills, 18, "RJ",
-				"Desenvolvedor", "12344566701", 22785055);
+				"Desenvolvedor", "12344566701", 22785055, "batatinha");
 		ArrayList<Candidate> candidates = new ArrayList<>();
 
 		//When:
@@ -33,7 +33,7 @@ class CandidateTest {
 		expectedSkills.add("C++");
 		expectedSkills.add("Java");
 		Candidate candidate = new Candidate(1, "Beto", "beto@gmail.com", expectedSkills, 18, "RJ",
-				"Desenvolvedor", "12344566701", 22785055);
+				"Desenvolvedor", "12344566701", 22785055, "batatinha");
 
 		assertEquals(1, candidate.getId());
 		assertEquals("Beto", candidate.getName());

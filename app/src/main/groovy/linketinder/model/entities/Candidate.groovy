@@ -11,6 +11,7 @@ class Candidate extends Person {
     String state
     String description
     String cpf
+    String password
 
     Candidate() {
         super()
@@ -18,7 +19,8 @@ class Candidate extends Person {
 
     Candidate(int id, String name, String email, ArrayList<String> skills =
             ["Python", "Java", "Spring Framework", "Angular", "C"],
-              int age, String state, String description, String cpf, int cep) {
+              int age, String state, String description, String cpf, int cep,
+              String password) {
 
         super(name, email)
         this.id = id
@@ -28,6 +30,15 @@ class Candidate extends Person {
         this.description = description
         this.cpf = cpf
         this.cep = cep
+        this.password = password
+    }
+
+    String getPassword() {
+        return password
+    }
+
+    void setPassword(String password) {
+        this.password = password
     }
 
     int getId() {

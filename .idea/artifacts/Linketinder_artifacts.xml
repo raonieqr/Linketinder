@@ -1,6 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="exploded-war" name="Linketinder-artifacts">
-    <output-path>$PROJECT_DIR$/out/artifacts/Linketinder_artifacts</output-path>
-    <root id="root" />
-  </artifact>
-</component>

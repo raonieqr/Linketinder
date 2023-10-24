@@ -11,10 +11,7 @@ class CandidateController {
         CandidateView.showCandidates(candidates)
     }
 
-    static void addCandidate(ArrayList<Candidate> candidates,
-                             Candidate candidate, CandidateDAOImpl candidateImpl) {
-
-        candidates.add(candidate)
+    static void addCandidate(Candidate candidate, CandidateDAOImpl candidateImpl) {
 
         candidateImpl.insertCandidate(candidate)
     }
