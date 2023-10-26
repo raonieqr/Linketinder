@@ -6,7 +6,7 @@
 
     <servlet>
         <servlet-name>CandidateHTTPService</servlet-name>
-        <servlet-class>linketinder.service.CandidateHTTPService</servlet-class>
+        <servlet-class>linketinder.microservices.CandidateHTTPService</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -16,7 +16,7 @@
 
     <servlet>
         <servlet-name>CompanyHTTPService</servlet-name>
-        <servlet-class>linketinder.service.CompanyHTTPService</servlet-class>
+        <servlet-class>linketinder.microservices.CompanyHTTPService</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -26,7 +26,7 @@
 
     <servlet>
         <servlet-name>VacancyHTTPService</servlet-name>
-        <servlet-class>linketinder.service.VacancyHTTPService</servlet-class>
+        <servlet-class>linketinder.microservices.VacancyHTTPService</servlet-class>
     </servlet>
 
     <servlet-mapping>

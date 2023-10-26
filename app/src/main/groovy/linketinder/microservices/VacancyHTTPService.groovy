@@ -1,4 +1,4 @@
-package linketinder.service
+package linketinder.microservices
 
 import jakarta.servlet.http.HttpServlet
 import jakarta.servlet.http.HttpServletRequest
