@@ -20,9 +20,9 @@ class VacancyControllerTest {
     public void testAddVacancy() {
         VacancyDAOImpl vacancyImpl = mock(VacancyDAOImpl.class)
 
-        Company company = new Company(1, "TechCat","cat@tech.com",
+        Company company = new Company("TechCat","cat@tech.com",
                 "92839402183649",
-                "BR","Empresa de gatos dev" ,"RJ",22096255)
+                "BR","Empresa de gatos dev" ,"RJ",22096255, "batatinha")
 
         Vacancy vacancy = new Vacancy(1, "Dev Java JR", "Desenvolver em Java",
                 company, ["Java", "Spring boot"])

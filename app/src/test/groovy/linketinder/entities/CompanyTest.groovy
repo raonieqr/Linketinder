@@ -12,8 +12,8 @@ class CompanyTest {
 	public void testAddCompany() {
 
 		//Given:
-		Company company = new Company(1, "abc", "abc@gmail.com", "01234567891234", "Brasil",
-				"Desenvolvedor", "RJ", 22785055);
+		Company company = new Company("abc", "abc@gmail.com", "01234567891234", "Brasil",
+				"Desenvolvedor", "RJ", 22785055, "batatinha");
 		ArrayList<Company> companys = new ArrayList<>();
 
 		//When:
@@ -26,10 +26,10 @@ class CompanyTest {
 	@Test
 	void testCompanyAttributes() {
 
-		Company company = new Company(1,"abc", "abc@gmail.com", "01234567891234", "Brasil",
-				"Desenvolvedor", "RJ", 22785055);
+		Company company = new Company("abc", "abc@gmail.com", "01234567891234", "Brasil",
+				"Desenvolvedor", "RJ", 22785055, "batatinha");
 
-		assertEquals(1, company.getId());
+//		assertEquals(1, company.getId());
 		assertEquals("abc", company.getName());
 		assertEquals("abc@gmail.com", company.getEmail());
 		assertEquals("01234567891234", company.getCnpj());

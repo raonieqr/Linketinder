@@ -39,6 +39,7 @@ public class CandidateHTTPService extends HttpServlet {
         response.setStatus(HttpServletResponse.SC_OK)
       } catch (Exception e) {
         response.setStatus(HttpServletResponse.SC_BAD_REQUEST)
+
         e.printStackTrace()
       }
     }

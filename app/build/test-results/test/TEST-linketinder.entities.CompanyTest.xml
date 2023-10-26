@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="linketinder.entities.CompanyTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2023-10-26T13:56:57" hostname="iMac.local" time="0.213">
+  <properties/>
+  <testcase name="testCompanyAttributes()" classname="linketinder.entities.CompanyTest" time="0.208"/>
+  <testcase name="testAddCompany()" classname="linketinder.entities.CompanyTest" time="0.004"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

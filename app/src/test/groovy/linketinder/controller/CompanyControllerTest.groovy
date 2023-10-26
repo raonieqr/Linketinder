@@ -17,11 +17,11 @@ class CompanyControllerTest {
 	public static void createList(){
 		companies = new ArrayList<>()
 
-		companies.add(new Company(1, "TechCat","cat@tech.com", "92839402183649",
-				"BR","Empresa de gatos dev" ,"RJ",22096255))
+		companies.add(new Company("TechCat","cat@tech.com", "92839402183649",
+				"BR","Empresa de gatos dev" ,"RJ",22096255, "batatinha"))
 
-		companies.add(new Company(2, "GloboTech","contact@globo.tech", "12345678901234",
-				"BR","Inovação Global Ltda." ,"SP",12345678))
+		companies.add(new Company("GloboTech","contact@globo.tech", "12345678901234",
+				"BR","Inovação Global Ltda." ,"SP",12345678, "batatinha"))
 	}
 
 	@BeforeEach
@@ -65,13 +65,13 @@ class CompanyControllerTest {
 	public void testAddCompany() {
 		CompanyDAOImpl companyImpl = mock(CompanyDAOImpl.class)
 
-		Company company = new Company(2, "InovaTech", "info@inovatech.com",
+		Company company = new Company("InovaTech", "info@inovatech.com",
 				"12345678901234",
-				"US", "Company of Innovation", "CA", 98765432)
+				"US", "Company of Innovation", "CA", 98765432, "batatinha")
 
 		doNothing().when(companyImpl).insertCompany(any(Company.class))
 
-		CompanyController.addCompany(companies, company, companyImpl)
+		CompanyController.addCompany(company, companyImpl)
 
 		verify(companyImpl, times(1))
 				.insertCompany(company)
@@ -81,8 +81,8 @@ class CompanyControllerTest {
 	public void testExecuteCompanyDeletion() {
 		CompanyDAOImpl companyImpl = mock(CompanyDAOImpl.class)
 
-		Company company =new Company(2, "InovaTech", "info@inovatech.com", "12345678901234",
-				"US", "Company of Innovation", "CA", 98765432)
+		Company company =new Company("InovaTech", "info@inovatech.com", "12345678901234",
+				"US", "Company of Innovation", "CA", 98765432, "batatinha")
 
 		doNothing().when(companyImpl).deleteCompany(any(Company.class))
 

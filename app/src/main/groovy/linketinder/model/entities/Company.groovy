@@ -2,11 +2,12 @@ package linketinder.model.entities
 
 class Company extends Person {
 
-    int id
+//    int id
     String cnpj
     String description
     String state
     String country
+    String password
     int cep
     ArrayList<MatchVacancy> matchVacancies = new ArrayList<>()
 
@@ -14,17 +15,26 @@ class Company extends Person {
         super()
     }
 
-    Company(int id, String name, String email, String cnpj, String country,
+    Company(String name, String email, String cnpj, String country,
             String description, String state,
-            int cep) {
+            int cep, String password) {
 
         super(name, email)
-        this.id = id
+//        this.id = id
+        this.password = password
         this.cnpj = cnpj
         this.country = country
         this.description = description
         this.state = state
         this.cep = cep
+    }
+
+    String getPassword() {
+        return password
+    }
+
+    void setPassword(String password) {
+        this.password = password
     }
 
     int getId() {

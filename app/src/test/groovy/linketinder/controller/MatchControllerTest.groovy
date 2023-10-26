@@ -26,15 +26,15 @@ class MatchControllerTest {
 
         candidates = new ArrayList<>()
 
-        companies.add(new Company(1, "TechCat","cat@tech.com",
+        companies.add(new Company("TechCat","cat@tech.com",
                 "92839402183649",
                 "BR","Empresa de gatos dev" ,"RJ",
-                22096255))
+                22096255, "batatinha"))
 
-        companies.add(new Company(2, "GloboTech",
+        companies.add(new Company("GloboTech",
                 "contact@globo.tech", "12345678901234",
                 "BR","Inovação Global Ltda." ,"SP",
-                12345678))
+                12345678, "batatinha"))
 
         candidates.add(new Candidate("João Silva",
                 "joao.silva@example.com", ["Python", "Java"], 28,
@@ -53,10 +53,10 @@ class MatchControllerTest {
     public void testHandleCompanyMatchResults() {
         MatchVacancyDAOImpl matchVacancyImpl = mock(MatchVacancyDAOImpl.class)
 
-        Company company = new Company(2, "InovaTech",
+        Company company = new Company("InovaTech",
                 "info@inovatech.com", "12345678901234",
                 "US", "Company of Innovation",
-                "CA", 98765432)
+                "CA", 98765432, "batatinha")
 
         Candidate candidate = new Candidate("Pedro Oliveira",
                 "pedro.oliveira@example.com", ["Java", "Spring Boot"],
@@ -91,10 +91,10 @@ class MatchControllerTest {
           28, "SP", "Desenvolvedor Full Stack",
           "12378945600", 98765432, "batatinha")
 
-        Company company = new Company(2, "InovaTech",
+        Company company = new Company("InovaTech",
           "info@inovatech.com", "12345678901234",
           "US", "Company of Innovation",
-          "CA", 98765432)
+          "CA", 98765432, "batatinha")
 
         Vacancy vacancy = new Vacancy(1, "Desenvolvedor Full Stack",
           "Vaga para desenvolvedor Full Stack", company,
@@ -133,10 +133,10 @@ class MatchControllerTest {
 
         ArrayList<Vacancy> vacancies = new ArrayList<>()
 
-        Company company = new Company(2, "InovaTech",
+        Company company = new Company("InovaTech",
           "info@inovatech.com", "12345678901234",
           "US", "Company of Innovation",
-          "CA", 98765432)
+          "CA", 98765432, "batatinha")
 
         Vacancy vacancy = new Vacancy(1, "Desenvolvedor Full Stack",
           "Vaga para desenvolvedor Full Stack", company,

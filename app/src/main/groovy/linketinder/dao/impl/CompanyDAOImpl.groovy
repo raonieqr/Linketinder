@@ -32,11 +32,11 @@ class CompanyDAOImpl implements CompanyDAO{
 
                     if (companie.name != null)
 
-                        companies.add(new Company(companie.id as int,
-                            companie.name as String, companie.email as String,
+                        companies.add(new Company(companie.name as String, companie.email as String,
                             companie.cnpj as String, companie.country as String,
                             companie.description as String,
-                            companie.state as String, companie.cep as int)
+                            companie.state as String, companie.cep as int,
+                          companies.password as String)
                     )
 
                 }
@@ -58,7 +58,7 @@ class CompanyDAOImpl implements CompanyDAO{
                 VALUES (${company.getName()}, ${company.getCep()},
                 ${company.getCnpj()}, ${company.getState()},
                 ${company.getDescription()}, ${company.getEmail()},
-                ${company.getCountry()}, 'batatinha')
+                ${company.getCountry()}, ${company.getPassword()})
             """)
         }
         catch (Exception e) {

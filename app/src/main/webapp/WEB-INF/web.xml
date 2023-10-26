@@ -13,4 +13,14 @@
         <servlet-name>CandidateHTTPService</servlet-name>
         <url-pattern>/registerCandidate</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>CompanyHTTPService</servlet-name>
+        <servlet-class>linketinder.service.CompanyHTTPService</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>CompanyHTTPService</servlet-name>
+        <url-pattern>/registerCompany</url-pattern>
+    </servlet-mapping>
 </web-app>
