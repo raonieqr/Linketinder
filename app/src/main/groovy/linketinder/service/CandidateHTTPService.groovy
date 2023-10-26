@@ -10,7 +10,7 @@ import linketinder.model.entities.Candidate
 public class CandidateHTTPService extends HttpServlet {
   @Override
   protected void doPost(HttpServletRequest request,
-                         HttpServletResponse response) {
+                        HttpServletResponse response) {
     String name = request.getParameter("name")
     String age = request.getParameter("age")
     String description = request.getParameter("description")
@@ -21,18 +21,26 @@ public class CandidateHTTPService extends HttpServlet {
     String cep = request.getParameter("cep")
     String skills = request.getParameter("skills")
 
-    Candidate candidate = new Candidate(name, email, skills as ArrayList, age as
-      int,
-      state, description, cpf, cep as int, password);
-
-    try {
-      CandidateController.addCandidate(candidate, CandidateDAOImpl.getInstance());
-      response.setStatus(HttpServletResponse.SC_OK)
-    }
-    catch (Exception e) {
+    if (name == null || age == null || description == null ||
+      state == null || password == null || email == null ||
+      cpf == null || cep == null || skills == null)
       response.setStatus(HttpServletResponse.SC_BAD_REQUEST)
-      e.printStackTrace()
-    }
+    else {
+      try {
+        ArrayList<String> skillSplited = skills.split("[;,]+")
+        skillSplited = skillSplited.collect { it.toLowerCase() }
+        skillSplited = skillSplited.collect { it.capitalize() }
 
+        Candidate candidate = new Candidate(name, email, skillSplited, Integer.parseInt(age),
+          state, description, cpf, Integer.parseInt(cep), password)
+
+        CandidateController.addCandidate(candidate, CandidateDAOImpl.getInstance())
+
+        response.setStatus(HttpServletResponse.SC_OK)
+      } catch (Exception e) {
+        response.setStatus(HttpServletResponse.SC_BAD_REQUEST)
+        e.printStackTrace()
+      }
+    }
   }
 }
