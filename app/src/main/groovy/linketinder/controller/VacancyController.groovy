@@ -5,10 +5,8 @@ import linketinder.model.entities.Vacancy
 
 class VacancyController {
 
-    static void addVacancy(Vacancy vacancy, ArrayList<Vacancy> vacancies,
-                           VacancyDAOImpl vacancyImpl) {
+    static void addVacancy(Vacancy vacancy, VacancyDAOImpl vacancyImpl) {
 
-        vacancies.add(vacancy)
         vacancyImpl.insertVacancy(vacancy)
     }
 }

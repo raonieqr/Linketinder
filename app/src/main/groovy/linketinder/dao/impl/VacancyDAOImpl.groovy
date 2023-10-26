@@ -52,12 +52,13 @@ class VacancyDAOImpl implements VacancyDAO{
                 companies.each { company ->
                     if (company.getId() == vacancy.id_company as int) {
 
-                        comp = new Company(company.id as int, company
+                        comp = new Company(company
                                 .name as String, company.email as String,
                                 company.cnpj as String, company
                                 .country as String, company
                                 .description as String, company
-                                .state as String, company.cep as int)
+                                .state as String, company.cep as int,
+                          company.password as String)
                     }
                 }
 
@@ -79,8 +80,11 @@ class VacancyDAOImpl implements VacancyDAO{
             INSERT INTO roles (NAME, DESCRIPTION, ID_COMPANY,
             DATE)
             VALUES (${vacancy.getName()}, ${vacancy.getDescription()},
-            ${vacancy.getCompany().getId()}, current_date)
+            ${vacancy.getIdCompany()}, current_date)
         """)
+
+        int idVacancy = sql.firstRow('SELECT currval(\'roles_id_seq\') ' +
+          'as id')?.id as int
 
         vacancy.getSkills().each { skill ->
 
@@ -106,7 +110,7 @@ class VacancyDAOImpl implements VacancyDAO{
 
             sql.executeInsert("""
                             INSERT INTO roles_skills (ID_ROLE, ID_SKILL)
-                            VALUES (${vacancy.getId()}, $idSkill)
+                            VALUES ($idVacancy, $idSkill)
             """)
         }
     }

@@ -3,6 +3,7 @@ package linketinder.model.entities
 class Vacancy {
 
     int id
+    int idCompany
     String name
     String description
     Company company
@@ -16,6 +17,22 @@ class Vacancy {
         this.description = description
         this.company = company
         this.skills = skills
+    }
+
+    Vacancy (String name, String description, int idCompany,
+             ArrayList<String> skills) {
+        this.name = name
+        this.description = description
+        this.idCompany = idCompany
+        this.skills = skills
+    }
+
+    int getIdCompany() {
+        return idCompany
+    }
+
+    void setIdCompany(int id) {
+        this.idCompany = idCompany
     }
 
     int getId() {

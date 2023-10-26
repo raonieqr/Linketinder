@@ -23,4 +23,14 @@
         <servlet-name>CompanyHTTPService</servlet-name>
         <url-pattern>/registerCompany</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>VacancyHTTPService</servlet-name>
+        <servlet-class>linketinder.service.VacancyHTTPService</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>VacancyHTTPService</servlet-name>
+        <url-pattern>/registerVacancy</url-pattern>
+    </servlet-mapping>
 </web-app>
