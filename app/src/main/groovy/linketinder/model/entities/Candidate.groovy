@@ -5,7 +5,7 @@ class Candidate extends Person {
     //TODO criar a classe skill
     ArrayList<String> skills
     ArrayList<MatchVacancy> matchVacancies = new ArrayList<>();
-    int id
+//    int id
     int age
     int cep
     String state
@@ -17,13 +17,13 @@ class Candidate extends Person {
         super()
     }
 
-    Candidate(int id, String name, String email, ArrayList<String> skills =
+    Candidate(String name, String email, ArrayList<String> skills =
             ["Python", "Java", "Spring Framework", "Angular", "C"],
               int age, String state, String description, String cpf, int cep,
               String password) {
 
         super(name, email)
-        this.id = id
+//        this.id = id
         this.skills = skills
         this.age = age
         this.state = state

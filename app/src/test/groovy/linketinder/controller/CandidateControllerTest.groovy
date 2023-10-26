@@ -18,18 +18,16 @@ class CandidateControllerTest {
     @BeforeAll
     public static void createList(){
         candidates = new ArrayList<>()
+        ArrayList<String> expectedSkills = new ArrayList<>()
+        expectedSkills.add("C")
 
-        candidates.add(new Candidate(1, "João Silva",
-                "joao.silva@example.com", ["Python", "Java"], 28,
-                 "SP", "Desenvolvedor Full Stack",
-                "12345678900", 12345678
-        ))
+        candidates.add(new Candidate("Beto", "beto@gmail.com", expectedSkills, 18, "RJ",
+          "Desenvolvedor", "12344566701", 22785055, "batatinha"))
 
-        candidates.add(new Candidate(2, "Maria Santos",
-                "maria.santos@example.com", ["JavaScript", "HTML", "CSS"],
-                32, "RJ", "Desenvolvedora Front-End",
-                "98765432100", 54321098
-        ))
+        candidates.add(new Candidate("Maria Santos",
+                "maria.santos@example.com", ["JavaScript", "HTML", "CSS"] as
+          ArrayList, 32, "RJ", "Desenvolvedora Front-End", "98765432100",
+          54321098, "batatinha"))
     }
 
     @BeforeEach
@@ -46,14 +44,15 @@ class CandidateControllerTest {
     public void testAddCandidate() {
         CandidateDAOImpl candidateImpl = mock(CandidateDAOImpl.class)
 
-        Candidate candidate = new Candidate(3, "Pedro Oliveira",
-                "pedro.oliveira@example.com", ["Java", "Spring Boot"],
-                28, "SP", "Desenvolvedor Full Stack",
-                "12378945600", 98765432)
+        ArrayList<String> expectedSkills = new ArrayList<>()
+        expectedSkills.add("C")
+
+        Candidate candidate = new Candidate("Beto", "beto@gmail.com", expectedSkills, 18, "RJ",
+          "Desenvolvedor", "12344566701", 22785055, "batatinha")
 
         doNothing().when(candidateImpl).insertCandidate(any(Candidate.class))
 
-        CandidateController.addCandidate(candidates, candidate, candidateImpl)
+        CandidateController.addCandidate(candidate, candidateImpl)
 
         verify(candidateImpl, times(1))
                 .insertCandidate(candidate)
@@ -63,10 +62,11 @@ class CandidateControllerTest {
     public void testExecuteCandidateDeletion() {
         CandidateDAOImpl candidateImpl = mock(CandidateDAOImpl.class)
 
-        Candidate candidate = new Candidate(3, "Pedro Oliveira",
-                "pedro.oliveira@example.com", ["Java", "Spring Boot"],
-                28, "SP", "Desenvolvedor Full Stack",
-                "12378945600", 98765432)
+        ArrayList<String> expectedSkills = new ArrayList<>()
+        expectedSkills.add("C")
+
+        Candidate candidate = new Candidate("Beto", "beto@gmail.com", expectedSkills, 18, "RJ",
+          "Desenvolvedor", "12344566701", 22785055, "batatinha")
 
         doNothing().when(candidateImpl).deleteCandidate(any(Candidate.class))
 

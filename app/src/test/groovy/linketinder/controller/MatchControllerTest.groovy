@@ -36,16 +36,16 @@ class MatchControllerTest {
                 "BR","Inovação Global Ltda." ,"SP",
                 12345678))
 
-        candidates.add(new Candidate(1, "João Silva",
+        candidates.add(new Candidate("João Silva",
                 "joao.silva@example.com", ["Python", "Java"], 28,
                 "SP", "Desenvolvedor Full Stack",
-                "12345678900", 12345678
+                "12345678900", 12345678, "batatinha"
         ))
 
-        candidates.add(new Candidate(2, "Maria Santos",
+        candidates.add(new Candidate("Maria Santos",
                 "maria.santos@example.com", ["JavaScript", "HTML", "CSS"],
                 32, "RJ", "Desenvolvedora Front-End",
-                "98765432100", 54321098
+                "98765432100", 54321098, "batatinha"
         ))
     }
 
@@ -58,10 +58,10 @@ class MatchControllerTest {
                 "US", "Company of Innovation",
                 "CA", 98765432)
 
-        Candidate candidate = new Candidate(3, "Pedro Oliveira",
+        Candidate candidate = new Candidate("Pedro Oliveira",
                 "pedro.oliveira@example.com", ["Java", "Spring Boot"],
                 28, "SP", "Desenvolvedor Full Stack",
-                "12378945600", 98765432)
+                "12378945600", 98765432, "batatinha")
 
         Vacancy vacancy = new Vacancy(1, "Desenvolvedor Full Stack",
                 "Vaga para desenvolvedor Full Stack", company,
@@ -86,10 +86,10 @@ class MatchControllerTest {
         Set<Integer> idsLiked = new HashSet<>()
 
 
-        Candidate candidate = new Candidate(3, "Pedro Oliveira",
+        Candidate candidate = new Candidate("Pedro Oliveira",
           "pedro.oliveira@example.com", ["Java", "Spring Boot"],
           28, "SP", "Desenvolvedor Full Stack",
-          "12378945600", 98765432)
+          "12378945600", 98765432, "batatinha")
 
         Company company = new Company(2, "InovaTech",
           "info@inovatech.com", "12345678901234",
@@ -142,10 +142,10 @@ class MatchControllerTest {
           "Vaga para desenvolvedor Full Stack", company,
           ["Java", "Spring Boot", "Angular", "SQL", "C#"])
 
-        Candidate candidate = new Candidate(3, "Pedro Oliveira",
+        Candidate candidate = new Candidate("Pedro Oliveira",
           "pedro.oliveira@example.com", ["Java", "Spring Boot"],
           28, "SP", "Desenvolvedor Full Stack",
-          "12378945600", 98765432)
+          "12378945600", 98765432, "batatinha")
 
         int idMatch = 1
 

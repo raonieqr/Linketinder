@@ -97,16 +97,16 @@ class CandidateDAOImpl implements  CandidateDAO {
 
         try {
 
-            int idCandidate = candidate.getId()
-
             sql.executeInsert("""
                 INSERT INTO candidates (NAME, CEP, CPF, STATE,
                 AGE, DESCRIPTION, EMAIL, PASSWORD) 
                 VALUES (${candidate.getName()}, ${candidate.getCep()},
                 ${candidate.getCpf()}, ${candidate.getState()}, 
                 ${candidate.getAge()}, ${candidate.getDescription()},
-                ${candidate.getEmail()}, 'batatinha')
+                ${candidate.getEmail()}, ${candidate.getPassword()})
             """)
+
+            int idCandidate = sql.firstRow('SELECT currval(\'candidates_id_seq\') as id')?.id as int
 
             candidate.getSkills().each { skill ->
 

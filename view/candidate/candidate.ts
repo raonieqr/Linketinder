@@ -213,7 +213,7 @@ function saveCandidateData(): boolean {
 }
 
 function sendResgisterCandidate(data: Candidate) {
-  fetch('http://localhost:8080/Linketinder/registerCandidate', {
+  fetch('/Linketinder/registerCandidate', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
