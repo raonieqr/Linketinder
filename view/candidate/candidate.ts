@@ -225,7 +225,7 @@ function sendRegisterCandidate(data: any) {
   })
       .then(response => {
         if (response.status === 201) {
-          alert("Cadastro realizado!");
+          console.log("Cadastro realizado!");
         } else {
           throw new Error('Request Error');
         }
