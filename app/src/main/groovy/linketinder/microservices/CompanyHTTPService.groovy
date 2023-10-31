@@ -42,7 +42,7 @@ public class CompanyHTTPService extends HttpServlet {
 
       if (name == null || description == null ||
         country == null || password == null || email == null ||
-        cnpj == null || cep == null || state == null)
+        cnpj == null || cep == null || state == null || description == null)
         response.setStatus(HttpServletResponse.SC_BAD_REQUEST)
       else {
         try {
