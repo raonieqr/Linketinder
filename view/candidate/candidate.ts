@@ -1,6 +1,7 @@
 import { VacancyPosting, Candidate, VacancyApplication } from "../module";
 import { lookupCEPAndProcessResponse } from "../cep_api";
 import * as check from "../validations";
+import axios from 'axios';
 
 // ********* intro_candidate.html *********
 
@@ -12,7 +13,7 @@ const btnShowProfileC = document.getElementById("show-profile-c");
 const btnExitModal = document.getElementById("exitModal");
 
 function redirectToCandidateRegistration() {
-  window.location.href = "./candidate_registration.html";
+  window.location.href = "candidate_registration.html";
 }
 
 function showModal() {
@@ -30,10 +31,10 @@ function hideModal() {
 if (btnRegisterC)
   btnRegisterC.addEventListener("click", redirectToCandidateRegistration);
 
-if (btnShowProfileC) 
+if (btnShowProfileC)
   btnShowProfileC.addEventListener("click", showModal);
 
-if (btnExitModal) 
+if (btnExitModal)
   btnExitModal.addEventListener("click", hideModal);
 
 function handleSignInClick() {
@@ -46,19 +47,19 @@ function handleSignInClick() {
     return;
   }
 
-    const candObj = JSON.parse(candCheck);
+  const candObj = JSON.parse(candCheck);
 
   if (!check.isLoginValid(candObj, userName.value, userPass.value)) {
     alert("Error: login ou senha inválido");
     return;
   }
 
-  window.location.href = "./candidate_profile.html";
+  window.location.href = "candidate_profile.html";
 }
 
 const btnSignIn = document.getElementById("sigIn");
 
-if (btnSignIn) 
+if (btnSignIn)
   btnSignIn.addEventListener("click", handleSignInClick);
 
 
@@ -73,7 +74,7 @@ function handleRegisterButtonClick() {
 }
 
 function redirectToCandidateProfile() {
-  window.location.href = "./candidate_profile.html";
+  window.location.href = "candidate_profile.html";
 }
 
 if (btnRegister) {
@@ -97,37 +98,39 @@ function validateInputFields(): boolean {
   const skillsInput = check.getInput("skills");
   const ageInput = check.getInput("age");
   const cpfInput = check.getInput("cpf");
+  const stateInput = check.getInput("uf");
   const cepInput = check.getInput("cep");
   const passwordInput = check.getInput("password");
   const descriptionInput = check.getInput("description");
 
 
   if (
-    check.isEmpty(nameInput) ||
-    check.isEmpty(emailInput) ||
-    check.isEmpty(skillsInput) ||
-    check.isEmpty(ageInput) ||
-    check.isEmpty(cpfInput) ||
-    check.isEmpty(cepInput) ||
-    check.isEmpty(passwordInput) ||
-    check.isEmpty(descriptionInput)
+      check.isEmpty(nameInput) ||
+      check.isEmpty(emailInput) ||
+      check.isEmpty(skillsInput) ||
+      check.isEmpty(ageInput) ||
+      check.isEmpty(cpfInput) ||
+      check.isEmpty(cepInput) ||
+      check.isEmpty(passwordInput) ||
+      check.isEmpty(descriptionInput) ||
+      check.isEmpty(stateInput)
   ) {
 
     alert("Error: Nenhum campo pode estar vazio");
-    
+
     return false;
   }
 
   const isSuccessful =
-    check.validateInput(nameInput, "nome") &&
-    check.validateCpf(cpfInput) &&
-    check.validateAge(ageInput) &&
-    isValidCep &&
-    check.validateDescription(descriptionInput) &&
-    check.validateEmail(emailInput);
+      check.validateInput(nameInput, "nome") &&
+      check.validateCpf(cpfInput) &&
+      check.validateAge(ageInput) &&
+      isValidCep &&
+      check.validateDescription(descriptionInput) &&
+      check.validateEmail(emailInput);
 
-    if (!check.validatePasswordLength(passwordInput))
-      return false;
+  if (!check.validatePasswordLength(passwordInput))
+    return false;
 
   return isSuccessful;
 }
@@ -135,12 +138,12 @@ function validateInputFields(): boolean {
 function clearAddressFields(): void {
   let neighborhoodInput: HTMLInputElement | null = document
       .getElementById('neighborhood') as HTMLInputElement | null;
-  let cityInput: HTMLInputElement | null = document
+  let stateInput: HTMLInputElement | null = document
       .getElementById('uf') as HTMLInputElement | null;
 
-  if (neighborhoodInput && cityInput) {
+  if (neighborhoodInput && stateInput) {
     neighborhoodInput.value = "";
-    cityInput.value = "";
+    stateInput.value = "";
   }
 }
 
@@ -148,17 +151,17 @@ function processCEPData(content: any) {
   if (!content.hasOwnProperty('erro')) {
     let neighborhoodInput: HTMLInputElement | null = document
         .getElementById('neighborhood') as HTMLInputElement | null;
-    let cityInput: HTMLInputElement | null = document
+    let stateInput: HTMLInputElement | null = document
         .getElementById('uf') as HTMLInputElement | null;
 
-    if (neighborhoodInput && cityInput) {
+    if (neighborhoodInput && stateInput) {
       neighborhoodInput.value = content.bairro;
-      cityInput.value = content.uf;
+      stateInput.value = content.uf;
       return true;
     }
   }
   else {
-    clearAddressFields(); 
+    clearAddressFields();
     alert("Error: CEP não encontrado.");
     return false;
   }
@@ -173,37 +176,39 @@ function saveCandidateData(): boolean {
     const ageInput = check.getInput("age");
     const cpfInput = check.getInput("cpf");
     const cepInput = check.getInput("cep");
+    const stateInput = check.getInput("uf");
     const passwordInput = check.getInput("password");
     const descriptionInput = check.getInput("description");
 
     const skills = check.parseSkillsInput(skillsInput);
 
     if (
-      !nameInput || !emailInput || !skillsInput ||
-      !ageInput || !cpfInput || !cepInput ||
-      !passwordInput || !descriptionInput
+        !nameInput || !emailInput || !skillsInput ||
+        !ageInput || !cpfInput || !cepInput ||
+        !passwordInput || !descriptionInput || !stateInput
     ) {
       alert("Error: campo vazio");
       return false;
     }
 
-    const candidateLocal: Candidate = {
-      name: nameInput.value,
-      age: parseInt(ageInput.value, 10),
-      email: emailInput.value,
-      skills: Array.from(skills)
-        .join()
-        .toLowerCase()
-        .trim()
-        .split(/[;, ]+/),
-      description: descriptionInput.value,
-      cpf: cpfInput.value,
-      cep: parseInt(cepInput.value, 10),
-      password: passwordInput.value,
-      applications: null,
+    const candidateLocal = {
+      "name": nameInput.value,
+      "age": parseInt(ageInput.value, 10),
+      "email": emailInput.value,
+      "skills": Array.from(skills)
+          .join()
+          .toLowerCase()
+          .trim()
+          .split(/[;, ]+/),
+      "description": descriptionInput.value,
+      "state": stateInput.value,
+      "cpf": cpfInput.value,
+      "cep": parseInt(cepInput.value, 10),
+      "password": passwordInput.value,
+      // applications: null,
     };
 
-    sendResgisterCandidate(candidateLocal);
+    sendRegisterCandidate(JSON.stringify(candidateLocal));
 
     localStorage.setItem("candidateLocal", JSON.stringify(candidateLocal));
 
@@ -212,13 +217,11 @@ function saveCandidateData(): boolean {
   return false;
 }
 
-function sendResgisterCandidate(data: Candidate) {
-  fetch('/Linketinder/registerCandidate', {
-    method: 'POST',
+function sendRegisterCandidate(data: any) {
+  axios.post('/Linketinder/registerCandidate', data, {
     headers: {
       'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
+    }
   })
       .then(response => {
         if (response.status === 200) {
@@ -226,9 +229,6 @@ function sendResgisterCandidate(data: Candidate) {
         } else {
           throw new Error('Request Error');
         }
-      })
-      .then(data => {
-        alert(data);
       })
       .catch(error => {
         alert(error.message);
@@ -255,7 +255,7 @@ function updateVacancy() {
     return;
 
   const matchingSkills = compObj.vacancy.skills.filter((skill: string) =>
-    candiObj.skills.includes(skill)
+      candiObj.skills.includes(skill)
   );
 
 
@@ -285,7 +285,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 });
- 
+
 
 // ********* candidate_profile *********
 
@@ -300,10 +300,10 @@ function generateTable() {
   let c2: HTMLTableCellElement = document.createElement('td');
 
   let company: string | null = localStorage.getItem("companyLocal");
-  
-  if (company) 
-      var compObj = JSON.parse(company);
-  
+
+  if (company)
+    var compObj = JSON.parse(company);
+
   if (compObj.vacancy) {
 
     c0.innerText = compObj.vacancy.name;
@@ -313,10 +313,10 @@ function generateTable() {
     row?.appendChild(c0);
     row?.appendChild(c1);
     row?.appendChild(c2);
-    
+
     if (row && tbody) {
-        tbody?.appendChild(row);
-        table?.appendChild(tbody);
+      tbody?.appendChild(row);
+      table?.appendChild(tbody);
     }
   }
 }
