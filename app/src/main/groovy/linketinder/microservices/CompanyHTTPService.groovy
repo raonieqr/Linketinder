@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletResponse
 import linketinder.controller.CompanyController
 import linketinder.dao.impl.CompanyDAOImpl
 import linketinder.model.entities.Company
+import linketinder.utils.BufferReader
 import org.json.JSONException
 
 public class CompanyHTTPService extends HttpServlet {
@@ -14,22 +15,13 @@ public class CompanyHTTPService extends HttpServlet {
   protected void doPost(HttpServletRequest request,
                         HttpServletResponse response) {
 
-    StringBuffer jb = new StringBuffer()
-    String line = null
-
-    try {
-      BufferedReader reader = request.getReader()
-      while ((line = reader.readLine()) != null) {
-        jb.append(line)
-      }
-    } catch (Exception e) {
-      e.printStackTrace()
-    }
+    StringBuffer stringBuffer = BufferReader.readToBuffer(request)
 
     try {
 
       ObjectMapper objectMapper = new ObjectMapper()
-      Map<String, Object> map = objectMapper.readValue(jb.toString(), Map.class)
+      Map<String, Object> map = objectMapper.readValue(stringBuffer.toString(),
+        Map.class)
 
       String name = (String) map.get("name")
       String description = (String) map.get("description")

@@ -7,6 +7,8 @@ import jakarta.servlet.http.HttpServletResponse
 import linketinder.controller.CandidateController
 import linketinder.dao.impl.CandidateDAOImpl
 import linketinder.model.entities.Candidate
+import linketinder.utils.BufferReader
+import linketinder.utils.InputValidator
 import org.json.JSONException
 
 public class CandidateHTTPService extends HttpServlet {
@@ -14,20 +16,12 @@ public class CandidateHTTPService extends HttpServlet {
   protected void doPost(HttpServletRequest request,
                         HttpServletResponse response) {
 
-    StringBuffer jb = new StringBuffer()
-    String line = null
-    try {
-      BufferedReader reader = request.getReader()
-      while ((line = reader.readLine()) != null) {
-        jb.append(line)
-      }
-    } catch (Exception e) {
-      e.printStackTrace()
-    }
+    StringBuffer stringBuffer = BufferReader.readToBuffer(request)
 
     try {
       ObjectMapper objectMapper = new ObjectMapper()
-      Map<String, Object> map = objectMapper.readValue(jb.toString(), Map.class)
+      Map<String, Object> map = objectMapper.readValue(stringBuffer.toString(),
+        Map.class)
 
       String name = (String) map.get("name")
       String age = (String) map.get("age")
@@ -46,9 +40,8 @@ public class CandidateHTTPService extends HttpServlet {
         response.setStatus(HttpServletResponse.SC_BAD_REQUEST)
       else {
         try {
-          ArrayList<String> skillSplited = skills.split("[;,]+")
-          skillSplited = skillSplited.collect { it.toLowerCase() }
-          skillSplited = skillSplited.collect { it.capitalize() }
+
+          ArrayList<String> skillSplited = InputValidator.processSkills(skills)
 
           Candidate candidate = new Candidate(name, email, skillSplited, Integer.parseInt(age),
             state, description, cpf, Integer.parseInt(cep), password)
