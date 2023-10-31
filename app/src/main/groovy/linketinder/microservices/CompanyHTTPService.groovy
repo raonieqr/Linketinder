@@ -1,43 +1,66 @@
 package linketinder.microservices
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.servlet.http.HttpServlet
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import linketinder.controller.CompanyController
 import linketinder.dao.impl.CompanyDAOImpl
 import linketinder.model.entities.Company
+import org.json.JSONException
 
 public class CompanyHTTPService extends HttpServlet {
   @Override
   protected void doPost(HttpServletRequest request,
                         HttpServletResponse response) {
-    String name = request.getParameter("name")
-    String description = request.getParameter("description")
-    String country = request.getParameter("country")
-    String state = request.getParameter("state")
-    String password = request.getParameter("password")
-    String email = request.getParameter("email")
-    String cnpj = request.getParameter("cnpj")
-    String cep = request.getParameter("cep")
 
-    if (name == null || description == null ||
-      country == null || password == null || email == null ||
-      cnpj == null || cep == null || state == null)
-      response.setStatus(HttpServletResponse.SC_BAD_REQUEST)
-    else {
-      try {
+    StringBuffer jb = new StringBuffer()
+    String line = null
 
-        Company company = new Company(name, email, cnpj,
-          country, description, state, Integer.parseInt(cep), password)
-
-        CompanyController.addCompany(company, CompanyDAOImpl.getInstance())
-
-        response.setStatus(HttpServletResponse.SC_OK)
-      } catch (Exception e) {
-        response.setStatus(HttpServletResponse.SC_BAD_REQUEST)
-
-        e.printStackTrace()
+    try {
+      BufferedReader reader = request.getReader()
+      while ((line = reader.readLine()) != null) {
+        jb.append(line)
       }
+    } catch (Exception e) {
+      e.printStackTrace()
+    }
+
+    try {
+
+      ObjectMapper objectMapper = new ObjectMapper()
+      Map<String, Object> map = objectMapper.readValue(jb.toString(), Map.class)
+
+      String name = (String) map.get("name")
+      String description = (String) map.get("description")
+      String country = (String) map.get("country")
+      String state = (String) map.get("state")
+      String password = (String) map.get("password")
+      String email = (String) map.get("email")
+      String cnpj = (String) map.get("cnpj")
+      String cep = (String) map.get("cep")
+
+      if (name == null || description == null ||
+        country == null || password == null || email == null ||
+        cnpj == null || cep == null || state == null)
+        response.setStatus(HttpServletResponse.SC_BAD_REQUEST)
+      else {
+        try {
+
+          Company company = new Company(name, email, cnpj,
+            country, description, state, Integer.parseInt(cep), password)
+
+          CompanyController.addCompany(company, CompanyDAOImpl.getInstance())
+
+          response.setStatus(HttpServletResponse.SC_CREATED)
+        } catch (Exception e) {
+          response.setStatus(HttpServletResponse.SC_BAD_REQUEST)
+
+          e.printStackTrace()
+        }
+      }
+    } catch (JSONException e) {
+      throw new IOException("Error parsing JSON request string")
     }
   }
 }

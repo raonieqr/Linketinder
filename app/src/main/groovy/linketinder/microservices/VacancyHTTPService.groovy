@@ -29,7 +29,7 @@ class VacancyHTTPService extends HttpServlet{
 
         VacancyController.addVacancy(vacancy, VacancyDAOImpl.getInstance())
 
-        response.setStatus(HttpServletResponse.SC_OK)
+        response.setStatus(HttpServletResponse.SC_CREATED)
       } catch (Exception e) {
         response.setStatus(HttpServletResponse.SC_BAD_REQUEST)
 

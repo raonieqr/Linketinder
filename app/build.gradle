@@ -42,6 +42,10 @@ dependencies {
 
     //Servlet
     compileOnly 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+
+    //Jackson
+    implementation 'org.json:json:20231013'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
